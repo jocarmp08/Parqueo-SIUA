@@ -1,0 +1,16 @@
+<div class="container">
+  <div id="events-container-title" class="row justify-content-start">
+    <div id="events-title" class="col-md-1">Eventos</div>
+  </div>
+
+  <div id="events-scrolling-wrapper">
+    <mat-card *ngFor="let event of eventsArray">
+      <mat-card-title>{{event.title}}</mat-card-title>
+      <mat-card-content>
+        <p>{{event.description}}</p>
+        <p>Inicio: {{event.startDate | date: 'dd/MM/yyyy hh:mm a'}}</p>
+        <p>Fin: {{event.endDate | date: 'dd/MM/yyyy hh:mm a'}}</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

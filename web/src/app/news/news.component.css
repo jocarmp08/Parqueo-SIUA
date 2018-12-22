@@ -1,0 +1,32 @@
+.container {
+  min-width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#news-container-title {
+  padding: 20px 50px 20px 50px;
+}
+
+#news-title {
+  font-family: "Liberation Sans", sans-serif;
+  font-weight: bold;
+  font-size: 2.3em;
+  text-align: center;
+}
+
+#news-scrolling-wrapper {
+  margin: 0;
+  padding: 0;
+  min-width: 100%;
+  min-height: 300px;
+  display: flex;
+  overflow-x: auto;
+}
+
+mat-card {
+  background-color: #e74c3c;
+  min-width: 350px;
+  max-width: 350px;
+  margin: 5px;
+}

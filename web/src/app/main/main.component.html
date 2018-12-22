@@ -1,0 +1,32 @@
+<div class="header">
+  <div class="row justify-content-start">
+    <div id="siua-logo" class="col-md-1"><img src="assets/img/logo.png"></div>
+    <button mat-button class="col-md-1" routerLink="/" fragment="noticias" routerLinkActive="active">NOTICIAS</button>
+    <button mat-button class="col-md-1" routerLink="/" fragment="eventos" routerLinkActive="active">EVENTOS</button>
+    <button mat-button class="col-md-1" routerLink="/" fragment="estadisticas" routerLinkActive="active">ESTADÍSTICAS
+    </button>
+    <button mat-button class="col-md-1" (click)="openContactDialog()">CONTACTO</button>
+  </div>
+</div>
+
+<div class="container">
+  <div class="counter-and-information-section">
+    <div id="available-spaces-label">ESPACIOS DISPONIBLES</div>
+    <div id="counters-section" class="row justify-content-center">
+      <mat-card id="histogram-section" class="col-md-1">
+        <p class="number-counter">24</p>
+        <p class="title-counter">GENERALES</p>
+      </mat-card>
+      <mat-card id="handicapped-counter" class="col-md-1">
+        <p class="number-counter">5</p>
+        <p class="title-counter">PREFERENCIALES</p>
+      </mat-card>
+    </div>
+    <div id="timestamp-label">timestamp</div>
+    <div id="today-event-section">
+      <div id="today-label">Hoy en la SIUA:</div>
+      <div id="today-info" [@fade]="animationState" (@fade.done)="onDone()">
+        {{currentEvent.title}} / {{currentEvent.startDate | date: 'hh:mm a'}} - {{currentEvent.endDate | date: 'hh:mm a'}}</div>
+    </div>
+  </div>
+</div>

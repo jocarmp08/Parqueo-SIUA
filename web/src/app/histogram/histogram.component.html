@@ -1,0 +1,20 @@
+<mat-dialog-content>
+  <div style="display: block">
+    <canvas mdbChart
+            height="450x"
+            width="650px"
+            [chartType]="chartType"
+            [datasets]="chartDatasets"
+            [labels]="chartLabels"
+            [colors]="chartColors"
+            [options]="chartOptions"
+            [legend]="true"
+            (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)">
+    </canvas>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button class="mat-raised-button" (click)="closeDialog()">Cerrar</button>
+</mat-dialog-actions>

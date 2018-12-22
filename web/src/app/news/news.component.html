@@ -1,0 +1,15 @@
+<div class="container">
+  <div id="news-container-title" class="row justify-content-start">
+    <div id="news-title" class="col-md-1">Noticias</div>
+  </div>
+
+  <div id="news-scrolling-wrapper">
+    <mat-card *ngFor="let news of newsArray">
+      <mat-card-title>{{news.title}}</mat-card-title>
+      <mat-card-content>
+        <p>{{news.description}}</p>
+        <p>{{news.creationDate | date: 'dd/MM/yyyy hh:mm a'}}</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
