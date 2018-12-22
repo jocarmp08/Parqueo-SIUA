@@ -1,0 +1,16 @@
+{
+  "db": {
+    "name": "db",
+    "connector": "memory"
+  },
+  "SIUA": {
+    "host": "localhost",
+    "port": 27017,
+    "url": "",
+    "database": "siua",
+    "password": "",
+    "name": "SIUA",
+    "user": "",
+    "connector": "mongodb"
+  }
+}
