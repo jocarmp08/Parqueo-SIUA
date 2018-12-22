@@ -1,4 +1,5 @@
 .container {
+  background: rgb(242, 244, 243);
   min-width: 100%;
   margin: 0;
   padding: 0;
@@ -25,7 +26,7 @@
 }
 
 mat-card {
-  background-color: #e74c3c;
+  background-color: #89979b;
   min-width: 350px;
   max-width: 350px;
   margin: 5px;
