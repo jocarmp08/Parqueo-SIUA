@@ -6,9 +6,9 @@
   <div id="news-scrolling-wrapper">
     <mat-card *ngFor="let news of newsArray">
       <mat-card-title>{{news.title}}</mat-card-title>
+      <mat-card-subtitle>{{news.creationDate | date: 'dd/MM/yy hh:mm a'}}</mat-card-subtitle>
       <mat-card-content>
         <p>{{news.description}}</p>
-        <p>{{news.creationDate | date: 'dd/MM/yyyy hh:mm a'}}</p>
       </mat-card-content>
     </mat-card>
   </div>

@@ -56,7 +56,7 @@ import {PageComponent} from './page/page.component';
     AppRoutingModule
   ],
   providers: [
-    {provide: MAT_DATE_LOCALE, useValue: 'en-GB'},
+    {provide: MAT_DATE_LOCALE, useValue: 'es-ES'},
   ],
   bootstrap: [AppComponent],
   entryComponents: [ContactComponent, HistogramComponent]

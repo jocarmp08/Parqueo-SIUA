@@ -1,0 +1,16 @@
+.mat-form-field {
+  display: block;
+}
+
+section {
+  display: block;
+}
+
+textarea {
+  height: 100px;
+  resize: vertical;
+}
+
+mat-dialog-container {
+  min-width: 500px;
+}

@@ -9,7 +9,7 @@ import {Report} from './report.model';
 })
 export class ContactService {
 
-  endpoint = 'http://localhost:3000/api/';
+  endpoint = 'http://167.99.240.71:3000/api/';
 
   constructor(private httpClient: HttpClient) {
   }

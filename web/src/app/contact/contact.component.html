@@ -5,13 +5,14 @@
         <label>Correo electrónico</label>
         <input matInput type="email" formControlName="email">
       </mat-form-field>
-      <section>
-        <label>Tipo de mensaje</label>
-        <mat-radio-group type="radio" formControlName="type">
-          <mat-radio-button value=0>Comentario</mat-radio-button>
-          <mat-radio-button value=1>Reporte de error</mat-radio-button>
-        </mat-radio-group>
-      </section>
+      <mat-form-field>
+        <label>Asunto</label>
+        <input matInput type="text" formControlName="subject">
+      </mat-form-field>
+      <mat-radio-group type="radio" formControlName="type">
+        <mat-radio-button value=0>Comentario</mat-radio-button>
+        <mat-radio-button value=1>Reporte de error</mat-radio-button>
+      </mat-radio-group>
       <mat-form-field>
         <label>Descripción</label>
         <textarea matInput type="text" formControlName="description"></textarea>
@@ -21,6 +22,6 @@
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <button class="mat-raised-button" (click)="closeDialog()">Close</button>
-  <button class="mat-raised-button mat-primary" (click)="sendReport()">Save</button>
+  <button class="mat-raised-button mat-primary" (click)="sendReport()">ENVIAR</button>
+  <button mat-button="" (click)="closeDialog()">CERRAR</button>
 </mat-dialog-actions>

@@ -23,12 +23,14 @@ export class MainComponent implements OnInit {
   animationState = 'active';
   currentEventId = 0;
   currentEvent: Event;
+  timestamp: Date;
 
   constructor(private dialog: MatDialog, private eventsService: EventsService) {
   }
 
   ngOnInit() {
     this.loadTodayEvents();
+    this.timestamp = new Date(new Date().getTime());
   }
 
   private loadTodayEvents() {

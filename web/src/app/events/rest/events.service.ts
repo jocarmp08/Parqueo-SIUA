@@ -8,7 +8,7 @@ import {map} from 'rxjs/operators';
 })
 export class EventsService {
 
-  endpoint = 'http://localhost:3000/api/';
+  endpoint = 'http://167.99.240.71:3000/api/';
 
   constructor(private httpClient: HttpClient) {
   }
@@ -21,7 +21,6 @@ export class EventsService {
   getTodayEvents(today: Date, tomorrow: Date): Observable<any> {
     const url = this.endpoint + 'events?filter[order]=date&filter[where][and][0][startDate][gte]=' + today.toISOString() +
       '&filter[where][and][1][endDate][lt]=' + tomorrow.toISOString();
-    console.log(url);
     return this.httpClient.get(url).pipe(map(this.extractData));
   }
 

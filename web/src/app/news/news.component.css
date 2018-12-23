@@ -1,11 +1,14 @@
 .container {
+  background-color: #f7f7f7;
+  min-height: 380px;
+  max-height: 380px;
   min-width: 100%;
   margin: 0;
   padding: 0;
 }
 
 #news-container-title {
-  padding: 20px 50px 20px 50px;
+  padding: 20px 50px 0 50px;
 }
 
 #news-title {
@@ -25,8 +28,9 @@
 }
 
 mat-card {
-  background-color: #e74c3c;
   min-width: 350px;
   max-width: 350px;
-  margin: 5px;
+  min-height: 270px;
+  max-height: 270px;
+  margin: 10px;
 }

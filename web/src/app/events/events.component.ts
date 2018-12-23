@@ -9,7 +9,7 @@ import {EventsService} from './rest/events.service';
 })
 export class EventsComponent implements OnInit {
 
-  private eventsArray: Array<Event>;
+  eventsArray: Array<Event>;
 
   constructor(private eventsService: EventsService) {
   }
