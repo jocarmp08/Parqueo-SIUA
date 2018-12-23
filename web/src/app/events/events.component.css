@@ -1,20 +1,22 @@
 .container {
   background-color: #261923;
+  min-height: 380px;
+  max-height: 380px;
   min-width: 100%;
   margin: 0;
   padding: 0;
 }
 
 #events-container-title {
-  padding: 20px 50px 20px 50px;
+  padding: 20px 50px 0 50px;
 }
 
 #events-title {
   font-family: "Liberation Sans", sans-serif;
   font-weight: bold;
   font-size: 2.3em;
-  color: white;
   text-align: center;
+  color: white;
 }
 
 #events-scrolling-wrapper {
@@ -27,12 +29,9 @@
 }
 
 mat-card {
-  background-color: #000000;
   min-width: 350px;
   max-width: 350px;
-  margin: 5px;
-}
-
-mat-card-content {
-  color: white;
+  min-height: 270px;
+  max-height: 270px;
+  margin: 10px;
 }

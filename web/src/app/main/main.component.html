@@ -22,7 +22,7 @@
         <p class="title-counter">PREFERENCIALES</p>
       </mat-card>
     </div>
-    <div id="timestamp-label">timestamp</div>
+    <div id="timestamp-label">Actualizado: {{timestamp | date: 'dd/MM/yy hh:mm:ss a'}}</div>
     <div id="today-event-section">
       <div id="today-label">Hoy en la SIUA</div>
       <div class="today-info" *ngIf="todayEvents.length == 0; else eventsAnimation">

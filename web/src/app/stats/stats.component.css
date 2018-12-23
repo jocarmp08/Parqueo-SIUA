@@ -1,4 +1,5 @@
 .container {
+  background-color: #f7f7f7;
   min-width: 100%;
   margin: 0;
 }
@@ -14,7 +15,7 @@
 }
 
 #stats-container-title {
-  padding: 20px 50px 20px 50px;
+  padding: 20px 50px 0 50px;
 }
 
 #stats-title {
@@ -24,8 +25,21 @@
   text-align: center;
 }
 
+.number-counter {
+  margin: 0 !important;
+  font-family: Roboto, sans-serif;
+  font-weight: bold;
+  font-size: 4em;
+}
+
+.title-counter {
+  margin: 0 !important;
+  padding: 0;
+  font-family: Roboto, sans-serif;
+  font-size: 1em;
+}
+
 mat-card {
-  background-color: #e74c3c;
-  min-width: 350px;
+  min-width: 300px;
   margin: 5px;
 }
