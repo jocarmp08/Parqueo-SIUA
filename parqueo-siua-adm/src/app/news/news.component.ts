@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-news',
@@ -7,7 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NewsComponent implements OnInit {
 
-  constructor() { }
+  maxDescriptionLength = 280;
+  createNewsForm = this.formBuilder.group({
+    title: [null, Validators.required],
+    description: [null, [Validators.required, Validators.maxLength(280)]]
+  });
+
+  constructor(private formBuilder: FormBuilder) {
+  }
 
   ngOnInit() {
   }

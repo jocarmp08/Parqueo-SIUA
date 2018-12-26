@@ -1,8 +1,8 @@
-/* HEADER ATTRIBUTES */
-.header {
+#navigation-bar {
   background-color: #261923;
   margin: 0;
   padding: 20px 50px 20px 50px;
+  min-width: 100%;
 }
 
 /* LOGO ATTRIBUTES */

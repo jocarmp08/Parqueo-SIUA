@@ -4,12 +4,21 @@ import {NgModule} from '@angular/core';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {NavbarComponent} from './navbar/navbar.component';
-import {MatButtonModule, MatCardModule} from '@angular/material';
+import {
+  MatButtonModule,
+  MatCardModule,
+  MatDatepickerModule,
+  MatDividerModule,
+  MatInputModule,
+  MatListModule,
+  MatNativeDateModule
+} from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { MainComponent } from './main/main.component';
-import { NewsComponent } from './news/news.component';
-import { EventsComponent } from './events/events.component';
-import { ReportsComponent } from './reports/reports.component';
+import {MainComponent} from './main/main.component';
+import {NewsComponent} from './news/news.component';
+import {EventsComponent} from './events/events.component';
+import {ReportsComponent} from './reports/reports.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -25,6 +34,13 @@ import { ReportsComponent } from './reports/reports.component';
     BrowserAnimationsModule,
     MatButtonModule,
     MatCardModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatInputModule,
+    MatListModule,
+    MatDividerModule,
+    FormsModule,
+    ReactiveFormsModule,
     AppRoutingModule
   ],
   providers: [],

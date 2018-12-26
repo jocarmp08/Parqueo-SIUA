@@ -1,20 +1,44 @@
-<div class="container">
-  <mat-card class="example-card">
-    <mat-card-header>
-      <mat-card-title>Nueva noticia</mat-card-title>
-    </mat-card-header>
-    <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
-    <mat-card-content>
-      <p>
-        The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-        A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
-        bred for hunting.
-      </p>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-button>LIKE</button>
-      <button mat-button>SHARE</button>
-    </mat-card-actions>
-  </mat-card>
+<div class="container">'
+  <div id="news-adm-card">
+    <mat-card class="row justify-content-lg-start">
+      <!-- News creation section -->
+      <div id="news-adm-card-create-area" class="col-md-4">
+        <mat-card-title>Nueva noticia</mat-card-title>
+        <!-- News creation form -->
+        <form id="create-news-form" #lForm="ngForm" [formGroup]="createNewsForm"
+              (ngSubmit)="generateHistogram()" novalidate>
+          <!-- Title field-->
+          <mat-form-field>
+            <label>Título</label>
+            <input matInput type="text" formControlName="title">
+          </mat-form-field>
+          <!-- Description field -->
+          <mat-form-field>
+            <label>Descripción</label>
+            <textarea matInput type="text" formControlName="description" mat-autosize="true"
+                      maxlength={{maxDescriptionLength}} #description></textarea>
+            <mat-hint align="end">{{description.value.length}} / {{maxDescriptionLength}}</mat-hint>
+          </mat-form-field>
+          <!-- Publish button -->
+          <button class="mat-raised-button mat-primary" (click)="sendReport()">PUBLICAR</button>
+        </form>
+      </div>
 
+      <!-- Card vertical divider-->
+      <mat-divider [vertical]="true"></mat-divider>
+
+      <!-- Published news area -->
+      <div id="news-adm-card-list-area" class="col-md">
+        <mat-list id="news-list-view">
+          <h3 mat-subheader>Noticias publicadas</h3>
+          <mat-list-item *ngFor="let n of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
+            <h4 mat-line>Titulo</h4>
+            <p mat-line>Fecha</p>
+            <p mat-line>Contenido</p>
+            <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
+          </mat-list-item>
+        </mat-list>
+      </div>
+    </mat-card>
+  </div>
 </div>
