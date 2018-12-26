@@ -1,0 +1,9 @@
+.container {
+  background-color: #261923;
+  min-width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 30px 50px 30px 50px;
+  text-align: center;
+}
