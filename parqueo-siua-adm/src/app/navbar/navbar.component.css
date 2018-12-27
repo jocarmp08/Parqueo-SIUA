@@ -1,6 +1,7 @@
 #navigation-bar {
   margin: 0;
   padding: 20px 50px 20px 50px;
+  overflow: hidden;
 }
 
 /* LOGO ATTRIBUTES */
@@ -11,8 +12,7 @@
 }
 
 /* HEADER BUTTONS ATTRIBUTES */
-.nav-link {
-  margin: 0 15px 0 15px;
+.nav-item{
   font-family: Lato, sans-serif;
   font-weight: bold;
   font-size: 1.1em;

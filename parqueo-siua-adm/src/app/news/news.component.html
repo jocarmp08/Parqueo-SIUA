@@ -44,9 +44,11 @@
       </div>
 
       <!-- Vertical card divider (hide on screens smaller than md) -->
-      <mat-divider [vertical]="true" class="d-none d-md-block"></mat-divider>
+      <mat-divider class="d-none d-md-block" [vertical]="true"></mat-divider>
       <!-- Horizontal card divider (hide on screens wider than md) -->
-      <mat-divider class="d-md-none"></mat-divider>
+      <div id="horizontal-divider" class="col d-block d-md-none">
+        <mat-divider></mat-divider>
+      </div>
 
       <!-- Published news area -->
       <div id="news-adm-card-list-area" class="col-md">
