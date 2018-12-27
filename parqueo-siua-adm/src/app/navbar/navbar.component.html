@@ -1,10 +1,24 @@
-<div id="navigation-bar" class="row justify-content-start">
-  <div id="siua-logo" class="col-md-1"><img src="assets/img/siua-logo.png"></div>
-  <button mat-button class="col-md-1" routerLink="/" routerLinkActive="active">INICIO</button>
-  <button mat-button class="col-md-1" routerLink="/noticias" routerLinkActive="active">NOTICIAS
+<nav id="navigation-bar" class="navbar navbar-expand-sm navbar-dark" style="background-color: #261923;">
+  <a id="siua-logo" class="navbar-brand"><img src="assets/img/siua-logo.png"></a>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapse_target">
+    <span class="navbar-toggler-icon"></span>
   </button>
-  <button mat-button class="col-md-1" routerLink="/eventos" routerLinkActive="active">EVENTOS
-  </button>
-  <button mat-button class="col-md-1" routerLink="/reportes" routerLinkActive="active">REPORTES
-  </button>
-</div>
+
+  <div class="collapse navbar-collapse" id="collapse_target">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" routerLink="/" routerLinkActive="active">INICIO</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link"  routerLink="/noticias" routerLinkActive="active">NOTICIAS</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link"  routerLink="/eventos" routerLinkActive="active">EVENTOS</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link"  routerLink="/reportes" routerLinkActive="active">REPORTES</a>
+      </li>
+    </ul>
+  </div>
+</nav>

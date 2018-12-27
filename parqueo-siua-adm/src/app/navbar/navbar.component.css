@@ -1,24 +1,20 @@
 #navigation-bar {
-  background-color: #261923;
   margin: 0;
   padding: 20px 50px 20px 50px;
-  min-width: 100%;
 }
 
 /* LOGO ATTRIBUTES */
 #siua-logo {
-  min-width: 150px;
-  min-height: 44px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 /* HEADER BUTTONS ATTRIBUTES */
-button {
+.nav-link {
+  margin: 0 15px 0 15px;
   font-family: Lato, sans-serif;
   font-weight: bold;
   font-size: 1.1em;
-  color: white;
-  min-width: 150px;
+  text-align: center;
 }
