@@ -1,12 +1,19 @@
-<div class="container">'
+<div class="container">
   <div id="news-adm-card">
     <mat-card class="row justify-content-lg-start">
+
       <!-- News creation section -->
       <div id="news-adm-card-create-area" class="col-md-4">
-        <mat-card-title>Nueva noticia</mat-card-title>
+        <!-- If edit mode off, show this title -->
+        <mat-card-title *ngIf="!editionMode; else editTitle">
+          Nueva noticia
+        </mat-card-title>
+        <!-- Otherwise, show edit mode title-->
+        <ng-template #editTitle>
+          <mat-card-title>Editar noticia</mat-card-title>
+        </ng-template>
         <!-- News creation form -->
-        <form id="create-news-form" #lForm="ngForm" [formGroup]="createNewsForm"
-              (ngSubmit)="postNews()" novalidate>
+        <form id="create-news-form" #lForm="ngForm" [formGroup]="createNewsForm" novalidate>
           <!-- Title field-->
           <mat-form-field>
             <label>Título</label>
@@ -19,21 +26,33 @@
                       maxlength={{maxDescriptionLength}} #description></textarea>
             <mat-hint align="end">{{description.value.length}} / {{maxDescriptionLength}}</mat-hint>
           </mat-form-field>
-          <!-- Publish button -->
-          <button class="mat-raised-button mat-primary" type="submit" form="create-news-form">PUBLICAR</button>
+          <!-- If edit mode off, show this button -->
+          <div *ngIf="!editionMode; else editButtons">
+            <!-- Publish button -->
+            <button class="mat-raised-button mat-primary" (click)="postNews()">PUBLICAR</button>
+          </div>
+          <!-- Otherwise, show these buttons-->
+          <ng-template #editButtons>
+            <div>
+              <!-- Modify button -->
+              <button class="mat-raised-button mat-primary" (click)="updateNews(newsInEdition)">MODIFICAR</button>
+              <!-- Cancel button -->
+              <button mat-button="" (click)="setNewsEditionModeOff()">CANCELAR</button>
+            </div>
+          </ng-template>
         </form>
       </div>
 
-      <!-- Vertical card divider-->
-      <mat-divider [vertical]="true"></mat-divider>
-      <!-- Horizontal card divider-->
-      <mat-divider class="col-md d-flex d-md-none"></mat-divider>
+      <!-- Vertical card divider (hide on screens smaller than md) -->
+      <mat-divider [vertical]="true" class="d-none d-md-block"></mat-divider>
+      <!-- Horizontal card divider (hide on screens wider than md) -->
+      <mat-divider class="d-md-none"></mat-divider>
 
       <!-- Published news area -->
       <div id="news-adm-card-list-area" class="col-md">
         <!-- News list area-->
         <!-- If there is no news show this div -->
-        <div id="no-news-section" *ngIf="newsArray.length == 0; else listItems">
+        <div id="no-news-section" *ngIf="!newsArray; else listItems">
           <p>No se han publicado noticias</p>
         </div>
         <!-- Otherwise, show list items -->
@@ -47,7 +66,7 @@
               <caption mat-line>{{news.creationDate | date: 'dd/MM/yy hh:mm a'}}</caption>
               <caption mat-line>{{news.description}}</caption>
               <!-- Buttons-->
-              <button mat-icon-button (click)="updateNews(news)">
+              <button mat-icon-button (click)="setNewsEditionModeOn(news)">
                 <mat-icon aria-label="Editar noticia">edit</mat-icon>
               </button>
               <button mat-icon-button (click)="deleteNews(news)">

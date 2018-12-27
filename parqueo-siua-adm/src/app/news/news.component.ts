@@ -3,8 +3,9 @@ import {FormBuilder, Validators} from '@angular/forms';
 import {NewsService} from './rest/news.service';
 import {News} from './rest/news.model';
 import {MatSnackBar} from '@angular/material';
-import {Observable} from 'rxjs';
+import {observable, Observable} from 'rxjs';
 import {SharedService} from '../shared/shared.service';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-news',
@@ -22,13 +23,15 @@ export class NewsComponent implements OnInit {
   });
   // Flags
   private maxDescriptionLength = 280;
+  private editionMode = false;
+  private newsInEdition: News;
 
   constructor(private formBuilder: FormBuilder, private snackBar: MatSnackBar, private newsService: NewsService,
-              private sharedService: SharedService) {
+              private route: ActivatedRoute, private sharedService: SharedService) {
   }
 
   ngOnInit() {
-    this.loadNews();
+    this.newsArray = this.route.snapshot.data['observable'].reverse();
   }
 
   loadNews() {
@@ -60,15 +63,26 @@ export class NewsComponent implements OnInit {
 
   updateNews(newsToUpdate: News) {
     if (this.createNewsForm.valid) {
-      // Get ID and prepare model
-      const id = newsToUpdate.id;
-      const news = this.prepareNewsModelFromForm();
+      // Ask for confirmation
+      this.showDialogConfirmation('update').subscribe(result => {
+        // User confirmed deletion
+        if (result) {
+          // Get ID and prepare model
+          const id = newsToUpdate.id;
+          const news = this.prepareNewsModelFromForm();
 
-      // Call REST API
-      this.newsService.putNewsWithId(id, news).subscribe((data) => {
-        console.log(data);
-      }, (error) => {
-        console.log(error);
+          // Call REST API
+          this.newsService.putNewsWithId(id, news).subscribe((data: News) => {
+            // Show output message
+            this.showOutputMessage(newsToUpdate.title + ' se ha modificado correctamente', 'Aceptar');
+            // Update news array
+            this.newsArray[this.newsArray.indexOf(newsToUpdate)] = data;
+            // Exit edition mode
+            this.setNewsEditionModeOff();
+          }, (error) => {
+            console.log(error);
+          });
+        }
       });
     }
   }
@@ -91,6 +105,18 @@ export class NewsComponent implements OnInit {
         });
       }
     });
+  }
+
+  setNewsEditionModeOn(newsToModify: News) {
+    this.editionMode = true;
+    this.newsInEdition = newsToModify;
+    this.createNewsForm.controls['title'].setValue(newsToModify.title);
+    this.createNewsForm.controls['description'].setValue(newsToModify.description);
+  }
+
+  setNewsEditionModeOff() {
+    this.editionMode = false;
+    this.createNewsForm.reset();
   }
 
   private prepareNewsModelFromForm() {

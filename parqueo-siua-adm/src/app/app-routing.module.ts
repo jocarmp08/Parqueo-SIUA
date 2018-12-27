@@ -4,6 +4,7 @@ import {MainComponent} from './main/main.component';
 import {NewsComponent} from './news/news.component';
 import {EventsComponent} from './events/events.component';
 import {ReportsComponent} from './reports/reports.component';
+import {NewsResolverService} from './news/rest/news-resolver.service';
 
 const appRoutes: Routes = [
   {
@@ -12,7 +13,8 @@ const appRoutes: Routes = [
   },
   {
     path: 'noticias',
-    component: NewsComponent
+    component: NewsComponent,
+    resolve: {observable: NewsResolverService}
   },
   {
     path: 'eventos',
@@ -29,7 +31,8 @@ const appRoutes: Routes = [
     scrollPositionRestoration: 'enabled',
     anchorScrolling: 'enabled',
   })],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [NewsResolverService]
 })
 export class AppRoutingModule {
 }
