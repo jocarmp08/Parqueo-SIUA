@@ -7,11 +7,12 @@ import {NavbarComponent} from './navbar/navbar.component';
 import {
   MatButtonModule,
   MatCardModule,
-  MatDatepickerModule,
+  MatDatepickerModule, MatDialogModule,
   MatDividerModule,
+  MatIconModule,
   MatInputModule,
   MatListModule,
-  MatNativeDateModule
+  MatNativeDateModule, MatSnackBarModule
 } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MainComponent} from './main/main.component';
@@ -19,6 +20,8 @@ import {NewsComponent} from './news/news.component';
 import {EventsComponent} from './events/events.component';
 import {ReportsComponent} from './reports/reports.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {HttpClientModule} from '@angular/common/http';
+import {ConfirmationDialogComponent} from './confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +30,8 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     MainComponent,
     NewsComponent,
     EventsComponent,
-    ReportsComponent
+    ReportsComponent,
+    ConfirmationDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,12 +43,17 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     MatInputModule,
     MatListModule,
     MatDividerModule,
+    MatIconModule,
+    MatSnackBarModule,
+    MatDialogModule,
     FormsModule,
     ReactiveFormsModule,
+    HttpClientModule,
     AppRoutingModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ConfirmationDialogComponent]
 })
 export class AppModule {
 }

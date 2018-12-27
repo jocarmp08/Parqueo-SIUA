@@ -6,7 +6,7 @@
         <mat-card-title>Nueva noticia</mat-card-title>
         <!-- News creation form -->
         <form id="create-news-form" #lForm="ngForm" [formGroup]="createNewsForm"
-              (ngSubmit)="generateHistogram()" novalidate>
+              (ngSubmit)="postNews()" novalidate>
           <!-- Title field-->
           <mat-form-field>
             <label>Título</label>
@@ -20,7 +20,7 @@
             <mat-hint align="end">{{description.value.length}} / {{maxDescriptionLength}}</mat-hint>
           </mat-form-field>
           <!-- Publish button -->
-          <button class="mat-raised-button mat-primary" (click)="sendReport()">PUBLICAR</button>
+          <button class="mat-raised-button mat-primary" type="submit" form="create-news-form">PUBLICAR</button>
         </form>
       </div>
 
@@ -29,12 +29,23 @@
 
       <!-- Published news area -->
       <div id="news-adm-card-list-area" class="col-md">
+        <!-- News list area-->
         <mat-list id="news-list-view">
           <h3 mat-subheader>Noticias publicadas</h3>
-          <mat-list-item *ngFor="let n of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
-            <h4 mat-line>Titulo</h4>
-            <p mat-line>Fecha</p>
-            <p mat-line>Contenido</p>
+          <!-- News list item-->
+          <mat-list-item *ngFor="let news of newsArray">
+            <!-- Text lines -->
+            <h4 mat-line>{{news.title}}</h4>
+            <caption mat-line>{{news.creationDate | date: 'dd/MM/yy hh:mm a'}}</caption>
+            <caption mat-line>{{news.description}}</caption>
+            <!-- Buttons-->
+            <button mat-icon-button (click)="updateNews(news)">
+              <mat-icon aria-label="Editar noticia">edit</mat-icon>
+            </button>
+            <button mat-icon-button (click)="deleteNews(news)">
+              <mat-icon aria-label="Eliminar noticia">delete</mat-icon>
+            </button>
+            <!-- List item divider -->
             <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
           </mat-list-item>
         </mat-list>
