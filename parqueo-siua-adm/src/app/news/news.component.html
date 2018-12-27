@@ -24,31 +24,40 @@
         </form>
       </div>
 
-      <!-- Card vertical divider-->
+      <!-- Vertical card divider-->
       <mat-divider [vertical]="true"></mat-divider>
+      <!-- Horizontal card divider-->
+      <mat-divider class="col-md d-flex d-md-none"></mat-divider>
 
       <!-- Published news area -->
       <div id="news-adm-card-list-area" class="col-md">
         <!-- News list area-->
-        <mat-list id="news-list-view">
-          <h3 mat-subheader>Noticias publicadas</h3>
-          <!-- News list item-->
-          <mat-list-item *ngFor="let news of newsArray">
-            <!-- Text lines -->
-            <h4 mat-line>{{news.title}}</h4>
-            <caption mat-line>{{news.creationDate | date: 'dd/MM/yy hh:mm a'}}</caption>
-            <caption mat-line>{{news.description}}</caption>
-            <!-- Buttons-->
-            <button mat-icon-button (click)="updateNews(news)">
-              <mat-icon aria-label="Editar noticia">edit</mat-icon>
-            </button>
-            <button mat-icon-button (click)="deleteNews(news)">
-              <mat-icon aria-label="Eliminar noticia">delete</mat-icon>
-            </button>
-            <!-- List item divider -->
-            <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
-          </mat-list-item>
-        </mat-list>
+        <!-- If there is no news show this div -->
+        <div id="no-news-section" *ngIf="newsArray.length == 0; else listItems">
+          <p>No se han publicado noticias</p>
+        </div>
+        <!-- Otherwise, show list items -->
+        <ng-template #listItems>
+          <mat-list id="news-list-view">
+            <h3 mat-subheader>Noticias publicadas</h3>
+            <!-- News list item-->
+            <mat-list-item *ngFor="let news of newsArray">
+              <!-- Text lines -->
+              <h4 mat-line>{{news.title}}</h4>
+              <caption mat-line>{{news.creationDate | date: 'dd/MM/yy hh:mm a'}}</caption>
+              <caption mat-line>{{news.description}}</caption>
+              <!-- Buttons-->
+              <button mat-icon-button (click)="updateNews(news)">
+                <mat-icon aria-label="Editar noticia">edit</mat-icon>
+              </button>
+              <button mat-icon-button (click)="deleteNews(news)">
+                <mat-icon aria-label="Eliminar noticia">delete</mat-icon>
+              </button>
+              <!-- List item divider -->
+              <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
+            </mat-list-item>
+          </mat-list>
+        </ng-template>
       </div>
     </mat-card>
   </div>

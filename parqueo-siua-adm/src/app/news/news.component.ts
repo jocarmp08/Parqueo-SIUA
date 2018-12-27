@@ -2,10 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, Validators} from '@angular/forms';
 import {NewsService} from './rest/news.service';
 import {News} from './rest/news.model';
-import {MatDialog, MatDialogConfig, MatSnackBar} from '@angular/material';
-import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
+import {MatSnackBar} from '@angular/material';
 import {Observable} from 'rxjs';
-import {DialogData} from '../confirmation-dialog/dialog-data.inteface';
+import {SharedService} from '../shared/shared.service';
 
 @Component({
   selector: 'app-news',
@@ -24,7 +23,8 @@ export class NewsComponent implements OnInit {
   // Flags
   private maxDescriptionLength = 280;
 
-  constructor(private formBuilder: FormBuilder, public dialog: MatDialog, public snackBar: MatSnackBar, private newsService: NewsService) {
+  constructor(private formBuilder: FormBuilder, private snackBar: MatSnackBar, private newsService: NewsService,
+              private sharedService: SharedService) {
   }
 
   ngOnInit() {
@@ -50,6 +50,8 @@ export class NewsComponent implements OnInit {
         this.showOutputMessage(data.title + ' se ha publicado correctamente', 'Aceptar');
         // Update news array
         this.newsArray.unshift(data);
+        // Reset form
+        this.createNewsForm.reset();
       }, (error) => {
         console.log(error);
       });
@@ -114,17 +116,7 @@ export class NewsComponent implements OnInit {
       message = '¿Eliminar esta noticia?';
     }
 
-    // Prepare dialog
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.data = {
-      title: title,
-      message: message
-    };
-
-    // Show and wait
-    return this.dialog.open(ConfirmationDialogComponent, dialogConfig).afterClosed();
+    return this.sharedService.showConfirmationDialog(title, message);
   }
 
   private showOutputMessage(message: string, action: string) {
