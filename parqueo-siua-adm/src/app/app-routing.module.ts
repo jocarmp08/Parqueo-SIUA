@@ -1,10 +1,11 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
 import {MainComponent} from './main/main.component';
 import {NewsComponent} from './news/news.component';
 import {EventsComponent} from './events/events.component';
 import {ReportsComponent} from './reports/reports.component';
 import {NewsResolverService} from './news/rest/news-resolver.service';
+import {EventsResolverService} from './events/rest/events-resolver.service';
 
 const appRoutes: Routes = [
   {
@@ -18,7 +19,8 @@ const appRoutes: Routes = [
   },
   {
     path: 'eventos',
-    component: EventsComponent
+    component: EventsComponent,
+    resolve: {observable: EventsResolverService}
   },
   {
     path: 'reportes',

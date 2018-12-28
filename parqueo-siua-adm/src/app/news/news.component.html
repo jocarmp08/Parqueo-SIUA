@@ -26,23 +26,23 @@
                       maxlength={{maxDescriptionLength}} #description></textarea>
             <mat-hint align="end">{{description.value.length}} / {{maxDescriptionLength}}</mat-hint>
           </mat-form-field>
-          <!-- If edit mode off, show this button -->
-          <div *ngIf="!editionMode; else editButtons">
-            <!-- Publish button -->
-            <button mat-button="" class="mat-raised-button mat-primary" (click)="postNews()">PUBLICAR</button>
-          </div>
-          <!-- Otherwise, show these buttons-->
-          <ng-template #editButtons>
-            <div>
-              <!-- Modify button -->
-              <button mat-button="" class="mat-raised-button mat-primary" (click)="updateNews(newsInEdition)">
-                MODIFICAR
-              </button>
-              <!-- Cancel button -->
-              <button mat-button="" (click)="setNewsEditionModeOff()">CANCELAR</button>
-            </div>
-          </ng-template>
         </form>
+        <!-- If edit mode off, show this button -->
+        <div *ngIf="!editionMode; else editButtons">
+          <!-- Publish button -->
+          <button mat-button="" class="mat-raised-button mat-primary" (click)="postNews()">PUBLICAR</button>
+        </div>
+        <!-- Otherwise, show these buttons-->
+        <ng-template #editButtons>
+          <div>
+            <!-- Modify button -->
+            <button mat-button="" class="mat-raised-button mat-primary" (click)="updateNews(newsInEdition)">
+              MODIFICAR
+            </button>
+            <!-- Cancel button -->
+            <button mat-button="" (click)="setNewsEditionModeOff()">CANCELAR</button>
+          </div>
+        </ng-template>
       </div>
 
       <!-- Vertical card divider (hide on screens smaller than md) -->

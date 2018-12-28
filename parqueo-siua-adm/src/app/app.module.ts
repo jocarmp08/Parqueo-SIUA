@@ -31,7 +31,7 @@ import {SharedModule} from './shared/shared.module';
     MainComponent,
     NewsComponent,
     EventsComponent,
-    ReportsComponent
+    ReportsComponent,
   ],
   imports: [
     SharedModule.forRoot(),
@@ -39,8 +39,6 @@ import {SharedModule} from './shared/shared.module';
     BrowserAnimationsModule,
     MatButtonModule,
     MatCardModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
     MatInputModule,
     MatListModule,
     MatDividerModule,

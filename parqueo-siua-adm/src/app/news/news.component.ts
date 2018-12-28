@@ -3,7 +3,7 @@ import {FormBuilder, Validators} from '@angular/forms';
 import {NewsService} from './rest/news.service';
 import {News} from './rest/news.model';
 import {MatSnackBar} from '@angular/material';
-import {observable, Observable} from 'rxjs';
+import {Observable} from 'rxjs';
 import {SharedService} from '../shared/shared.service';
 import {ActivatedRoute} from '@angular/router';
 
@@ -121,13 +121,12 @@ export class NewsComponent implements OnInit {
 
   private prepareNewsModelFromForm() {
     const values = Object.assign({}, this.createNewsForm.value);
-    const news = {
+    return {
       title: values.title,
       description: values.description,
       creationDate: new Date(new Date().getTime()),
       creator: 'ADMIN'
     };
-    return news;
   }
 
   private showDialogConfirmation(event: string): Observable<boolean> {
