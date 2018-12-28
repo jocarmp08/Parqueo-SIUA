@@ -23,6 +23,16 @@ export class EventsService {
     return this.httpClient.post(url, event).pipe(map(this.extractData));
   }
 
+  putEventWithId(id, event): Observable<any> {
+    const url = this.endpoint + 'events/' + id;
+    return this.httpClient.put(url, event).pipe(map(this.extractData));
+  }
+
+  deleteEvent(id): Observable<any> {
+    const url = this.endpoint + 'events/' + id;
+    return this.httpClient.delete(url).pipe(map(this.extractData));
+  }
+
   private extractData(res: Response) {
     return res || {};
   }

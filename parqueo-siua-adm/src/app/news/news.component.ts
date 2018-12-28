@@ -17,7 +17,7 @@ export class NewsComponent implements OnInit {
   // News Array
   private newsArray: Array<News>;
   // News form
-  private createNewsForm = this.formBuilder.group({
+  private newsCreateForm = this.formBuilder.group({
     title: [null, Validators.required],
     description: [null, [Validators.required, Validators.maxLength(280)]]
   });
@@ -43,7 +43,7 @@ export class NewsComponent implements OnInit {
   }
 
   postNews() {
-    if (this.createNewsForm.valid) {
+    if (this.newsCreateForm.valid) {
       // Prepare model
       const news = this.prepareNewsModelFromForm();
 
@@ -54,7 +54,7 @@ export class NewsComponent implements OnInit {
         // Update news array
         this.newsArray.unshift(data);
         // Reset form
-        this.createNewsForm.reset();
+        this.newsCreateForm.reset();
       }, (error) => {
         console.log(error);
       });
@@ -62,7 +62,7 @@ export class NewsComponent implements OnInit {
   }
 
   updateNews(newsToUpdate: News) {
-    if (this.createNewsForm.valid) {
+    if (this.newsCreateForm.valid) {
       // Ask for confirmation
       this.showDialogConfirmation('update').subscribe(result => {
         // User confirmed deletion
@@ -110,17 +110,17 @@ export class NewsComponent implements OnInit {
   setNewsEditionModeOn(newsToModify: News) {
     this.editionMode = true;
     this.newsInEdition = newsToModify;
-    this.createNewsForm.controls['title'].setValue(newsToModify.title);
-    this.createNewsForm.controls['description'].setValue(newsToModify.description);
+    this.newsCreateForm.controls['title'].setValue(newsToModify.title);
+    this.newsCreateForm.controls['description'].setValue(newsToModify.description);
   }
 
   setNewsEditionModeOff() {
     this.editionMode = false;
-    this.createNewsForm.reset();
+    this.newsCreateForm.reset();
   }
 
   private prepareNewsModelFromForm() {
-    const values = Object.assign({}, this.createNewsForm.value);
+    const values = Object.assign({}, this.newsCreateForm.value);
     return {
       title: values.title,
       description: values.description,
