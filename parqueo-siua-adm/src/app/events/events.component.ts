@@ -50,7 +50,7 @@ export class EventsComponent implements OnInit {
         // Update news array
         this.eventsArray.push(data);
         this.eventsArray = this.eventsArray.sort((obj1, obj2) => {
-          return new Date(obj1.startDate) - new Date(obj2.startDate);
+          return +new Date(obj1.startDate) - +new Date(obj2.startDate); // Particularity of Typescript: operator + coerce to number
         });
         // Reset form and flags
         this.eventCreateForm.reset();
@@ -79,7 +79,7 @@ export class EventsComponent implements OnInit {
             // Update news array
             this.eventsArray[this.eventsArray.indexOf(eventToUpdate)] = data;
             this.eventsArray = this.eventsArray.sort((obj1, obj2) => {
-              return new Date(obj1.startDate) - new Date(obj2.startDate);
+              return +new Date(obj1.startDate) - +new Date(obj2.startDate); // Particularity of Typescript: operator + coerce to number
             });
             // Exit edition mode
             this.setEventEditionModeOff();

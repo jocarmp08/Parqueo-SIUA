@@ -7,12 +7,10 @@ import {NavbarComponent} from './navbar/navbar.component';
 import {
   MatButtonModule,
   MatCardModule,
-  MatDatepickerModule,
   MatDividerModule,
   MatIconModule,
   MatInputModule,
   MatListModule,
-  MatNativeDateModule,
   MatSnackBarModule
 } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -23,6 +21,8 @@ import {ReportsComponent} from './reports/reports.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {SharedModule} from './shared/shared.module';
+import {LoginComponent} from './login/login.component';
+import { SignUpComponent } from './sign-up/sign-up.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +32,8 @@ import {SharedModule} from './shared/shared.module';
     NewsComponent,
     EventsComponent,
     ReportsComponent,
+    LoginComponent,
+    SignUpComponent,
   ],
   imports: [
     SharedModule.forRoot(),

@@ -1,0 +1,27 @@
+<div class="container px-4 px-sm-5 py-3">
+  <div id="signup-form-card" class="row justify-content-center">
+    <mat-card class="col-md-6 col-lg-4 col-xl-3">
+      <!-- Sign up form section -->
+      <div id="signup-form-area">
+        <mat-card-title>
+          Crear cuenta
+        </mat-card-title>
+        <!-- Events creation form -->
+        <form id="signup-form" #lForm="ngForm" [formGroup]="signUpForm" (ngSubmit)="signup()" novalidate>
+          <!-- Email field-->
+          <mat-form-field>
+            <label>Correo eléctronico</label>
+            <input matInput type="email" formControlName="email">
+          </mat-form-field>
+          <!-- Password field -->
+          <mat-form-field>
+            <label>Contraseña</label>
+            <input matInput type="password" formControlName="password">
+          </mat-form-field>
+          <button mat-raised-button color="primary" type="submit" form="signUpForm">Crear cuenta</button>
+        </form>
+        <a mat-button routerLink='/login'>Ya tengo una cuenta</a>
+      </div>
+    </mat-card>
+  </div>
+</div>
