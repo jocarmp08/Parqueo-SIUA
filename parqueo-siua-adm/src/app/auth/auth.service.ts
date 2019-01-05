@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
+import {map} from 'rxjs/operators';
+import {Observable} from 'rxjs';
 
 @Injectable({providedIn: 'root'})
 export class AuthService {
@@ -30,5 +32,14 @@ export class AuthService {
 
   isSU() {
     return localStorage.getItem('email') === 'superusuario@siua.ac.cr';
+  }
+
+  postUser(user): Observable<any> {
+    const url = this.endpoint + 'Users';
+    return this.http.post(url, user).pipe(map(this.extractData));
+  }
+
+  private extractData(res: Response) {
+    return res || {};
   }
 }
