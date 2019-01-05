@@ -25,6 +25,7 @@ export class NewsComponent implements OnInit {
   private maxDescriptionLength = 280;
   private editionMode = false;
   private newsInEdition: News;
+  private publicationDate: Date;
 
   constructor(private formBuilder: FormBuilder, private snackBar: MatSnackBar, private newsService: NewsService,
               private route: ActivatedRoute, private sharedService: SharedService) {
@@ -34,56 +35,61 @@ export class NewsComponent implements OnInit {
     this.newsArray = this.route.snapshot.data['observable'].reverse();
   }
 
-  loadNews() {
-    // News from a week ago
-    const lastWeek = new Date(new Date().getTime() - (1000 * 60 * 60 * 24) * 8);
-    this.newsService.getNewsPublishedAfter(lastWeek).subscribe(((data: Array<News>) => {
-      this.setNewsArray(data.reverse());
-    }));
-  }
-
   postNews() {
-    if (this.newsCreateForm.valid) {
-      // Prepare model
-      const news = this.prepareNewsModelFromForm();
+    if (this.newsCreateForm.valid && this.publicationDate) {
+      // Date of publication less than the current date
+      if (new Date(new Date().getTime()) > new Date(this.publicationDate)) {
+        this.showOutputMessage('Fecha de publicación incorrecta', 'Aceptar');
+      } // All is correct
+      else {
+        // Prepare model
+        const news = this.prepareNewsModelFromForm();
 
-      // Call REST API
-      this.newsService.postNews(news).subscribe((data: News) => {
-        // Show output message
-        this.showOutputMessage(data.title + ' se ha publicado correctamente', 'Aceptar');
-        // Update news array
-        this.newsArray.unshift(data);
-        // Reset form
-        this.newsCreateForm.reset();
-      }, (error) => {
-        console.log(error);
-      });
+        // Call REST API
+        this.newsService.postNews(news).subscribe((data: News) => {
+          // Show output message
+          this.showOutputMessage(data.title + ' se ha publicado correctamente', 'Aceptar');
+          // Update news array
+          this.newsArray.unshift(data);
+          // Reset form
+          this.newsCreateForm.reset();
+          this.publicationDate = null;
+        }, (error) => {
+          console.log(error);
+        });
+      }
     }
   }
 
   updateNews(newsToUpdate: News) {
     if (this.newsCreateForm.valid) {
-      // Ask for confirmation
-      this.showDialogConfirmation('update').subscribe(result => {
-        // User confirmed deletion
-        if (result) {
-          // Get ID and prepare model
-          const id = newsToUpdate.id;
-          const news = this.prepareNewsModelFromForm();
+      // Date of publication less than the current date
+      if (new Date(new Date().getTime()) > new Date(this.publicationDate)) {
+        this.showOutputMessage('Fecha de publicación incorrecta', 'Aceptar');
+      } // All is correct
+      else {
+        // Ask for confirmation
+        this.showDialogConfirmation('update').subscribe(result => {
+          // User confirmed deletion
+          if (result) {
+            // Get ID and prepare model
+            const id = newsToUpdate.id;
+            const news = this.prepareNewsModelFromForm();
 
-          // Call REST API
-          this.newsService.putNewsWithId(id, news).subscribe((data: News) => {
-            // Show output message
-            this.showOutputMessage(newsToUpdate.title + ' se ha modificado correctamente', 'Aceptar');
-            // Update news array
-            this.newsArray[this.newsArray.indexOf(newsToUpdate)] = data;
-            // Exit edition mode
-            this.setNewsEditionModeOff();
-          }, (error) => {
-            console.log(error);
-          });
-        }
-      });
+            // Call REST API
+            this.newsService.putNewsWithId(id, news).subscribe((data: News) => {
+              // Show output message
+              this.showOutputMessage(newsToUpdate.title + ' se ha modificado correctamente', 'Aceptar');
+              // Update news array
+              this.newsArray[this.newsArray.indexOf(newsToUpdate)] = data;
+              // Exit edition mode
+              this.setNewsEditionModeOff();
+            }, (error) => {
+              console.log(error);
+            });
+          }
+        });
+      }
     }
   }
 
@@ -112,11 +118,13 @@ export class NewsComponent implements OnInit {
     this.newsInEdition = newsToModify;
     this.newsCreateForm.controls['title'].setValue(newsToModify.title);
     this.newsCreateForm.controls['description'].setValue(newsToModify.description);
+    this.publicationDate = newsToModify.publicationDate;
   }
 
   setNewsEditionModeOff() {
     this.editionMode = false;
     this.newsCreateForm.reset();
+    this.publicationDate = null;
   }
 
   private prepareNewsModelFromForm() {
@@ -125,7 +133,8 @@ export class NewsComponent implements OnInit {
       title: values.title,
       description: values.description,
       creationDate: new Date(new Date().getTime()),
-      creator: 'ADMIN'
+      publicationDate: this.publicationDate,
+      creator: localStorage.getItem('email'),
     };
   }
 
@@ -150,8 +159,12 @@ export class NewsComponent implements OnInit {
     });
   }
 
-  private setNewsArray(value: Array<News>) {
-    this.newsArray = value;
+  showDatePicker() {
+    this.sharedService.showDatePickerDialog().subscribe((data) => {
+      if (data) {
+        this.publicationDate = data;
+      }
+    });
   }
 
 }

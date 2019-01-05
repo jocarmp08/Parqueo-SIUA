@@ -22,6 +22,7 @@
     "@angular/platform-browser-dynamic": "~7.1.0",
     "@angular/router": "~7.1.0",
     "@auth0/angular-jwt": "^2.1.0",
+    "@tinymce/tinymce-angular": "^2.3.3",
     "bootstrap": "^4.2.1",
     "core-js": "^2.5.4",
     "jquery": "^3.3.1",

@@ -25,6 +25,7 @@ export class EventsComponent implements OnInit {
   // Dates
   private startDate: Date;
   private endDate: Date;
+  private publicationDate: Date;
   // Flags
   private maxDescriptionLength = 280;
   private editionMode = false;
@@ -39,55 +40,76 @@ export class EventsComponent implements OnInit {
   }
 
   postEvent() {
-    if (this.eventCreateForm.valid && this.startDate && this.endDate) {
-      // Prepare model
-      const event = this.prepareEventModelFromForm();
+    if (this.eventCreateForm.valid && this.startDate && this.endDate && this.publicationDate) {
+      // Start date greater than end date
+      if (new Date(this.startDate) > new Date(this.endDate)) {
+        this.showOutputMessage('Fecha de inicio y fin incorrectas', 'Aceptar');
+      }
+      // Date of publication less than the current date
+      else if (new Date(new Date().getTime()) > new Date(this.publicationDate)) {
+        this.showOutputMessage('Fecha de publicación incorrecta', 'Aceptar');
+      } // All is correct
+      else {
+        // Prepare model
+        const event = this.prepareEventModelFromForm();
 
-      // Call REST API
-      this.eventsService.postEvent(event).subscribe((data: Event) => {
-        // Show output message
-        this.showOutputMessage(data.title + ' se ha publicado correctamente', 'Aceptar');
-        // Update news array
-        this.eventsArray.push(data);
-        this.eventsArray = this.eventsArray.sort((obj1, obj2) => {
-          return +new Date(obj1.startDate) - +new Date(obj2.startDate); // Particularity of Typescript: operator + coerce to number
+        // Call REST API
+        this.eventsService.postEvent(event).subscribe((data: Event) => {
+          // Show output message
+          this.showOutputMessage(data.title + ' se ha publicado correctamente', 'Aceptar');
+          // Update news array
+          this.eventsArray.push(data);
+          this.eventsArray = this.eventsArray.sort((obj1, obj2) => {
+            return +new Date(obj1.startDate) - +new Date(obj2.startDate); // Particularity of Typescript: operator + coerce to number
+          });
+          // Reset form and flags
+          this.eventCreateForm.reset();
+          this.startDate = null;
+          this.endDate = null;
+          this.publicationDate = null;
+        }, (error) => {
+          console.log(error);
         });
-        // Reset form and flags
-        this.eventCreateForm.reset();
-        this.startDate = null;
-        this.endDate = null;
-      }, (error) => {
-        console.log(error);
-      });
+      }
     }
   }
 
   updateEvent(eventToUpdate: Event) {
     if (this.eventCreateForm.valid) {
-      // Ask for confirmation
-      this.showDialogConfirmation('update').subscribe(result => {
-        // User confirmed deletion
-        if (result) {
-          // Get ID and prepare model
-          const id = eventToUpdate.id;
-          const news = this.prepareEventModelFromForm();
+      // Start date greater than end date
+      if (new Date(this.startDate) > new Date(this.endDate)) {
+        this.showOutputMessage('Fecha de inicio y fin incorrectas', 'Aceptar');
+      }
+      // Date of publication less than the current date
+      else if (new Date(new Date().getTime()) > new Date(this.publicationDate)) {
+        this.showOutputMessage('Fecha de publicación incorrecta', 'Aceptar');
+      } // All is correct
+      else {
+        // Ask for confirmation
+        this.showDialogConfirmation('update').subscribe(result => {
+          // User confirmed deletion
+          if (result) {
+            // Get ID and prepare model
+            const id = eventToUpdate.id;
+            const event = this.prepareEventModelFromForm();
 
-          // Call REST API
-          this.eventsService.putEventWithId(id, news).subscribe((data: Event) => {
-            // Show output message
-            this.showOutputMessage(eventToUpdate.title + ' se ha modificado correctamente', 'Aceptar');
-            // Update news array
-            this.eventsArray[this.eventsArray.indexOf(eventToUpdate)] = data;
-            this.eventsArray = this.eventsArray.sort((obj1, obj2) => {
-              return +new Date(obj1.startDate) - +new Date(obj2.startDate); // Particularity of Typescript: operator + coerce to number
+            // Call REST API
+            this.eventsService.putEventWithId(id, event).subscribe((data: Event) => {
+              // Show output message
+              this.showOutputMessage(eventToUpdate.title + ' se ha modificado correctamente', 'Aceptar');
+              // Update news array
+              this.eventsArray[this.eventsArray.indexOf(eventToUpdate)] = data;
+              this.eventsArray = this.eventsArray.sort((obj1, obj2) => {
+                return +new Date(obj1.startDate) - +new Date(obj2.startDate); // Particularity of Typescript: operator + coerce to number
+              });
+              // Exit edition mode
+              this.setEventEditionModeOff();
+            }, (error) => {
+              console.log(error);
             });
-            // Exit edition mode
-            this.setEventEditionModeOff();
-          }, (error) => {
-            console.log(error);
-          });
-        }
-      });
+          }
+        });
+      }
     }
   }
 
@@ -118,6 +140,7 @@ export class EventsComponent implements OnInit {
     this.eventCreateForm.controls['description'].setValue(eventToModify.description);
     this.startDate = eventToModify.startDate;
     this.endDate = eventToModify.endDate;
+    this.publicationDate = eventToModify.publicationDate;
   }
 
   setEventEditionModeOff() {
@@ -125,6 +148,7 @@ export class EventsComponent implements OnInit {
     this.eventCreateForm.reset();
     this.startDate = null;
     this.endDate = null;
+    this.publicationDate = null;
   }
 
   private showDialogConfirmation(event: string): Observable<boolean> {
@@ -149,6 +173,8 @@ export class EventsComponent implements OnInit {
           this.startDate = data;
         } else if (field === 'end') {
           this.endDate = data;
+        } else if (field === 'pub') {
+          this.publicationDate = data;
         }
       }
     });
@@ -162,7 +188,8 @@ export class EventsComponent implements OnInit {
       description: values.description,
       startDate: this.startDate,
       endDate: this.endDate,
-      creator: 'ADMIN'
+      publicationDate: this.publicationDate,
+      creator: localStorage.getItem('email'),
     };
   }
 

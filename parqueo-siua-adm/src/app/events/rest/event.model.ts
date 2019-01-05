@@ -5,5 +5,6 @@ export class Event {
   creationDate: Date;
   startDate: Date;
   endDate: Date;
+  publicationDate: Date;
   creator: string;
 }
