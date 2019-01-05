@@ -8,6 +8,7 @@ import {NewsResolverService} from './news/rest/news-resolver.service';
 import {EventsResolverService} from './events/rest/events-resolver.service';
 import {LoginComponent} from './login/login.component';
 import {SignUpComponent} from './sign-up/sign-up.component';
+import {AuthGuard} from './auth/auth.guard';
 
 const appRoutes: Routes = [
   {
@@ -20,20 +21,24 @@ const appRoutes: Routes = [
   },
   {
     path: '',
-    component: MainComponent
+    component: MainComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'noticias',
     component: NewsComponent,
+    canActivate: [AuthGuard],
     resolve: {observable: NewsResolverService}
   },
   {
     path: 'eventos',
     component: EventsComponent,
+    canActivate: [AuthGuard],
     resolve: {observable: EventsResolverService}
   },
   {
     path: 'reportes',
+    canActivate: [AuthGuard],
     component: ReportsComponent
   }
 ];
