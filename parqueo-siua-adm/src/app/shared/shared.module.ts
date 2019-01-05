@@ -5,6 +5,7 @@ import {SharedService} from './shared.service';
 import {MatButtonModule, MatDatepickerModule, MatDialogModule, MatInputModule, MatNativeDateModule} from '@angular/material';
 import {DatePickerDialogComponent} from './date-picker-dialog/date-picker-dialog.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {ModifyCounterDialogComponent} from './modify-counter-dialog/modify-counter-dialog.component'
 
 @NgModule({
   imports: [
@@ -19,13 +20,15 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
   ],
   declarations: [
     ConfirmationDialogComponent,
-    DatePickerDialogComponent
+    DatePickerDialogComponent,
+    ModifyCounterDialogComponent
   ],
   exports: [
     ConfirmationDialogComponent,
-    DatePickerDialogComponent
+    DatePickerDialogComponent,
+    ModifyCounterDialogComponent
   ],
-  entryComponents: [ConfirmationDialogComponent, DatePickerDialogComponent]
+  entryComponents: [ConfirmationDialogComponent, DatePickerDialogComponent,ModifyCounterDialogComponent]
 })
 export class SharedModule {
   static forRoot(): ModuleWithProviders {
