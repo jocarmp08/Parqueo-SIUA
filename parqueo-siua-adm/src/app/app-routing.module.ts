@@ -7,17 +7,13 @@ import {ReportsComponent} from './reports/reports.component';
 import {NewsResolverService} from './news/rest/news-resolver.service';
 import {EventsResolverService} from './events/rest/events-resolver.service';
 import {LoginComponent} from './login/login.component';
-import {SignUpComponent} from './sign-up/sign-up.component';
 import {AuthGuard} from './auth/auth.guard';
+import {UsersComponent} from './users/users.component';
 
 const appRoutes: Routes = [
   {
     path: 'login',
     component: LoginComponent
-  },
-  {
-    path: 'signup',
-    component: SignUpComponent
   },
   {
     path: '',
@@ -40,6 +36,11 @@ const appRoutes: Routes = [
     path: 'reportes',
     canActivate: [AuthGuard],
     component: ReportsComponent
+  },
+  {
+    path: 'usuarios',
+    canActivate: [AuthGuard],
+    component: UsersComponent
   }
 ];
 
