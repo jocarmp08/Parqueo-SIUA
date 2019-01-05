@@ -11,7 +11,7 @@ import {
   MatIconModule,
   MatInputModule,
   MatListModule,
-  MatSnackBarModule
+  MatSnackBarModule, MatTabsModule
 } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MainComponent} from './main/main.component';
@@ -33,7 +33,7 @@ import { SignUpComponent } from './sign-up/sign-up.component';
     EventsComponent,
     ReportsComponent,
     LoginComponent,
-    SignUpComponent,
+    SignUpComponent
   ],
   imports: [
     SharedModule.forRoot(),
@@ -49,7 +49,8 @@ import { SignUpComponent } from './sign-up/sign-up.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    MatTabsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
