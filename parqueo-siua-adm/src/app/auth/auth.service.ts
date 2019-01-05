@@ -6,8 +6,8 @@ import {Observable} from 'rxjs';
 
 @Injectable({providedIn: 'root'})
 export class AuthService {
-  // endpoint = 'http://167.99.240.71:3000/api/';
-  endpoint = 'http://localhost:3000/api/';
+  endpoint = 'http://167.99.240.71:3000/api/';
+  // endpoint = 'http://localhost:3000/api/';
 
   constructor(private http: HttpClient, private router: Router) {
   }
