@@ -26,6 +26,18 @@
                       maxlength={{maxDescriptionLength}} #description></textarea>
             <mat-hint align="end">{{description.value.length}} / {{maxDescriptionLength}}</mat-hint>
           </mat-form-field>
+          <mat-list>
+            <!-- Publication date field-->
+            <mat-list-item class="date-picker-area">
+              <!-- Text lines -->
+              <h4 mat-line>Fecha de publicación</h4>
+              <caption mat-line>{{publicationDate | date: 'dd/MM/yy hh:mm a'}}</caption>
+              <!-- Buttons-->
+              <button mat-icon-button (click)="showDatePicker()">
+                <mat-icon aria-label="Seleccionar fecha de publicación">event</mat-icon>
+              </button>
+            </mat-list-item>
+          </mat-list>
         </form>
         <!-- If edit mode off, show this button -->
         <div *ngIf="!editionMode; else editButtons">

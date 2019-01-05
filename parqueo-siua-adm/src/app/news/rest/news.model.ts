@@ -3,5 +3,6 @@ export class News {
   title: string;
   description: string;
   creationDate: Date;
+  publicationDate: Date;
   creator: string;
 }
