@@ -24,11 +24,13 @@ export class ReportsComponent implements OnInit {
   public currentDescription : string = "Ningún reporte seleccionado";
   public maxDescriptionLength = 280;
 
+
   constructor(private formBuilder: FormBuilder, private snackBar: MatSnackBar, private reportService: ReportService,
               private sharedService: SharedService) {
   }
 
   ngOnInit() {
+
     this.reportService.getReports().subscribe((data:Array<Report>) => {
 
       this.reportArray = data;
