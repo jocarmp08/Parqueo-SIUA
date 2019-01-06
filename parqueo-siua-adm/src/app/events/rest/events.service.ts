@@ -9,6 +9,7 @@ import {map} from 'rxjs/operators';
 export class EventsService {
 
   endpoint = 'http://167.99.240.71:3000/api/';
+  // endpoint = 'http://localhost:3000/api/';
 
   constructor(private httpClient: HttpClient) {
   }

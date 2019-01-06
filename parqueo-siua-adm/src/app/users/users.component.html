@@ -1,3 +1,64 @@
-<p>
-  users works!
-</p>
+<div class="container px-4 px-sm-5 py-3">
+  <div id="user-adm-card">
+    <mat-card class="row justify-content-lg-start">
+
+      <!-- News creation section -->
+      <div id="user-adm-card-create-area" class="col-md-4">
+        <!-- If edit mode off, show this title -->
+        <mat-card-title>
+          Nuevo usuario
+        </mat-card-title>
+        <!-- News creation form -->
+        <form id="login-form" #lForm="ngForm" [formGroup]="loginForm" (ngSubmit)="createUser()" novalidate>
+          <!-- Email field-->
+          <mat-form-field>
+            <label>Correo eléctronico</label>
+            <input matInput type="email" formControlName="email">
+          </mat-form-field>
+          <!-- Password field -->
+          <mat-form-field>
+            <label>Contraseña</label>
+            <input matInput type="password" formControlName="password">
+          </mat-form-field>
+          <button mat-raised-button color="primary" type="submit" form="loginForm">Crear usuario</button>
+        </form>
+      </div>
+
+      <!-- Vertical card divider (hide on screens smaller than md) -->
+      <mat-divider class="d-none d-md-block" [vertical]="true"></mat-divider>
+      <!-- Horizontal card divider (hide on screens wider than md) -->
+      <div id="horizontal-divider" class="col d-block d-md-none">
+        <mat-divider></mat-divider>
+      </div>
+
+      <!-- Published news area -->
+      <div id="user-adm-card-list-area" class="col-md">
+        <!-- News list area-->
+        <!-- If there is no news show this div -->
+        <div id="no-user-section" *ngIf="usersArray.length == 0; else listItems">
+          <p>No hay usuarios registrados</p>
+        </div>
+        <!-- Otherwise, show list items -->
+        <ng-template #listItems>
+          <mat-list id="user-list-view">
+            <h3 mat-subheader>Usuarios registrados</h3>
+            <!-- News list item-->
+            <mat-list-item *ngFor="let user of usersArray">
+              <!-- Text lines -->
+              <h4 mat-line>{{user.email}}</h4>
+              <!-- Buttons-->
+              <button mat-icon-button>
+                <mat-icon aria-label="Editar contraseña">edit</mat-icon>
+              </button>
+              <button mat-icon-button>
+                <mat-icon aria-label="Eliminar usuario">delete</mat-icon>
+              </button>
+              <!-- List item divider -->
+              <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
+            </mat-list-item>
+          </mat-list>
+        </ng-template>
+      </div>
+    </mat-card>
+  </div>
+</div>
