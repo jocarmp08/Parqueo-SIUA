@@ -15,10 +15,12 @@ export class MainComponent implements OnInit {
   public commonCounter = this.maxCommon;
   public specialCounter = this.maxSpecial;
   private temp:number;
+  timestamp: Date;
 
   constructor(private sharedService: SharedService) {}
 
   ngOnInit() {
+    this.timestamp = new Date(new Date().getTime());
   }
 
   showCounterDialog(type:string) {
