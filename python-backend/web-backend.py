@@ -31,9 +31,7 @@ def send_data_structure():
     :return: a JSON object
     """
     # Respond to the request
-    a = redis_conn.hgetall('counters')
-    print(a)
-    return jsonify(a)
+    return jsonify(redis_conn.hgetall('counters'))
 
 
 @app.route("/max", methods=["PUT"])
@@ -197,12 +195,11 @@ def prepare_data():
 
 
 def backup():
-    counters = redis_conn.hgetall('counters')
-    counters['lastDataUpdateDate'] = datetime.now(timezone.utc).astimezone()
+    redis_conn.hset('counters', 'lastDataUpdateDate', datetime.now(timezone.utc).astimezone().isoformat())
 
     # Backup in JSON file
     with open("backup.json", 'w') as json_backup:
-        json_backup.write(json.dumps(counters, sort_keys=True, default=str))
+        json_backup.write(json.dumps(redis_conn.hgetall('counters'), sort_keys=True, default=str))
 
 
 def publish():

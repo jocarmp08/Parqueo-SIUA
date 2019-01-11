@@ -1,0 +1,6 @@
+[Unit]
+Description=SENSOR BACKEND ON PORT 4096
+After=multi-user.target[Service]
+Type=idle
+ExecStart=/usr/bin/python /home/debian/iteracion-3/Parqueo-SIUA/python-backend/sensor-backend.py
+WantedBy=multi-user.target
