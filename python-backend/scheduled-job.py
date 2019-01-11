@@ -10,12 +10,12 @@ This script executes a scheduled service that sends a PUT to the database to sto
 the parking lot during the day.
 """
 
-LOOPBACK_ENDPOINT = "http://167.99.240.71:3000/api/entrances"
+LOOPBACK_ENDPOINT = "http://127.0.0.1:3000/api/entrances"
 IN_MEMORY_DATA_ENDPOINT = "http://127.0.0.1:4097/restart"
 
 
 def start():
-    schedule.every().day.at("00:05").do(send_to_db)
+    schedule.every().day.at("23:55").do(send_to_db)
     while True:
         schedule.run_pending()
         time.sleep(1)
@@ -35,10 +35,7 @@ def send_to_db():
         }
 
         post = requests.post(url=LOOPBACK_ENDPOINT, data=entrance)
-        print(post)
-
-        # confirmation = requests.put(url=IN_MEMORY_DATA_ENDPOINT)
-        # print(confirmation)
+        confirmation = requests.put(url=IN_MEMORY_DATA_ENDPOINT)
 
 
 if __name__ == "__main__":
