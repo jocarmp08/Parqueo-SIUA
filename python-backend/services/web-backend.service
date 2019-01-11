@@ -1,14 +1,15 @@
 [Unit]
-Description=SENSOR BACKEND ON PORT 4096
-After=multi-user.target
+Description=WEB BACKEND ON PORT 4097
+After=network.target
 
 [Service]
-PIDFile = /run/python-backend/sensor-backend.pid
+PIDFile = /run/python-backend/web-backend.pid
 User = backend
 Group = backend
 WorkingDirectory = /home/debian/iteracion-3/Parqueo-SIUA/python-backend
 ExecStartPre = /bin/mkdir /run/python-backend
-ExecStart=/usr/bin/python sensor-backend.py
+ExecStartPre = /bin/chown -R web-backend:web-backend /run/python-backend
+ExecStart = /usr/bin/env gunicorn sample:app -b 0.0.0.0:4097 --worker-class gevent -w 3 -b 0.0.0.0:4097 --pid /run/python-backend/web-backend.pid
 ExecReload = /bin/kill -s HUP $MAINPID
 ExecStop = /bin/kill -s TERM $MAINPID
 ExecStopPost = /bin/rm -rf /run/python-backend
