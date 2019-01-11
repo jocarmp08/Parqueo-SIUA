@@ -18,6 +18,7 @@ redis_host = "localhost"
 redis_port = "6379"
 redis_password = ""
 redis_conn = redis.StrictRedis(host=redis_host, port=redis_port, password=redis_password, decode_responses=True)
+redis_conn.set_response_callback('HGET', int)
 
 # LoopBack endpoint
 loop_back = "http://167.99.240.71:3000/api/entrances"
@@ -171,7 +172,7 @@ def send_forecast():
 
 @app.before_first_request
 def prepare_data():
-    if redis_conn.exists('counters') is False:
+    if redis_conn.exists('counters') == 0:
         # Total spaces at startup
         max_common_spaces_available = 40
         max_handicapped_spaces_available = 10
@@ -180,7 +181,7 @@ def prepare_data():
         handicapped_spaces_available_now = max_handicapped_spaces_available
         # Parking entrances by day
         parking_entrances_counter = 0
-        last_data_update_date = datetime.now(timezone.utc).astimezone()
+        last_data_update_date = datetime.now(timezone.utc).astimezone().isoformat()
 
         # Prepare data
         counters = {
