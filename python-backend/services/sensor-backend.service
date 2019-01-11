@@ -1,18 +1,11 @@
 [Unit]
 Description=SENSOR BACKEND ON PORT 4096
-After=multi-user.target
+After=network.target
 
 [Service]
-PIDFile = /run/python-backend/sensor-backend.pid
-User = backend
-Group = backend
+Type=idle
 WorkingDirectory = /home/debian/iteracion-3/Parqueo-SIUA/python-backend
-ExecStartPre = /bin/mkdir /run/python-backend
 ExecStart=/usr/bin/python sensor-backend.py
-ExecReload = /bin/kill -s HUP $MAINPID
-ExecStop = /bin/kill -s TERM $MAINPID
-ExecStopPost = /bin/rm -rf /run/python-backend
-PrivateTmp = true
 
 [Install]
 WantedBy=multi-user.target
