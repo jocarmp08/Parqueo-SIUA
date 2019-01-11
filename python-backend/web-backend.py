@@ -26,6 +26,7 @@ def send_data_structure():
     :return: a JSON object
     """
     # Respond to the request
+    global counters
     return jsonify(counters)
 
 
@@ -168,6 +169,7 @@ def send_forecast():
 
 @app.before_first_request
 def prepare_data():
+    global counters
     if counters is None:
         # Total spaces at startup
         max_common_spaces_available = 40
@@ -201,6 +203,7 @@ def backup():
 
 
 def publish():
+    global counters
     sse.publish(counters, type='message')
 
 
