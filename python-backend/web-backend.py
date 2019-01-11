@@ -168,26 +168,27 @@ def send_forecast():
 
 @app.before_first_request
 def prepare_data():
-    # Total spaces at startup
-    max_common_spaces_available = 40
-    max_handicapped_spaces_available = 10
-    # Spaces available during runtime
-    common_spaces_available_now = max_common_spaces_available
-    handicapped_spaces_available_now = max_handicapped_spaces_available
-    # Parking entrances by day
-    parking_entrances_counter = 0
-    last_data_update_date = datetime.now(timezone.utc).astimezone()
+    if counters is None:
+        # Total spaces at startup
+        max_common_spaces_available = 40
+        max_handicapped_spaces_available = 10
+        # Spaces available during runtime
+        common_spaces_available_now = max_common_spaces_available
+        handicapped_spaces_available_now = max_handicapped_spaces_available
+        # Parking entrances by day
+        parking_entrances_counter = 0
+        last_data_update_date = datetime.now(timezone.utc).astimezone()
 
-    global counters
-    # Prepare data
-    counters = {
-        'maxCommon': max_common_spaces_available,
-        'maxHandicapped': max_handicapped_spaces_available,
-        'nowCommon': common_spaces_available_now,
-        'nowHandicapped': handicapped_spaces_available_now,
-        'parkingEntrancesCounter': parking_entrances_counter,
-        'lastDataUpdateDate': last_data_update_date
-    }
+        global counters
+        # Prepare data
+        counters = {
+            'maxCommon': max_common_spaces_available,
+            'maxHandicapped': max_handicapped_spaces_available,
+            'nowCommon': common_spaces_available_now,
+            'nowHandicapped': handicapped_spaces_available_now,
+            'parkingEntrancesCounter': parking_entrances_counter,
+            'lastDataUpdateDate': last_data_update_date
+        }
 
 
 def backup():
