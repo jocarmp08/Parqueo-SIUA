@@ -25,8 +25,8 @@ def send_to_db():
         data = json.load(json_file)
         print(data['parkingEntrancesCounter'])
 
-        confirmation = requests.put(url=IN_MEMORY_DATA_ENDPOINT)
-        print(confirmation)
+        # confirmation = requests.put(url=IN_MEMORY_DATA_ENDPOINT)
+        # print(confirmation)
 
 
 if __name__ == "__main__":

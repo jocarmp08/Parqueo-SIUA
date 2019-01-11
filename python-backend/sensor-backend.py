@@ -11,7 +11,7 @@ These requests occur when the sensor detects the entry or exit of a vehicle.
 
 # HOST AND PORT FOR THIS SERVICE
 HOST = "127.0.0.1"
-PORT = 4096
+PORT = 4095
 
 IN_MEMORY_DATA_ENDPOINT = "http://127.0.0.1:4097/common"
 
