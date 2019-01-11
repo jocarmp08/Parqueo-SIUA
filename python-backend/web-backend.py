@@ -1,6 +1,7 @@
 import redis
 from flask import Flask, render_template, request, jsonify
 from flask_sse import sse
+from flask_cors import CORS
 import json
 import requests
 from datetime import datetime, timezone
@@ -12,6 +13,7 @@ import operator
 app = Flask(__name__)
 app.config["REDIS_URL"] = "redis://localhost"
 app.register_blueprint(sse, url_prefix="/stream")
+CORS(app)
 
 # Redis
 redis_host = "localhost"
@@ -21,7 +23,7 @@ redis_conn = redis.StrictRedis(host=redis_host, port=redis_port, password=redis_
 redis_conn.set_response_callback('HGET', int)
 
 # LoopBack endpoint
-loop_back = "http://167.99.240.71:3000/api/entrances"
+LOOPBACK_ENDPOINT = "http://167.99.240.71:3000/api/entrances"
 
 
 @app.route("/api", methods=["GET"])
@@ -161,7 +163,7 @@ def send_forecast():
             'filter[where][day]': day
         }
 
-        data = requests.get(url=loop_back, params=params).content
+        data = requests.get(url=LOOPBACK_ENDPOINT, params=params).content
 
         return calculate_trend(data)
     else:
