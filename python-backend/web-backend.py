@@ -1,8 +1,9 @@
-from datetime import datetime, timezone
+import redis
 from flask import Flask, render_template, request, jsonify
 from flask_sse import sse
 import json
 import requests
+from datetime import datetime, timezone
 import dateutil.parser
 import numpy
 import operator
@@ -12,8 +13,11 @@ app = Flask(__name__)
 app.config["REDIS_URL"] = "redis://localhost"
 app.register_blueprint(sse, url_prefix="/stream")
 
-# Counter system flags
-counters = {}
+# Redis
+redis_host = "localhost"
+redis_port = "6379"
+redis_password = ""
+redis_conn = redis.StrictRedis(host=redis_host, port=redis_port, password=redis_password, decode_responses=True)
 
 # LoopBack endpoint
 loop_back = "http://167.99.240.71:3000/api/entrances"
@@ -26,8 +30,9 @@ def send_data_structure():
     :return: a JSON object
     """
     # Respond to the request
-    global counters
-    return jsonify(counters)
+    a = redis_conn.hgetall('counters')
+    print(a)
+    return jsonify(a)
 
 
 @app.route("/max", methods=["PUT"])
@@ -40,9 +45,8 @@ def modify_max_flags():
     # Get request data
     request_data = request.get_json()
     # Update flags
-    global counters
-    counters['maxCommon'] = request_data['maxCommon']
-    counters['maxHandicapped'] = request_data['maxHandicapped']
+    redis_conn.hset('counters', 'maxCommon', request_data['maxCommon'])
+    redis_conn.hset('counters', 'maxHandicapped', request_data['maxHandicapped'])
 
     # Backup
     backup()
@@ -61,9 +65,8 @@ def modify_now_flags():
     # Get request data
     request_data = request.get_json()
     # Update flags
-    global counters
-    counters['nowCommon'] = request_data['nowCommon']
-    counters['nowHandicapped'] = request_data['nowHandicapped']
+    redis_conn.hset('counters', 'nowCommon', request_data['nowCommon'])
+    redis_conn.hset('counters', 'nowHandicapped', request_data['nowHandicapped'])
 
     # Backup
     backup()
@@ -82,16 +85,16 @@ def modify_common_counter():
     # Get request data
     request_data = request.get_json()['event']
     # Modify counter
-    global counters
+    now_common = redis_conn.hget('counters', 'nowCommon')
     if 'in' in request_data:
-        print(counters['nowCommon'])
-        if counters['nowCommon'] > 0:
-            counters['nowCommon'] -= 1
-            print(counters['nowCommon'])
-            counters['parkingEntrancesCounter'] += 1
+        if now_common > 0:
+            redis_conn.hset('counters', 'nowCommon', now_common - 1)
+            parking_entrances = redis_conn.hget('counters', 'parkingEntrancesCounter')
+            redis_conn.hset('counters', 'parkingEntrancesCounter', parking_entrances + 1)
     elif 'out' in request_data:
-        if counters['nowCommon'] < counters['maxCommon']:
-            counters['nowCommon'] += 1
+        max_common = redis_conn.hget('counters', 'maxCommon')
+        if now_common < max_common:
+            redis_conn.hset('counters', 'nowCommon', now_common + 1)
 
     # Backup and distribute changes
     backup()
@@ -111,14 +114,14 @@ def modify_handicapped_counter():
     # Get request data
     request_data = request.get_json()['event']
     # Modify counter
-    global counters
+    now_handicapped = redis_conn.hget('counters', 'nowHandicapped')
     if 'in' in request_data:
-        if counters['nowHandicapped'] > 0:
-            counters['nowHandicapped'] -= 1
-            counters['parkingEntrancesCounter'] += 1
+        if now_handicapped > 0:
+            redis_conn.hset('counters', 'nowHandicapped', now_handicapped - 1)
     elif 'out' in request_data:
-        if counters['nowHandicapped'] < counters['maxHandicapped']:
-            counters['nowHandicapped'] += 1
+        max_handicapped = redis_conn.hget('counters', 'maxHandicapped')
+        if now_handicapped < max_handicapped:
+            redis_conn.hset('counters', 'nowHandicapped', now_handicapped + 1)
 
     # Backup and distribute changes
     backup()
@@ -134,8 +137,7 @@ def restart_entrances_counter():
     :return: a HTTP code
     """
     # Update flags
-    global counters
-    counters['parkingEntrancesCounter'] = 0
+    redis_conn.hset('counters', 'parkingEntrancesCounter', 0)
 
     # Backup
     backup()
@@ -169,8 +171,7 @@ def send_forecast():
 
 @app.before_first_request
 def prepare_data():
-    global counters
-    if counters is None:
+    if redis_conn.exists('counters') is False:
         # Total spaces at startup
         max_common_spaces_available = 40
         max_handicapped_spaces_available = 10
@@ -181,7 +182,6 @@ def prepare_data():
         parking_entrances_counter = 0
         last_data_update_date = datetime.now(timezone.utc).astimezone()
 
-        global counters
         # Prepare data
         counters = {
             'maxCommon': max_common_spaces_available,
@@ -192,9 +192,11 @@ def prepare_data():
             'lastDataUpdateDate': last_data_update_date
         }
 
+        redis_conn.hmset('counters', counters)
+
 
 def backup():
-    global counters
+    counters = redis_conn.hgetall('counters')
     counters['lastDataUpdateDate'] = datetime.now(timezone.utc).astimezone()
 
     # Backup in JSON file
@@ -203,8 +205,7 @@ def backup():
 
 
 def publish():
-    global counters
-    sse.publish(counters, type='message')
+    sse.publish(redis_conn.hgetall('counters'), type='message')
 
 
 def calculate_trend(data):
