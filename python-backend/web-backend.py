@@ -83,8 +83,10 @@ def modify_common_counter():
     # Modify counter
     global counters
     if 'in' in request_data:
+        print(counters['nowCommon'])
         if counters['nowCommon'] > 0:
             counters['nowCommon'] -= 1
+            print(counters['nowCommon'])
             counters['parkingEntrancesCounter'] += 1
     elif 'out' in request_data:
         if counters['nowCommon'] < counters['maxCommon']:
