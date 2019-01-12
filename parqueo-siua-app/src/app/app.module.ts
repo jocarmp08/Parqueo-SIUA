@@ -34,7 +34,7 @@ const config = {
         AppRoutingModule,
         HttpClientModule,
         AngularFireModule.initializeApp(config),
-        AngularFirestoreModule
+        AngularFirestoreModule,
     ],
     providers: [
         StatusBar,

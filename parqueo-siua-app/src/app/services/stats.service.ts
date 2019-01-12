@@ -17,6 +17,12 @@ export class StatsService {
         return this.httpClient.get(url, {params: params}).pipe(map(this.extractData));
     }
 
+    getEntriesFromDate(date: Date): Observable<any> {
+        const endpoint = 'http://167.99.240.71:3000/api/';
+        const url = endpoint + 'entrances?filter[order]=date&filter[where][date][gte]=' + date.toISOString();
+        return this.httpClient.get(url).pipe(map(this.extractData));
+    }
+
     private extractData(res: Response) {
         return res || {};
     }

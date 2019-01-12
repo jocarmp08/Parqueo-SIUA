@@ -1,5 +1,6 @@
 ion-toolbar {
-  --background: linear-gradient(to top, #d10a42 0%, #bc093b 100%);
+  //--background: linear-gradient(to top, #d10a42 0%, #bc093b 100%);
+  --background: #d10a42;
 }
 
 ion-content {
@@ -43,7 +44,12 @@ ion-content {
 
 ion-card {
   --background: rgba(0, 0, 0, 0.5);
-  min-width: 70%;
+  min-width: 250px;
+  max-width: 250px;
+
+  ion-card-title {
+    max-width: 100%;
+  }
 }
 
 .divider {

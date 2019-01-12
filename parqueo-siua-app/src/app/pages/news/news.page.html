@@ -5,11 +5,11 @@
 </ion-header>
 
 <ion-content>
-    <div *ngIf="!httpError; else errorMessage">
-        <ion-refresher (ionRefresh)="loadNews($event)">
-            <ion-refresher-content></ion-refresher-content>
-        </ion-refresher>
+    <ion-refresher (ionRefresh)="loadNews($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
 
+    <div *ngIf="!httpError; else errorMessage">
         <ion-list>
             <ion-item *ngFor="let news of newsArray">
                 <ion-label text-wrap>

@@ -5,11 +5,11 @@
 </ion-header>
 
 <ion-content>
-    <div *ngIf="!httpError; else errorMessage">
-        <ion-refresher (ionRefresh)="loadEvents($event)">
-            <ion-refresher-content></ion-refresher-content>
-        </ion-refresher>
+    <ion-refresher (ionRefresh)="loadEvents($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
 
+    <div *ngIf="!httpError; else errorMessage">
         <ion-list>
             <ion-item *ngFor="let event of eventsArray">
                 <ion-label text-wrap>
