@@ -9,7 +9,8 @@ import {EventsService} from '../../services/events.service';
 })
 export class EventsPage implements OnInit {
 
-    eventsArray: Array<EventModel>;
+    private httpError;
+    private eventsArray: Array<EventModel>;
 
     constructor(private eventsService: EventsService) {
     }
@@ -19,12 +20,15 @@ export class EventsPage implements OnInit {
     }
 
     loadEvents(refresher) {
-        this.eventsService.getEventsPublishedAndUnfinished().subscribe(((data: Array<EventModel>) => {
+        this.httpError = null;
+        this.eventsService.getEventsPublishedAndUnfinished().subscribe((data: Array<EventModel>) => {
             this.eventsArray = this.sortArrayByDateAsc(data);
             if (refresher != null) {
                 refresher.target.complete();
             }
-        }));
+        }, error => {
+            this.httpError = error;
+        });
     }
 
     private sortArrayByDateAsc(array: Array<EventModel>): Array<EventModel> {

@@ -14,42 +14,52 @@
 </ion-header>
 
 <ion-content padding>
-    <ion-label>{{datas}}</ion-label>
-    <div class="info-area">
-        <ion-text color="light">
-            <h3>Espacios disponibles</h3>
-        </ion-text>
-        <div class="counter">
+    <div *ngIf="!httpError; else errorMessage">
+        <div class="info-area">
             <ion-text color="light">
-                <p class="counter-number">{{countersData.nowCommon}}</p>
-                <p class="counter-label">COMUNES</p>
+                <h3>Espacios disponibles</h3>
+            </ion-text>
+            <div class="counter">
+                <ion-text color="light">
+                    <p class="counter-number">{{countersData.nowCommon}}</p>
+                    <p class="counter-label">COMUNES</p>
+                </ion-text>
+            </div>
+            <br>
+            <hr class="divider">
+            <br>
+            <div class="counter">
+                <ion-text color="light">
+                    <p class="counter-number">{{countersData.nowHandicapped}}</p>
+                    <p class="counter-label">PREFERENCIALES</p>
+                </ion-text>
+            </div>
+            <ion-text color="light">
+                <h6>Actualizado: {{countersData.lastDataUpdateDate | date: 'dd/MM/yy hh:mm:ss a'}}</h6>
             </ion-text>
         </div>
-        <br>
-        <hr class="divider">
-        <br>
-        <div class="counter">
+
+        <div class="info-area">
             <ion-text color="light">
-                <p class="counter-number">{{countersData.nowHandicapped}}</p>
-                <p class="counter-label">PREFERENCIALES</p>
+                <h5>Hoy en la SIUA</h5>
             </ion-text>
+            <ion-card *ngFor="let event of todayEvents">
+                <ion-card-header>
+                    <ion-card-title color="light">{{event.title}}</ion-card-title>
+                    <ion-card-subtitle color="medium">
+                        {{event.startDate | date: 'hh:mm a'}} - {{event.endDate | date: 'hh:mm a'}}
+                    </ion-card-subtitle>
+                </ion-card-header>
+            </ion-card>
         </div>
-        <ion-text color="light">
-            <h6>Actualizado: {{countersData.lastDataUpdateDate | date: 'dd/MM/yy hh:mm:ss a'}}</h6>
-        </ion-text>
     </div>
 
-    <div class="info-area">
-        <ion-text color="light">
-            <h5>Hoy en la SIUA</h5>
-        </ion-text>
-        <ion-card *ngFor="let event of todayEvents">
-            <ion-card-header>
-                <ion-card-title color="light">{{event.title}}</ion-card-title>
-                <ion-card-subtitle color="medium">
-                    {{event.startDate | date: 'hh:mm a'}} - {{event.endDate | date: 'hh:mm a'}}
-                </ion-card-subtitle>
-            </ion-card-header>
-        </ion-card>
-    </div>
+    <ng-template #errorMessage>
+        <div class="error-area">
+            <ion-text color="light">
+                <h3>No es posible conectarse con SIUA</h3>
+            </ion-text>
+            <ion-button color="light" fill="clear" (click)="loadData()">Intentarlo de nuevo</ion-button>
+        </div>
+    </ng-template>
 </ion-content>

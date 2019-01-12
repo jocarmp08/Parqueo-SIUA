@@ -32,6 +32,15 @@ ion-content {
   font-size: 1.5em;
 }
 
+.error-area {
+  height: 100%;
+  display:flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content:center;
+  align-items:center;
+}
+
 ion-card {
   --background: rgba(0, 0, 0, 0.5);
   min-width: 70%;

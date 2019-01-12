@@ -9,6 +9,7 @@ import {NewsModel} from '../../models/news.model';
 })
 export class NewsPage implements OnInit {
 
+    private httpError;
     private newsArray: Array<NewsModel>;
 
     constructor(private newsService: NewsService) {
@@ -20,14 +21,17 @@ export class NewsPage implements OnInit {
 
     loadNews(refresher) {
         // NewsModel from a week ago
+        this.httpError = null;
         const now: Date = new Date(new Date().getTime());
         const lastWeek: Date = new Date(now.getTime() - (1000 * 60 * 60 * 24) * 7);
-        this.newsService.getNewsPublishedFromAndTo(lastWeek, now).subscribe(((data: Array<NewsModel>) => {
+        this.newsService.getNewsPublishedFromAndTo(lastWeek, now).subscribe((data: Array<NewsModel>) => {
             this.newsArray = this.sortArrayByDateDesc(data);
             if (refresher != null) {
                 refresher.target.complete();
             }
-        }));
+        }, error => {
+            this.httpError = error;
+        });
     }
 
     private sortArrayByDateDesc(array: Array<NewsModel>): Array<NewsModel> {

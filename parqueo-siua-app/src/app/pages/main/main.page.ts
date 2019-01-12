@@ -13,6 +13,7 @@ import {PopoverMenuComponent} from '../../components/popover-menu/popover-menu.c
 })
 export class MainPage implements OnInit {
 
+    private httpError;
     private todayEvents: Array<EventModel>;
     private countersData: CounterModel;
     private countersListener;
@@ -28,19 +29,26 @@ export class MainPage implements OnInit {
     }
 
     ionViewWillEnter() {
-        this.connectCountersListener();
-        this.loadCounters();
-        this.loadTodayEvents();
+        this.loadData();
     }
 
     ionViewWillLeave() {
         this.disconnectCountersListener();
     }
 
+    private loadData() {
+        this.httpError = null;
+        this.loadCounters();
+        this.connectCountersListener();
+        this.loadTodayEvents();
+    }
+
     private loadCounters() {
-        this.countersService.getData().subscribe(((data: CounterModel) => {
+        this.countersService.getData().subscribe((data: CounterModel) => {
             this.countersData = data;
-        }));
+        }, error => {
+            this.httpError = error;
+        });
     }
 
     private connectCountersListener() {
@@ -55,11 +63,13 @@ export class MainPage implements OnInit {
     }
 
     private loadTodayEvents() {
-        this.eventsService.getEventsPublishedAndEndingJustToday().subscribe(((data: Array<EventModel>) => {
+        this.eventsService.getEventsPublishedAndEndingJustToday().subscribe((data: Array<EventModel>) => {
             if (data.length > 0) {
                 this.todayEvents = this.sortEventsByStartDateAsc(data);
             }
-        }));
+        }, error => {
+            this.httpError = error;
+        });
     }
 
     private sortEventsByStartDateAsc(array: Array<EventModel>): Array<EventModel> {

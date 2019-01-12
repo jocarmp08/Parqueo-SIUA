@@ -38,9 +38,8 @@ export class FcmService {
     }
 
     private subscribeToTopic() {
-        this.firebaseNative.subscribe('news').then(data => {
-            this.presentToast(data);
-        });
+        this.firebaseNative.subscribe('news');
+        this.firebaseNative.subscribe('events');
     }
 
     private async presentToast(message) {

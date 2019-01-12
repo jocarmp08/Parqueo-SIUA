@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import {catchError, map} from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -21,8 +21,10 @@ export class EventsService {
         const publishedFilter: string = 'filter[where][publicationDate][lte]=' + now.toISOString();
         const unfinishedFilter: string = 'filter[where][endDate][gt]=' + now.toISOString();
         const url: string = this.endpoint + 'events?' + publishedFilter + '&' + unfinishedFilter;
-        return this.httpClient.get(url).pipe(map(this.extractData));
-
+        return this.httpClient.get(url).pipe(
+            catchError(this.handleError),
+            map(this.extractData)
+        );
     }
 
     getEventsPublishedAndEndingJustToday() {
@@ -32,7 +34,10 @@ export class EventsService {
         const publishedFilter: string = 'filter[where][publicationDate][lte]=' + now.toISOString();
         const finishedTodayFilter: string = 'filter[where][endDate][between][0]=' + now.toISOString() + '&filter[where][endDate][between][1]=' + tomorrow.toISOString();
         const url: string = this.endpoint + 'events?' + publishedFilter + '&' + finishedTodayFilter;
-        return this.httpClient.get(url).pipe(map(this.extractData));
+        return this.httpClient.get(url).pipe(
+            catchError(this.handleError),
+            map(this.extractData)
+        );
     }
 
     private todaysDate(): Date {
@@ -46,6 +51,10 @@ export class EventsService {
         date = new Date(date.getTime() + 1000 * 60 * 60 * 24);
         date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0);
         return date;
+    }
+
+    private handleError(error: HttpErrorResponse) {
+        return Observable.throw(error);
     }
 
     private extractData(res: Response) {
