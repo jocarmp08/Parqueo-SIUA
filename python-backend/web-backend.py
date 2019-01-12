@@ -98,6 +98,7 @@ def modify_common_counter():
             redis_conn.hset('counters', 'nowCommon', now_common + 1)
 
     # Backup and distribute changes
+    print(request_data)
     backup()
     publish()
 
