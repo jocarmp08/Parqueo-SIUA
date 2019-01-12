@@ -1,0 +1,25 @@
+<ion-header no-border>
+    <ion-toolbar>
+        <ion-title>Eventos</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-refresher (ionRefresh)="loadEvents($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+
+    <ion-list>
+        <ion-item *ngFor="let event of eventsArray">
+            <ion-label text-wrap>
+                <h2>{{event.title}}</h2>
+                <ion-text color="medium">
+                    <h6>Del {{event.startDate | date: 'dd/MM/yyyy hh:mm a'}} al {{event.endDate | date: 'dd/MM/yyyy hh:mm a'}}</h6>
+                </ion-text>
+                <ion-text color="dark">
+                    <p>{{event.description}}</p>
+                </ion-text>
+            </ion-label>
+        </ion-item>
+    </ion-list>
+</ion-content>

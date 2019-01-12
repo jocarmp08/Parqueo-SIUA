@@ -1,56 +1,66 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 
-import { TabsPage } from './tabs.page';
+import {TabsPage} from './tabs.page';
 
 const routes: Routes = [
-  {
-    path: 'tabs',
-    component: TabsPage,
-    children: [
-      {
-        path: 'tab1',
+    {
+        path: 'tabs',
+        component: TabsPage,
         children: [
-          {
-            path: '',
-            loadChildren: '../tab1/tab1.module#Tab1PageModule'
-          }
+            {
+                path: 'main',
+                children: [
+                    {
+                        path: '',
+                        loadChildren: '../pages/main/main.module#MainPageModule'
+                    }
+                ]
+            },
+            {
+                path: 'news',
+                children: [
+                    {
+                        path: '',
+                        loadChildren: '../pages/news/news.module#NewsPageModule'
+                    }
+                ]
+            },
+            {
+                path: 'events',
+                children: [
+                    {
+                        path: '',
+                        loadChildren: '../pages/events/events.module#EventsPageModule'
+                    }
+                ]
+            },
+            {
+                path: 'stats',
+                children: [
+                    {
+                        path: '',
+                        loadChildren: '../pages/stats/stats.module#StatsPageModule'
+                    }
+                ]
+            },
+            {
+                path: '',
+                redirectTo: '/tabs/main',
+                pathMatch: 'full'
+            }
         ]
-      },
-      {
-        path: 'tab2',
-        children: [
-          {
-            path: '',
-            loadChildren: '../tab2/tab2.module#Tab2PageModule'
-          }
-        ]
-      },
-      {
-        path: 'tab3',
-        children: [
-          {
-            path: '',
-            loadChildren: '../tab3/tab3.module#Tab3PageModule'
-          }
-        ]
-      },
-      {
+    },
+    {
         path: '',
-        redirectTo: '/tabs/tab1',
+        redirectTo: '/tabs/main',
         pathMatch: 'full'
-      }
-    ]
-  },
-  {
-    path: '',
-    redirectTo: '/tabs/tab1',
-    pathMatch: 'full'
-  }
+    }
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule]
 })
-export class TabsPageRoutingModule {}
+export class TabsPageRoutingModule {
+}

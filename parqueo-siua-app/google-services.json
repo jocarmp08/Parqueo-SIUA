@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "412317655761",
+    "firebase_url": "https://parqueo-siua.firebaseio.com",
+    "project_id": "parqueo-siua",
+    "storage_bucket": "parqueo-siua.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:412317655761:android:5b5ae8630c27a865",
+        "android_client_info": {
+          "package_name": "com.siua.parqueo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "412317655761-nm6lqtc60ifuj0bdvf73seo8hip64ul0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0N6SirS9FmqL7wJ8P9B94gCWoZwTgxdg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

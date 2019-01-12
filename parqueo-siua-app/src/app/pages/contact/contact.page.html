@@ -1,0 +1,46 @@
+<ion-header no-border xmlns="http://www.w3.org/1999/html">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title>Contacto</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <form novalidate [formGroup]="contactForm" (ngSubmit)="sendReport()">
+        <ion-item>
+            <ion-label position="floating">Correo electrónico</ion-label>
+            <ion-input type="email" required="true" formControlName="email"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label position="floating">Asunto</ion-label>
+            <ion-input type="text" required="true" formControlName="subject"></ion-input>
+        </ion-item>
+        <ion-radio-group>
+            <ion-list-header>
+                <ion-label>Tipo de reporte</ion-label>
+            </ion-list-header>
+
+            <ion-item>
+                <ion-label>Comentario</ion-label>
+                <ion-radio slot="start" value="biff" checked></ion-radio>
+            </ion-item>
+
+            <ion-item>
+                <ion-label>Error</ion-label>
+                <ion-radio slot="start" value="griff"></ion-radio>
+            </ion-item>
+        </ion-radio-group>
+        <ion-item>
+            <ion-label position="floating">Descripción</ion-label>
+            <ion-textarea type="text" maxlength="1000" required="true" rows="5" wrap="soft"
+                          formControlName="description"></ion-textarea>
+        </ion-item>
+        <div class="button">
+            <ion-button type="submit" [disabled]="contactForm.invalid">Enviar</ion-button>
+        </div>
+    </form>
+
+
+</ion-content>
