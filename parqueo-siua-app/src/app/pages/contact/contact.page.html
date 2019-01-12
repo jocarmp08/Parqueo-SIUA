@@ -17,19 +17,17 @@
             <ion-label position="floating">Asunto</ion-label>
             <ion-input type="text" required="true" formControlName="subject"></ion-input>
         </ion-item>
-        <ion-radio-group>
+        <ion-radio-group formControlName="type">
             <ion-list-header>
                 <ion-label>Tipo de reporte</ion-label>
             </ion-list-header>
-
             <ion-item>
                 <ion-label>Comentario</ion-label>
-                <ion-radio slot="start" value="biff" checked></ion-radio>
+                <ion-radio slot="start" value="0" checked></ion-radio>
             </ion-item>
-
             <ion-item>
                 <ion-label>Error</ion-label>
-                <ion-radio slot="start" value="griff"></ion-radio>
+                <ion-radio slot="start" value="1"></ion-radio>
             </ion-item>
         </ion-radio-group>
         <ion-item>
