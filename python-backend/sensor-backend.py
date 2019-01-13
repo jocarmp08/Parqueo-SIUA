@@ -44,9 +44,12 @@ def process_incoming_connection(connection, address):
         elif 'out' in data:
             threading.Thread(target=modify_counter_by_event, args=['out']).start()
 
+        print(threading.active_count())
+
 
 def modify_counter_by_event(event):
-    confirmation = requests.put(url=IN_MEMORY_DATA_ENDPOINT, json={'event': event})
+    confirmation = 5
+    # confirmation = requests.put(url=IN_MEMORY_DATA_ENDPOINT, json={'event': event})
     print("{} sent by in-memory data script at {}".format(confirmation, datetime.datetime.now()))
 
 
