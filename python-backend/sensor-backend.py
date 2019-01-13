@@ -34,7 +34,7 @@ def process_incoming_connection(connection, address):
     with connection:
         print("Connected by", address)
         # Receive data
-        data = connection.recv(1024).decode("utf-8")
+        data = connection.recv(4096).decode("utf-8")
 
         # Modify counters and system flags (using threads so the HW doesn't wait)
         # A vehicle entered
@@ -43,6 +43,8 @@ def process_incoming_connection(connection, address):
         # A vehicle leaved
         elif 'out' in data:
             threading.Thread(target=modify_counter_by_event, args=['out']).start()
+
+        connection.close()
 
         print(threading.active_count())
 
