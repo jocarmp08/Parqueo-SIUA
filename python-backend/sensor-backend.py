@@ -46,22 +46,23 @@ def accept_connection(sock):
     connection.setblocking(False)
     data = types.SimpleNamespace(add=address, inb=b'', outb=b'')
     events = selectors.EVENT_READ | selectors.EVENT_WRITE
-    selectors.register(connection, events, data=data)
+    selector.register(connection, events, data=data)
 
 
 def process_incoming_connection(key, mask):
     sock = key.fileobj
     data = key.data
-    if mask and selector.EVENT_READ:
+    if mask and selectors.EVENT_READ:
         # Receive data
-        recv_data = sock.recv(1024).decode("utf-8")
-
+        recv_data = sock.recv(1024)
+        recv_data = recv_data.decode("utf-8")
+        
         # Modify counters and system flags (using threads so the HW doesn't wait)
         # A vehicle entered
-        if 'in' in data:
+        if 'in' in recv_data:
             threading.Thread(target=modify_counter_by_event, args=['in']).start()
         # A vehicle leaved
-        elif 'out' in data:
+        elif 'out' in recv_data:
             threading.Thread(target=modify_counter_by_event, args=['out']).start()
 
         selector.unregister(sock)
