@@ -27,42 +27,36 @@ def start():
         sock.bind((HOST, PORT))
         sock.listen()
         sock.setblocking(False)
-        selector.register(sock, selectors.EVENT_READ, data=None)
+        selector.register(sock, selectors.EVENT_READ, accept_connection)
         # Wait forever
         while True:
             print("Waiting for connections in {}:{}...".format(HOST, PORT))
             # Wait for changes in FD
-            events = selector.select(timeout=None)
+            events = selector.select(timeout=0.5)
             for key, mask in events:
-                if key.data is None:
-                    accept_connection(key.fileobj)
-                else:
-                    process_incoming_connection(key, mask)
+                handler = key.data
+                handler(key.fileobj, mask)
 
 
 def accept_connection(sock):
     connection, address = sock.accept()
     print("Connected by", address)
     connection.setblocking(False)
-    data = types.SimpleNamespace(add=address, inb=b'', outb=b'')
-    events = selectors.EVENT_READ | selectors.EVENT_WRITE
-    selector.register(connection, events, data=data)
+    #data = types.SimpleNamespace(add=address, inb=b'', outb=b'')
+    selector.register(connection, selectors.EVENT_READ, process_incoming_connection)
 
 
-def process_incoming_connection(key, mask):
-    sock = key.fileobj
-    data = key.data
-    if mask and selectors.EVENT_READ:
-        # Receive data
-        recv_data = sock.recv(1024)
-        recv_data = recv_data.decode("utf-8")
-        
-        # Modify counters and system flags (using threads so the HW doesn't wait)
+def process_incoming_connection(connection, mask):
+    try:
+        data = connection.recv(1024)
+        data = data.decode("utf-8")
+
+              # Modify counters and system flags (using threads so the HW doesn't wait)
         # A vehicle entered
-        if 'in' in recv_data:
+        if 'in' in data:
             threading.Thread(target=modify_counter_by_event, args=['in']).start()
         # A vehicle leaved
-        elif 'out' in recv_data:
+        elif 'out' in data:
             threading.Thread(target=modify_counter_by_event, args=['out']).start()
 
         selector.unregister(sock)
