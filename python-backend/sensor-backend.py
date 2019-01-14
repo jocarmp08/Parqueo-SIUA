@@ -26,6 +26,7 @@ def start():
             print("Waiting for connections in {}:{}...".format(HOST, PORT))
             # Block socket and wait for incoming connection
             connection, address = sock.accept()
+            connection.setblocking(0)
             # Process connection
             process_incoming_connection(connection, address)
 
@@ -49,7 +50,7 @@ def process_incoming_connection(connection, address):
 
 def modify_counter_by_event(event):
     confirmation = requests.put(url=IN_MEMORY_DATA_ENDPOINT, json={'event': event})
-    # print("{} sent by in-memory data script at {}".format(confirmation, datetime.datetime.now()))
+    print("{} sent by in-memory data script at {}".format(confirmation, datetime.datetime.now()))
 
 
 if __name__ == "__main__":
