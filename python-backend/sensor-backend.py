@@ -38,7 +38,7 @@ def start():
                 handler(key.fileobj, mask)
 
 
-def accept_connection(sock):
+def accept_connection(sock, mask):
     connection, address = sock.accept()
     print("Connected by", address)
     connection.setblocking(False)
@@ -51,15 +51,17 @@ def process_incoming_connection(connection, mask):
         data = connection.recv(1024)
         data = data.decode("utf-8")
 
-        # Modify counters and system flags (using threads so the HW doesn't wait)
-        # A vehicle entered
-        if 'in' in data:
-            threading.Thread(target=modify_counter_by_event, args=['in']).start()
-        # A vehicle leaved
-        elif 'out' in data:
-            threading.Thread(target=modify_counter_by_event, args=['out']).start()
-
-        connection.close()
+        if data:
+            # Modify counters and system flags (using threads so the HW doesn't wait)
+            # A vehicle entered
+            if 'in' in data:
+                threading.Thread(target=modify_counter_by_event, args=['in']).start()
+            # A vehicle leaved
+            elif 'out' in data:
+                threading.Thread(target=modify_counter_by_event, args=['out']).start()
+        else:
+            selector.unregister(connection)
+            connection.close()
     except ConnectionResetError:
         selector.unregister(connection)
         connection.close()
