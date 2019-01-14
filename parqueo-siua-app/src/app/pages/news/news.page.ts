@@ -16,6 +16,9 @@ export class NewsPage implements OnInit {
     }
 
     ngOnInit() {
+    }
+
+    ionViewWillEnter() {
         this.loadNews(null);
     }
 

@@ -1,14 +1,18 @@
+/*
 import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {EventsPage} from './events.page';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {EventModel} from '../../models/event.model';
 
-describe('EventsPage', () => {
+describe('Página de eventos: EventsPage', () => {
     let component: EventsPage;
     let fixture: ComponentFixture<EventsPage>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
+            imports: [HttpClientTestingModule],
             declarations: [EventsPage],
             schemas: [CUSTOM_ELEMENTS_SCHEMA],
         })
@@ -22,6 +26,12 @@ describe('EventsPage', () => {
     });
 
     it('should create', () => {
-        expect(component).toBeTruthy();
+        let eventsArray: Array<EventModel>;
+        for (let i = 0; i < 5; i++) {
+            eventModel = new EventModel();
+            eventModel.startDate =
+        }
+
     });
 });
+*/

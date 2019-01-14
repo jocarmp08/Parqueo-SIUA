@@ -3,8 +3,8 @@ import {EventsService} from '../../services/events.service';
 import {CounterModel} from '../../models/counter.model';
 import {CountersService} from '../../services/counters.service';
 import {EventModel} from '../../models/event.model';
-import {PopoverController} from '@ionic/angular';
 import {PopoverMenuComponent} from '../../components/popover-menu/popover-menu.component';
+import {Platform, PopoverController} from '@ionic/angular';
 
 @Component({
     selector: 'app-main',
@@ -13,62 +13,84 @@ import {PopoverMenuComponent} from '../../components/popover-menu/popover-menu.c
 })
 export class MainPage implements OnInit {
 
-    private httpError;
+    private countersHttpError: boolean;
+    private todayHttpError: boolean;
     private todayEvents: Array<EventModel>;
     private countersData: CounterModel;
-    private countersListener;
+    private countersStream;
+    private backButton;
 
-    constructor(private countersService: CountersService, private eventsService: EventsService, private popoverController: PopoverController) {
+    constructor(private countersService: CountersService, private eventsService: EventsService,
+                private popoverController: PopoverController, private platform: Platform) {
         this.countersData = new CounterModel();
         this.countersData.nowCommon = 0;
         this.countersData.nowHandicapped = 0;
+        this.countersStream = this.countersService.getEventTarget();
     }
 
     ngOnInit() {
-
     }
 
     ionViewWillEnter() {
         this.loadData();
     }
 
+    ionViewDidEnter() {
+        this.backButton = this.platform.backButton.subscribe(() => {
+            navigator['app'].exitApp();
+        });
+    }
+
     ionViewWillLeave() {
-        this.disconnectCountersListener();
+        this.disconnectCountersStream();
+        this.backButton.unsubscribe();
     }
 
     private loadData() {
-        this.httpError = null;
         this.loadCounters();
-        this.connectCountersListener();
         this.loadTodayEvents();
     }
 
     private loadCounters() {
+        // For UI issues
+        this.countersHttpError = false;
+
+        // Get current counters data
         this.countersService.getData().subscribe((data: CounterModel) => {
             this.countersData = data;
         }, error => {
-            this.httpError = error;
+            this.countersHttpError = true;
         });
-    }
 
-    private connectCountersListener() {
-        this.countersListener = this.countersService.connect();
-        this.countersListener.addEventListener('message', message => {
+        // Connect to stream for real-time updates
+        // 1. Remove event listener in case of fail
+        this.countersStream.removeEventListener('message', message => {
+            this.countersData = JSON.parse(message['data']);
+        });
+        // 2. Add event listener
+        this.countersStream.addEventListener('message', message => {
             this.countersData = JSON.parse(message['data']);
         });
     }
 
-    private disconnectCountersListener() {
-        this.countersListener.close();
+    private disconnectCountersStream() {
+        this.countersStream.removeEventListener('message', message => {
+            this.countersData = JSON.parse(message['data']);
+        });
     }
 
     private loadTodayEvents() {
+        // For UI issues
+        this.todayHttpError = false;
+
         this.eventsService.getEventsPublishedAndEndingJustToday().subscribe((data: Array<EventModel>) => {
             if (data.length > 0) {
                 this.todayEvents = this.sortEventsByStartDateAsc(data);
+            } else {
+                this.todayEvents = null;
             }
         }, error => {
-            this.httpError = error;
+            this.todayHttpError = true;
         });
     }
 

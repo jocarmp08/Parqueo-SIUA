@@ -23,7 +23,7 @@ export class StatsPage implements OnInit {
     private forecastMinDate: string;
     private forecastMaxDate: string;
 
-    constructor(private statsService: StatsService, private toastCtrl: ToastController, private router: Router) {
+    constructor(private statsService: StatsService, private toastCtrl: ToastController, private navController: NavController) {
         this.forecastMinDate = this.addDaysToDate(0).toISOString();
         this.forecastMaxDate = this.addDaysToDate(6).toISOString();
     }
@@ -39,9 +39,11 @@ export class StatsPage implements OnInit {
                 if (quantity >= 0) {
                     this.forecastResult = quantity;
                 } else {
-                    this.presentToast('No hay datos suficientes para realizar esta predicción');
+                    this.presentToast('No hay suficientes datos para realizar esta predicción');
                 }
             });
+        } else {
+            this.presentToast('Debe seleccionar una fecha');
         }
     }
 
@@ -62,14 +64,17 @@ export class StatsPage implements OnInit {
             if (fromDate) {
                 this.statsService.getEntriesFromDate(fromDate).subscribe((data: Array<EntranceModel>) => {
                     if (data.length > 0) {
-                        this.router.navigate(['chart', JSON.stringify(data)]);
+                        this.navController.navigateForward(['chart', JSON.stringify(data)]);
+                    } else {
+                        this.presentToast('No hay suficientes datos para generar el histograma');
                     }
                 }, (error) => {
                     console.log('Error' + error);
                 });
             }
-
             this.histogramSelectedTF = null;
+        } else {
+            this.presentToast('Debe seleccionar un período de tiempo');
         }
     }
 

@@ -10,20 +10,30 @@
     </ion-refresher>
 
     <div *ngIf="!httpError; else errorMessage">
-        <ion-list>
-            <ion-item *ngFor="let event of eventsArray">
-                <ion-label text-wrap>
-                    <h2>{{event.title}}</h2>
-                    <ion-text color="medium">
-                        <h6>Del {{event.startDate | date: 'dd/MM/yyyy hh:mm a'}} al {{event.endDate | date: 'dd/MM/yyyy
-                            hh:mm a'}}</h6>
-                    </ion-text>
-                    <ion-text color="dark">
-                        <p>{{event.description}}</p>
-                    </ion-text>
-                </ion-label>
-            </ion-item>
-        </ion-list>
+        <div *ngIf="eventsArray && eventsArray?.length > 0; else noEvents">
+            <ion-list>
+                <ion-item *ngFor="let event of eventsArray">
+                    <ion-label text-wrap>
+                        <h2>{{event.title}}</h2>
+                        <ion-text color="medium">
+                            <h6>Del {{event.startDate | date: 'dd/MM/yyyy hh:mm a'}} al {{event.endDate | date:
+                                'dd/MM/yyyy
+                                hh:mm a'}}</h6>
+                        </ion-text>
+                        <ion-text color="dark">
+                            <p>{{event.description}}</p>
+                        </ion-text>
+                    </ion-label>
+                </ion-item>
+            </ion-list>
+        </div>
+        <ng-template #noEvents>
+            <div class="error-area">
+                <ion-text>
+                    <h3>No hay eventos para mostrar</h3>
+                </ion-text>
+            </div>
+        </ng-template>
     </div>
 
     <ng-template #errorMessage>

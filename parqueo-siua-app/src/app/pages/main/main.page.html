@@ -14,8 +14,10 @@
 </ion-header>
 
 <ion-content padding>
-    <div *ngIf="!httpError; else errorMessage">
-        <div class="info-area">
+
+    <div *ngIf="!countersHttpError && !todayHttpError; else errorMessage">
+
+        <div *ngIf="!countersHttpError; else countersErrorMessage" class="info-area">
             <ion-text color="light">
                 <h3>Espacios disponibles</h3>
             </ion-text>
@@ -38,20 +40,46 @@
                 <h6>Actualizado: {{countersData.lastDataUpdateDate | date: 'dd/MM/yy hh:mm:ss a'}}</h6>
             </ion-text>
         </div>
+        <ng-template #countersErrorMessage>
+            <div class="error-area">
+                <ion-text color="light">
+                    <h5>No es posible obtener la información de los contadores</h5>
+                </ion-text>
+                <ion-button color="light" fill="clear" (click)="loadCounters()">Intentarlo de nuevo</ion-button>
+            </div>
+        </ng-template>
 
-        <div class="info-area">
+        <div *ngIf="!todayHttpError; else todayErrorMessage" class="info-area">
             <ion-text color="light">
                 <h5>Hoy en la SIUA</h5>
             </ion-text>
-            <ion-card *ngFor="let event of todayEvents">
-                <ion-card-header>
-                    <ion-card-title color="light">{{event.title}}</ion-card-title>
-                    <ion-card-subtitle color="medium">
-                        {{event.startDate | date: 'hh:mm a'}} - {{event.endDate | date: 'hh:mm a'}}
-                    </ion-card-subtitle>
-                </ion-card-header>
-            </ion-card>
+            <div *ngIf="todayEvents && todayEvents?.length > 0; else noEvents">
+                <ion-card *ngFor="let event of todayEvents">
+                    <ion-card-header>
+                        <ion-card-title color="light">{{event.title}}</ion-card-title>
+                        <ion-card-subtitle color="medium">
+                            {{event.startDate | date: 'hh:mm a'}} - {{event.endDate | date: 'hh:mm a'}}
+                        </ion-card-subtitle>
+                    </ion-card-header>
+                </ion-card>
+            </div>
+            <ng-template #noEvents>
+                <div class="error-area">
+                    <ion-text color="light">
+                        <h6>No hay eventos para hoy</h6>
+                    </ion-text>
+                </div>
+            </ng-template>
         </div>
+        <ng-template #todayErrorMessage>
+            <div class="error-area">
+                <ion-text color="light">
+                    <h5>No es posible obtener la información de los eventos</h5>
+                </ion-text>
+                <ion-button color="light" fill="clear" (click)="loadTodayEvents()">Intentarlo de nuevo</ion-button>
+            </div>
+        </ng-template>
+
     </div>
 
     <ng-template #errorMessage>

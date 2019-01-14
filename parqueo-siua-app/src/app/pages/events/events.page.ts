@@ -16,6 +16,9 @@ export class EventsPage implements OnInit {
     }
 
     ngOnInit() {
+    }
+
+    ionViewWillEnter() {
         this.loadEvents(null);
     }
 

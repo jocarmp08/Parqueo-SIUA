@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 
 import {TabsPage} from './tabs.page';
+import {CountersService} from '../services/counters.service';
 
 const routes: Routes = [
     {
@@ -13,7 +14,7 @@ const routes: Routes = [
                 children: [
                     {
                         path: '',
-                        loadChildren: '../pages/main/main.module#MainPageModule'
+                        loadChildren: '../pages/main/main.module#MainPageModule',
                     }
                 ]
             },
