@@ -27,10 +27,10 @@ def start():
         sock.bind((HOST, PORT))
         sock.listen()
         sock.setblocking(False)
-        selector.register(sock, selectors.EVENT_READ, accept_connection)
+        selector.register(fileobj=sock, events=selectors.EVENT_READ, data=accept_connection)
+        print("Waiting for connections in {}:{}...".format(HOST, PORT))
         # Wait forever
         while True:
-            print("Waiting for connections in {}:{}...".format(HOST, PORT))
             # Wait for changes in FD
             events = selector.select(timeout=0.5)
             for key, mask in events:
@@ -43,7 +43,7 @@ def accept_connection(sock):
     print("Connected by", address)
     connection.setblocking(False)
     #data = types.SimpleNamespace(add=address, inb=b'', outb=b'')
-    selector.register(connection, selectors.EVENT_READ, process_incoming_connection)
+    selector.register(fileobj=connection, events=selectors.EVENT_READ, data=process_incoming_connection)
 
 
 def process_incoming_connection(connection, mask):
@@ -63,6 +63,7 @@ def process_incoming_connection(connection, mask):
     except ConnectionResetError:
         selector.unregister(connection)
         connection.close()
+
 
 def modify_counter_by_event(event):
     confirmation = requests.put(url=IN_MEMORY_DATA_ENDPOINT, json={'event': event})
