@@ -51,7 +51,7 @@ def process_incoming_connection(connection, mask):
         data = connection.recv(1024)
         data = data.decode("utf-8")
 
-              # Modify counters and system flags (using threads so the HW doesn't wait)
+        # Modify counters and system flags (using threads so the HW doesn't wait)
         # A vehicle entered
         if 'in' in data:
             threading.Thread(target=modify_counter_by_event, args=['in']).start()
@@ -59,9 +59,10 @@ def process_incoming_connection(connection, mask):
         elif 'out' in data:
             threading.Thread(target=modify_counter_by_event, args=['out']).start()
 
-        selector.unregister(sock)
-        sock.close()
-
+        connection.close()
+    except ConnectionResetError:
+        selector.unregister(connection)
+        connection.close()
 
 def modify_counter_by_event(event):
     confirmation = requests.put(url=IN_MEMORY_DATA_ENDPOINT, json={'event': event})
