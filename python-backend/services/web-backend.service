@@ -1,0 +1,11 @@
+[Unit]
+Description=WEB BACKEND ON PORT 4097
+After=network.target
+
+[Service]
+Type=idle
+WorkingDirectory = /home/debian/iteracion-3/Parqueo-SIUA/python-backend
+ExecStart = /usr/bin/env gunicorn web-backend:app --worker-class gevent -w 3 -b 0.0.0.0:4097
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,11 @@
+[Unit]
+Description=SCHEDULED JOB THAT RUNS AT 23:55
+After=network.target
+
+[Service]
+Type=idle
+WorkingDirectory = /home/debian/iteracion-3/Parqueo-SIUA/python-backend
+ExecStart=/usr/bin/python3 scheduled-job.py
+
+[Install]
+WantedBy=multi-user.target

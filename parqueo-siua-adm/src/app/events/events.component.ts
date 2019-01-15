@@ -17,16 +17,20 @@ export class EventsComponent implements OnInit {
 
   // Events Array
   private eventsArray: Array<Event>;
+
   // Event form
   private eventCreateForm = this.formBuilder.group({
     title: [null, Validators.required],
-    description: [null, [Validators.required, Validators.maxLength(280)]],
+    description: [null, Validators.compose([Validators.required, Validators.maxLength(280)])],
+    publicationDateMode: [null, Validators.required]
   });
-  // Dates
+
+  // Dates (auxiliary validation and edition flags)
   private startDate: Date;
   private endDate: Date;
   private publicationDate: Date;
-  // Flags
+
+  // System flags
   private maxDescriptionLength = 280;
   private editionMode = false;
   private eventInEdition: News;
@@ -40,77 +44,77 @@ export class EventsComponent implements OnInit {
   }
 
   postEvent() {
-    if (this.eventCreateForm.valid && this.startDate && this.endDate && this.publicationDate) {
-      // Start date greater than end date
-      if (new Date(this.startDate) > new Date(this.endDate)) {
-        this.showOutputMessage('Fecha de inicio y fin incorrectas', 'Aceptar');
+    if (this.eventCreateForm.valid && this.startDate && this.endDate) {
+      // Validate dates
+      if (!this.validateStartAndEndDates()) {
+        return; // Incorrect start and end dates
       }
-      // Date of publication less than the current date
-      else if (new Date(new Date().getTime()) > new Date(this.publicationDate)) {
-        this.showOutputMessage('Fecha de publicación incorrecta', 'Aceptar');
-      } // All is correct
-      else {
-        // Prepare model
-        const event = this.prepareEventModelFromForm();
 
-        // Call REST API
-        this.eventsService.postEvent(event).subscribe((data: Event) => {
-          // Show output message
-          this.showOutputMessage(data.title + ' se ha publicado correctamente', 'Aceptar');
-          // Update news array
-          this.eventsArray.push(data);
-          this.eventsArray = this.eventsArray.sort((obj1, obj2) => {
-            return +new Date(obj1.startDate) - +new Date(obj2.startDate); // Particularity of Typescript: operator + coerce to number
-          });
-          // Reset form and flags
-          this.eventCreateForm.reset();
-          this.startDate = null;
-          this.endDate = null;
-          this.publicationDate = null;
-        }, (error) => {
-          console.log(error);
-        });
+      // Publication date mode
+      const publicationDateMode = Object.assign({}, this.eventCreateForm.value).publicationDateMode;
+      if (publicationDateMode === '1') {
+        this.publicationDate = new Date(new Date().getTime()); // Now
+      } else {
+        return;
       }
+
+      // Prepare model to post
+      const event = this.prepareEventModelFromForm();
+
+      // Call REST API
+      this.eventsService.postEvent(event).subscribe((data: Event) => {
+        // Show output message
+        this.showOutputMessage(data.title + ' se ha publicado correctamente', 'Aceptar');
+
+        // Update news array
+        this.eventsArray.push(data);
+        this.eventsArray = this.eventsArray.sort((obj1, obj2) => {
+          return +new Date(obj1.startDate) - +new Date(obj2.startDate); // Particularity of Typescript: operator + coerce to number
+        });
+
+        // Reset form and flags
+        this.setEventEditionModeOff();
+
+        // Notify to users
+        this.sharedService.publishNotification('event', event.title).subscribe();
+      }, (error) => {
+        console.log(error);
+      });
     }
   }
 
   updateEvent(eventToUpdate: Event) {
-    if (this.eventCreateForm.valid) {
-      // Start date greater than end date
-      if (new Date(this.startDate) > new Date(this.endDate)) {
-        this.showOutputMessage('Fecha de inicio y fin incorrectas', 'Aceptar');
-      }
-      // Date of publication less than the current date
-      else if (new Date(new Date().getTime()) > new Date(this.publicationDate)) {
-        this.showOutputMessage('Fecha de publicación incorrecta', 'Aceptar');
-      } // All is correct
-      else {
-        // Ask for confirmation
-        this.showDialogConfirmation('update').subscribe(result => {
-          // User confirmed deletion
-          if (result) {
-            // Get ID and prepare model
-            const id = eventToUpdate.id;
-            const event = this.prepareEventModelFromForm();
+    // Validate dates
+    if (!this.validateStartAndEndDates()) {
+      return; // Incorrect start and end dates
+    }
 
-            // Call REST API
-            this.eventsService.putEventWithId(id, event).subscribe((data: Event) => {
-              // Show output message
-              this.showOutputMessage(eventToUpdate.title + ' se ha modificado correctamente', 'Aceptar');
-              // Update news array
-              this.eventsArray[this.eventsArray.indexOf(eventToUpdate)] = data;
-              this.eventsArray = this.eventsArray.sort((obj1, obj2) => {
-                return +new Date(obj1.startDate) - +new Date(obj2.startDate); // Particularity of Typescript: operator + coerce to number
-              });
-              // Exit edition mode
-              this.setEventEditionModeOff();
-            }, (error) => {
-              console.log(error);
-            });
-          }
+    // Ask for confirmation
+    this.showDialogConfirmation('update').subscribe(result => {
+      // User confirmed deletion
+      if (result) {
+        // Get ID and prepare model
+        const id = eventToUpdate.id;
+        const event = this.prepareEventModelFromForm();
+
+        // Call REST API
+        this.eventsService.putEventWithId(id, event).subscribe((data: Event) => {
+          // Show output message
+          this.showOutputMessage(eventToUpdate.title + ' se ha modificado correctamente', 'Aceptar');
+
+          // Update news array
+          this.eventsArray[this.eventsArray.indexOf(eventToUpdate)] = data;
+          this.eventsArray = this.eventsArray.sort((obj1, obj2) => {
+            return +new Date(obj1.startDate) - +new Date(obj2.startDate); // Particularity of Typescript: operator + coerce to number
+          });
+
+          // Exit edition mode
+          this.setEventEditionModeOff();
+        }, (error) => {
+          console.log(error);
         });
       }
-    }
+    });
   }
 
   deleteEvent(eventToUpdate: Event) {
@@ -120,10 +124,12 @@ export class EventsComponent implements OnInit {
       if (result) {
         // Get ID
         const id = eventToUpdate.id;
+
         // Call REST API
         this.eventsService.deleteEvent(id).subscribe((data) => {
           // Show output message
           this.showOutputMessage(eventToUpdate.title + ' se ha eliminado correctamente', 'Aceptar');
+
           // Update news array
           this.eventsArray.splice(this.eventsArray.indexOf(eventToUpdate), 1);
         }, (error) => {
@@ -133,6 +139,15 @@ export class EventsComponent implements OnInit {
     });
   }
 
+  private validateStartAndEndDates() {
+    // Start date greater than end date
+    if (new Date(this.startDate) < new Date(this.endDate)) {
+      return true;
+    }
+    this.showOutputMessage('Fecha de inicio y fin incorrectas', 'Aceptar');
+    return false;
+  }
+
   setEventEditionModeOn(eventToModify: Event) {
     this.editionMode = true;
     this.eventInEdition = eventToModify;
@@ -140,7 +155,6 @@ export class EventsComponent implements OnInit {
     this.eventCreateForm.controls['description'].setValue(eventToModify.description);
     this.startDate = eventToModify.startDate;
     this.endDate = eventToModify.endDate;
-    this.publicationDate = eventToModify.publicationDate;
   }
 
   setEventEditionModeOff() {

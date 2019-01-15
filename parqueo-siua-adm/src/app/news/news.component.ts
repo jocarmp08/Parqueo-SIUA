@@ -36,9 +36,9 @@ export class NewsComponent implements OnInit {
   }
 
   postNews() {
-    if (this.newsCreateForm.valid && this.publicationDate) {
+    if (this.newsCreateForm.valid && this.publicationDateMode) {
       // Date of publication less than the current date
-      if (new Date(new Date().getTime()) > new Date(this.publicationDate)) {
+      if (new Date(new Date().getTime()) > new Date(this.publicationDateMode)) {
         this.showOutputMessage('Fecha de publicación incorrecta', 'Aceptar');
       } // All is correct
       else {
@@ -64,7 +64,7 @@ export class NewsComponent implements OnInit {
   updateNews(newsToUpdate: News) {
     if (this.newsCreateForm.valid) {
       // Date of publication less than the current date
-      if (new Date(new Date().getTime()) > new Date(this.publicationDate)) {
+      if (new Date(new Date().getTime()) > new Date(this.publicationDateMode)) {
         this.showOutputMessage('Fecha de publicación incorrecta', 'Aceptar');
       } // All is correct
       else {
@@ -118,7 +118,7 @@ export class NewsComponent implements OnInit {
     this.newsInEdition = newsToModify;
     this.newsCreateForm.controls['title'].setValue(newsToModify.title);
     this.newsCreateForm.controls['description'].setValue(newsToModify.description);
-    this.publicationDate = newsToModify.publicationDate;
+    this.publicationDate = newsToModify.publicationDateMode;
   }
 
   setNewsEditionModeOff() {
@@ -133,7 +133,7 @@ export class NewsComponent implements OnInit {
       title: values.title,
       description: values.description,
       creationDate: new Date(new Date().getTime()),
-      publicationDate: this.publicationDate,
+      publicationDateMode: this.publicationDateMode,
       creator: localStorage.getItem('email'),
     };
   }

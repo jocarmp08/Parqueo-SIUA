@@ -1,0 +1,40 @@
+<ion-header no-border>
+    <ion-toolbar>
+        <ion-title>Estadísticas</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-card>
+        <ion-card-header>
+            <ion-card-title>Histograma de uso</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            <ion-label>Período de tiempo</ion-label>
+            <ion-select placeholder="Seleccionar" [(ngModel)]="histogramSelectedTF">
+                <ion-select-option *ngFor="let timeframe of histogramTimeFrames">
+                    {{timeframe}}
+                </ion-select-option>
+            </ion-select>
+            <ion-button expand="block" fill="outline" (click)="generateHistogram()">Generar</ion-button>
+        </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+        <ion-card-header>
+            <ion-card-title>Previsión de uso</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            <ion-label>Fecha</ion-label>
+            <ion-datetime displayFormat="MM/DD/YYYY" min={{forecastMinDate}} max={{forecastMaxDate}}
+                          placeholder="Seleccionar" [(ngModel)]="forecastSelection">
+            </ion-datetime>
+            <div class="counter">
+                <p class="counter-number">{{forecastResult}}</p>
+                <p class="counter-label">vehículos ingresarán el parqueo</p>
+            </div>
+            <ion-button expand="block" fill="outline" (click)="makePrediction()">Consultar</ion-button>
+        </ion-card-content>
+    </ion-card>
+
+</ion-content>

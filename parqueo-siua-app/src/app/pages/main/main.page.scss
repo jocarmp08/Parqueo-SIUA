@@ -1,0 +1,60 @@
+ion-toolbar {
+  //--background: linear-gradient(to top, #d10a42 0%, #bc093b 100%);
+  --background: #d10a42;
+}
+
+ion-content {
+  --background: #d10a42;
+}
+
+.info-area {
+  margin: 2% 0 2% 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.counter {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+}
+
+.counter-number {
+  margin: 0 !important;
+  font-size: 5em;
+  font-weight: bold;
+}
+
+.counter-label {
+  margin: 0 !important;
+  font-size: 1.5em;
+}
+
+.error-area {
+  height: 100%;
+  display:flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content:center;
+  align-items:center;
+}
+
+ion-card {
+  --background: rgba(0, 0, 0, 0.5);
+  min-width: 250px;
+  max-width: 250px;
+
+  ion-card-title {
+    max-width: 100%;
+  }
+}
+
+.divider {
+  width: 60%;
+  border: 0;
+  height: 1px;
+  background: #ffffff;
+}

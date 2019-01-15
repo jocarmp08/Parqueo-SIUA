@@ -10,7 +10,7 @@ import {
   MatDividerModule,
   MatIconModule,
   MatInputModule,
-  MatListModule,
+  MatListModule, MatRadioModule,
   MatSnackBarModule,
   MatTabsModule
 } from '@angular/material';
@@ -47,6 +47,7 @@ import {EditorModule} from '@tinymce/tinymce-angular';
     MatListModule,
     MatDividerModule,
     MatIconModule,
+    MatRadioModule,
     MatSnackBarModule,
     FormsModule,
     ReactiveFormsModule,
