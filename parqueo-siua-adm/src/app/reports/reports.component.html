@@ -1,0 +1,111 @@
+<div class="container px-4 px-sm-5 py-3">
+  <div id="events-adm-card">
+    <mat-card class="row justify-content-lg-start">
+
+      <!-- Published reports area -->
+      <div id="report-adm-card-list-area" class="col-md">
+
+        <mat-tab-group>
+
+          <!---------------------------------------------------------------------->
+          <mat-tab class="example-small-box mat-elevation-z4 " label="Errores" >
+
+            <!-- News list area-->
+            <!-- If there is no reports show this div -->
+            <div class="tabSection" *ngIf="errorsArray.length == 0; else listItems1">
+              <p>No se han publicado reportes</p>
+            </div>
+            <!-- Otherwise, show list items -->
+            <ng-template #listItems1>
+              <mat-list id="errors-list-view">
+                <h3 mat-subheader>Reportes de Errores</h3>
+                <!-- News list item-->
+
+
+                <mat-list-item *ngFor="let error of errorsArray">
+
+                  <!-- Text lines -->
+                  <h4 mat-line>{{error.email}}</h4>
+                  <h4 mat-line>{{error.description}}</h4>
+                  <!-- Buttons-->
+                  <button mat-icon-button (click)="setReportViewModeOn(error)">
+                    <mat-icon aria-label="Ver evento">visibility</mat-icon>
+                  </button>
+                  <button mat-icon-button (click)="deleteReport(error)">
+                    <mat-icon aria-label="Eliminar evento">delete</mat-icon>
+                  </button>
+                  <!-- List item divider -->
+                  <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
+                </mat-list-item>
+              </mat-list>
+            </ng-template>
+
+          </mat-tab>
+          <!---------------------------------------------------------------------->
+          <mat-tab class="example-small-box mat-elevation-z4" label="Comentarios">
+
+              <!-- News list area-->
+              <!-- If there is no reports show this div -->
+              <div class="tabSection  " *ngIf="commentsArray.length == 0; else listItems2">
+                <p>No se han publicado reportes</p>
+              </div>
+              <!-- Otherwise, show list items -->
+              <ng-template #listItems2>
+                <mat-list id="comments-list-view">
+                  <h3 mat-subheader>Sección de comentarios</h3>
+                  <!-- News list item-->
+
+
+                  <mat-list-item *ngFor="let comment of commentsArray">
+
+                    <!-- Text lines -->
+                    <h4 mat-line>{{comment.email}}</h4>
+                    <h4 mat-line>{{comment.description}}</h4>
+                    <!-- Buttons-->
+                    <button mat-icon-button (click)="setReportViewModeOn(comment)">
+                      <mat-icon aria-label="Ver evento">visibility</mat-icon>
+                    </button>
+                    <button mat-icon-button (click)="deleteReport(comment)">
+                      <mat-icon aria-label="Eliminar evento">delete</mat-icon>
+                    </button>
+                    <!-- List item divider -->
+                    <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
+                  </mat-list-item>
+                </mat-list>
+              </ng-template>
+
+            </mat-tab>
+
+        </mat-tab-group>
+
+
+
+
+      </div>
+
+      <!-- Vertical card divider (hide on screens smaller than md) -->
+      <mat-divider class="d-none d-md-block" [vertical]="true"></mat-divider>
+      <!-- Horizontal card divider (hide on screens wider than md) -->
+      <div id="horizontal-divider" class="col d-block d-md-none">
+        <mat-divider> </mat-divider>
+      </div>
+
+
+      <!-- Events creation section -->
+      <div id="report-adm-card-create-area" class="col-md-4">
+        <!-- If edit mode off, show this title -->
+        <mat-card-title class= "editTitle">
+          Reporte Actual
+        </mat-card-title>
+
+        <p>Email</p>
+        <p>{{currentEmail}}</p>
+
+        <p>Description</p>
+        <p>{{currentDescription}}</p>
+
+
+      </div>
+    </mat-card>
+  </div>
+</div>

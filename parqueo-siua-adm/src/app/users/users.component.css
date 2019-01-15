@@ -1,0 +1,38 @@
+.container {
+  background-color: #261923;
+  min-width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+}
+
+#user-adm-card {
+  min-width: 100%;
+}
+
+#user-adm-card-list-area {
+  min-height: 450px;
+  max-height: 450px;
+  overflow: auto;
+  overflow-x: hidden;
+}
+
+#no-user-section {
+  min-height: 450px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.3em;
+}
+
+#horizontal-divider {
+  margin: 30px 0 15px 0;
+}
+
+mat-card {
+  display: flex;
+}
+
+mat-form-field {
+  display: block;
+}

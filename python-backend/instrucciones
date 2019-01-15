@@ -1,0 +1,11 @@
+Arduino: python3 sensor-backend.py
+Web: gunicorn web-backend:app --worker-class gevent -w 3 --bind 127.0.0.1:4097
+Tarea programada: python3 scheduled-job.py
+
+Modo de uso: 
+1. Visite localhost:4097/ con un navegador y luego use telnet para enviar solicitudes al backend de Arduino.
+2. Los cambios realizados por el arduino se verán en la consola del navegador
+
+Dependencias:
+Instalar redis
+pip3 install flask flask-sse gunicorn gevent requests schedule arrow

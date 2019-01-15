@@ -1,0 +1,68 @@
+<div class="container">
+  <div id="available-spaces-label">ESPACIOS DISPONIBLES</div>
+
+
+  <div class="counter-and-information-section">
+    <mat-card id="common-section" class="col-md-1">
+    <p class="title-counter">COMUNES</p>
+
+    <div class="Data">
+      <div class="Controllers">
+        <button mat-icon-button class="iconButton" (click)="incGC()">
+          <mat-icon>add_circle</mat-icon>
+        </button>
+        <button mat-icon-button class="iconButton" (click)="decGC()">
+          <mat-icon>remove_circle</mat-icon>
+        </button>
+      </div>
+      <div class="counter and editionButton">
+        <p class="number-counter">{{commonCounter}}</p>
+        <button mat-button="" id="commonEdition" class="editionButton mat-raised-button " (click)="showCounterDialog('common')">Editar</button>
+      </div>
+    </div>
+    </mat-card>
+
+    <mat-card id="special-section" class="col-md-1">
+    <p class="title-counter">ESPECIALES</p>
+
+    <div class="Data">
+      <div class="Controllers">
+        <button mat-icon-button class="iconButton" (click)="incEC()">
+          <mat-icon>add_circle</mat-icon>
+        </button>
+        <button mat-icon-button class="iconButton" (click)="decEC()">
+          <mat-icon>remove_circle</mat-icon>
+        </button>
+      </div>
+      <div class="counter and editionButton">
+        <p class="number-counter">{{specialCounter}}</p>
+        <button mat-button="" id="specialEdition" class="editionButton mat-raised-button " (click)="showCounterDialog('special')">Editar</button>
+      </div>
+    </div>
+    </mat-card>
+
+  </div>
+
+  <div id="timestamp-label">Actualizado: {{timestamp | date: 'dd/MM/yy hh:mm:ss a'}}</div>
+
+  <div class="initialCounters">
+    <div class="containerMax">
+      <p id="maxG"> Total de espacios comúnes </p>
+      <p class="maxCounter"> {{maxCommon}} </p>
+      <button class="mat-raised-button" (click)="changeMaxAvailable('common')">
+        Cambiar
+      </button>
+    </div>
+
+    <div class="containerMax">
+      <p id="maxS"> Total de espacio especiales </p>
+      <p class="maxCounter">{{maxSpecial}}</p>
+      <button class="mat-raised-button" (click)="changeMaxAvailable('special')">
+        Cambiar
+      </button>
+    </div>
+
+  </div>>
+
+
+</div>
