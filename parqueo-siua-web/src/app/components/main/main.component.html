@@ -1,0 +1,41 @@
+<div class="container px-4 px-sm-5 py-3">
+
+  <h2 style="color:white;">ESPACIOS DISPONIBLES</h2>
+
+  <div class="counters-section row">
+    <mat-card class="col-11 col-sm-7 col-md-5 col-lg-4 col-xl-3">
+      <span class="counter-number">{{countersData.nowCommon}}</span>
+      <span class="counter-label">COMUNES</span>
+    </mat-card>
+
+    <mat-card class="col-11 col-sm-7 col-md-5 col-lg-4 col-xl-3">
+      <span class="counter-number">{{countersData.nowHandicapped}}</span>
+      <span class="counter-label">PREFERENCIALES</span>
+    </mat-card>
+  </div>
+
+  <div class="timestamp">
+    <span>Actualizado</span>
+    <span>{{countersData.lastDataUpdateDate | date: 'dd/MM/yy hh:mm:ss a'}}</span>
+  </div>
+
+  <div class="today-section">
+    <h4>Hoy en la SIUA</h4>
+
+    <div *ngIf="todayEvents && todayEvents?.length > 0; else noEvents">
+      <div [@fade]="animationState" (@fade.done)="onDone()">
+        <h5>
+          {{currentEventAnimation.title}} / {{currentEventAnimation.startDate | date: 'hh:mm a'}}
+          - {{currentEventAnimation.endDate | date: 'hh:mm a'}}
+        </h5>
+      </div>
+    </div>
+
+    <ng-template #noEvents>
+      <h5>
+        No hay eventos para hoy
+      </h5>
+    </ng-template>
+  </div>
+
+</div>

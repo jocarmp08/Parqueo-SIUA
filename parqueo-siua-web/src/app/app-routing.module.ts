@@ -1,11 +1,11 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {PageComponent} from './page/page.component';
+import {DummyComponent} from './components/dummy/dummy.component';
 
 const appRoutes: Routes = [
   {
     path: '',
-    component: PageComponent
+    component: DummyComponent
   }
 ];
 
