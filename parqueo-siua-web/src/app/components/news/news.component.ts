@@ -1,16 +1,19 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
-import {News} from './rest/news.model';
-import {NewsService} from './rest/news.service';
+import {NewsModel} from '../../models/news.model';
+import {NewsService} from '../../services/news.service';
 
 @Component({
   selector: 'app-news',
   templateUrl: './news.component.html',
-  styleUrls: ['./news.component.css']
+  styleUrls: ['./news.component.scss']
 })
 export class NewsComponent implements OnInit {
 
-  private newsArray: Array<News>;
+  // Array of News
+  private newsArray: Array<NewsModel>;
+  // Http error
+  private httpError;
 
   constructor(private newsService: NewsService) {
   }
@@ -20,14 +23,24 @@ export class NewsComponent implements OnInit {
   }
 
   private loadNews() {
-    // News from a week ago
-    const lastWeek = new Date(new Date().getTime() - (1000 * 60 * 60 * 24) * 8);
-    this.newsService.getNewsPublishedAfter(lastWeek).subscribe(((data: Array<News>) => {
-      this.setNewsObservable(data);
-    }));
+    // NewsModel from a week ago
+    this.httpError = null;
+    const now: Date = new Date(new Date().getTime());
+    const lastWeek: Date = new Date(now.getTime() - (1000 * 60 * 60 * 24) * 7);
+    this.newsService.getNewsPublishedFromAndTo(lastWeek, now).subscribe((data: Array<NewsModel>) => {
+      this.newsArray = this.sortArrayByDateDesc(data);
+      if (refresher != null) {
+        refresher.target.complete();
+      }
+    }, error => {
+      this.httpError = error;
+    });
   }
 
-  setNewsObservable(value: Array<News>) {
-    this.newsArray = value;
+  private sortArrayByDateDesc(array: Array<NewsModel>): Array<NewsModel> {
+    return array.sort((news1, news2) => {
+      // Particularity of Typescript: operator + coerce to number
+      return +new Date(news2.publicationDate) - +new Date(news1.publicationDate);
+    });
   }
 }

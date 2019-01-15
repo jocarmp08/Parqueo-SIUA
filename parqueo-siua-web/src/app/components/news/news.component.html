@@ -1,15 +1,26 @@
 <div class="container">
-  <div id="news-container-title" class="row justify-content-start">
-    <div id="news-title" class="col-md-1">Noticias</div>
+  <div class="row justify-content-start">
+    <div class="col-md-1">Noticias</div>
   </div>
 
-  <div id="news-scrolling-wrapper">
+  <div style="height: 50px"></div>
+
+  <div *ngIf="newsArray && newsArray?.length > 0; else noNews" class="scrolling-wrapper">
+
     <mat-card *ngFor="let news of newsArray">
-      <mat-card-title>{{news.title}}</mat-card-title>
-      <mat-card-subtitle>{{news.creationDate | date: 'dd/MM/yy hh:mm a'}}</mat-card-subtitle>
-      <mat-card-content>
-        <p>{{news.description}}</p>
-      </mat-card-content>
+      <div class="card-content">
+        <h5 class="title">{{news.title}}</h5>
+        <p class="content">{{news.description}}</p>
+        <h6 class="date">{{news.publicationDate | date: 'dd/MM/yy hh:mm a'}}</h6>
+      </div>
     </mat-card>
+
   </div>
+
+  <ng-template #noNews>
+    <h5>
+      No hay noticias para mostrar
+    </h5>
+  </ng-template>
+
 </div>

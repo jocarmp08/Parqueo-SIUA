@@ -1,0 +1,42 @@
+.container {
+  max-height: 400px;
+  min-width: 100%;
+  margin: 20px 0;
+  padding: 0;
+}
+
+.scrolling-wrapper {
+  margin: 0;
+  padding: 0;
+  min-width: 100%;
+  display: flex;
+  overflow-x: auto;
+}
+
+mat-card {
+  min-width: 320px;
+  max-width: 320px;
+  min-height: 260px;
+  max-height: 260px;
+  margin: 5px;
+  background: rgb(24, 22, 26);
+  color: white;
+
+  .card-content {
+    min-height: 100%;
+    position: relative;
+
+    .title {
+      min-height: 20%;
+    }
+
+    .content {
+      min-height: 80%;
+    }
+
+    .date {
+      position: absolute;
+      bottom: 0;
+    }
+  }
+}

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 
@@ -17,11 +17,14 @@ export class EventsService {
     /*
     This method makes a request, to the database, of the events that have been published to date and have not yet ended
      */
+    let params = new HttpParams();
     const now: Date = new Date(new Date().getTime());
-    const publishedFilter: string = 'filter[where][publicationDate][lte]=' + now.toISOString();
-    const unfinishedFilter: string = 'filter[where][endDate][gt]=' + now.toISOString();
-    const url: string = this.endpoint + 'events?' + publishedFilter + '&' + unfinishedFilter;
-    return this.httpClient.get(url).pipe(
+    // Published filter
+    params.set('filter[where][publicationDate][lte]', now.toISOString());
+    // Unfinished filter
+    params.set('filter[where][endDate][gt]', now.toISOString());
+    const url: string = this.endpoint + 'events?';
+    return this.httpClient.get(url, {params: params}).pipe(
       catchError(this.handleError),
       map(this.extractData)
     );
@@ -29,12 +32,15 @@ export class EventsService {
 
   getEventsPublishedAndEndingJustToday() {
     const now: Date = new Date(new Date().getTime());
-    // const today: Date = this.todaysDate();
     const tomorrow: Date = this.tomorrowsDate();
-    const publishedFilter: string = 'filter[where][publicationDate][lte]=' + now.toISOString();
-    const finishedTodayFilter: string = 'filter[where][endDate][between][0]=' + now.toISOString() + '&filter[where][endDate][between][1]=' + tomorrow.toISOString();
-    const url: string = this.endpoint + 'events?' + publishedFilter + '&' + finishedTodayFilter;
-    return this.httpClient.get(url).pipe(
+    let params = new HttpParams();
+    // Published filter
+    params = params.set('filter[where][publicationDate][lte]', now.toISOString());
+    // Finish today
+    params = params.set('filter[where][endDate][between][0]', now.toISOString());
+    params = params.set('filter[where][endDate][between][1]', tomorrow.toISOString());
+    const url: string = this.endpoint + 'events';
+    return this.httpClient.get(url, {params: params}).pipe(
       catchError(this.handleError),
       map(this.extractData)
     );
