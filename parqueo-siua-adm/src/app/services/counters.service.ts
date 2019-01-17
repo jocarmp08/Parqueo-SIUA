@@ -26,6 +26,54 @@ export class CountersService {
     return new EventSource(url);
   }
 
+  putNowCounters(nowCommon: number, nowHandicapped: number) {
+    const data = {
+      'nowCommon': nowCommon,
+      'nowHandicapped': nowHandicapped
+    };
+    const url = this.endpoint + 'now';
+    return this.httpClient.put(url, data).pipe(
+      catchError(this.handleError),
+      map(this.extractData)
+    );
+  }
+
+  putMaxCounters(maxCommon: number, maxHandicapped: number, nowCommon: number, nowHandicapped: number) {
+    const data = {
+      'maxCommon': maxCommon,
+      'maxHandicapped': maxHandicapped,
+      'nowCommon': nowCommon,
+      'nowHandicapped': nowHandicapped
+    };
+    const url = this.endpoint + 'max';
+    return this.httpClient.put(url, data).pipe(
+      catchError(this.handleError),
+      map(this.extractData)
+    );
+  }
+
+  putNowCommonCounterByOne(event: string) {
+    const data = {
+      'event': event,
+    };
+    const url = this.endpoint + 'common';
+    return this.httpClient.put(url, data).pipe(
+      catchError(this.handleError),
+      map(this.extractData)
+    );
+  }
+
+  putNowHandicappedCounterByOne(event: string) {
+    const data = {
+      'event': event,
+    };
+    const url = this.endpoint + 'handicapped';
+    return this.httpClient.put(url, data).pipe(
+      catchError(this.handleError),
+      map(this.extractData)
+    );
+  }
+
   private extractData(res: Response) {
     return res || {};
   }

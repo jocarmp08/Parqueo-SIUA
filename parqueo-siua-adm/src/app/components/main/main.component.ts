@@ -25,6 +25,10 @@ export class MainComponent implements OnInit {
   private temp: number;
 
   constructor(private countersService: CountersService, private sharedService: SharedService) {
+    this.countersData = new CounterModel();
+    this.countersData.nowCommon = 0;
+    this.countersData.nowHandicapped = 0;
+    this.countersStream = this.countersService.getEventTarget();
   }
 
   ngOnInit() {
@@ -53,76 +57,115 @@ export class MainComponent implements OnInit {
     });
   }
 
-  showCounterDialog(type: string) {
+  private modifyNowCounters(type: string) {
     if (type === 'common') {
-      this.sharedService.showCounterDialog(this.commonCounter, this.maxCommon).subscribe((data) => {
+      this.sharedService.showModifyNowCounterDialog(this.countersData.nowCommon, this.countersData.maxCommon).subscribe((data) => {
         if (data != null) {
-          if (data >= 0 && data <= this.maxCommon) {
-            this.commonCounter = data;
-            console.log(data);
+          if (data >= 0 && data <= this.countersData.maxCommon) {
+            this.updateNowCounters('common', data);
           }
+        }
+      });
+    } else if (type === 'handicapped') {
+      this.sharedService.showModifyNowCounterDialog(this.countersData.nowHandicapped, this.countersData.maxHandicapped).subscribe((data) => {
+        if (data != null) {
+          if (data >= 0 && data <= this.countersData.maxHandicapped) {
+            this.updateNowCounters('handicapped', data);
+          }
+        }
+      });
+    }
+  }
+
+  private updateNowCounters(type: string, value: number) {
+    if (type === 'common') {
+      this.countersService.putNowCounters(value, this.countersData.nowHandicapped).subscribe(data => {
+        console.log(data);
+      }, error => {
+        console.log(error);
+      });
+    } else if (type === 'handicapped') {
+      this.countersService.putNowCounters(this.countersData.nowCommon, value).subscribe(data => {
+        console.log(data);
+      }, error => {
+        console.log(error);
+      });
+    }
+  }
+
+  private modifyMaxCounters(type: string) {
+    if (type === 'common') {
+      this.sharedService.showModifyMaxCounterDialog(this.countersData.maxCommon).subscribe((data) => {
+        if (data != null) {
+          this.updateMaxCounters('common', data);
         }
       });
 
     } else if (type === 'handicapped') {
-      this.sharedService.showCounterDialog(this.specialCounter, this.maxSpecial).subscribe((data) => {
-        if (data != null) {
-          if (data >= 0 && data <= this.maxSpecial) {
-            this.specialCounter = data;
-            console.log(data);
-          }
-        }
-      });
-    }
-  }
-
-  changeMaxAvailable(type: string) {
-    if (type == 'common') {
-      this.temp = this.maxCommon;
-      this.sharedService.changeMax(this.maxCommon).subscribe((data) => {
-        if (data != null) {
-          this.maxCommon = data;
-          if (this.commonCounter - (this.temp - this.maxCommon) >= 0) {
-            this.commonCounter -= this.temp - this.maxCommon;
-          }
-        }
-        this.temp = 0;
-      });
-
-    }
-    else {
       this.temp = this.maxSpecial;
-      this.sharedService.changeMax(this.maxSpecial).subscribe((data) => {
+      this.sharedService.showModifyMaxCounterDialog(this.countersData.maxHandicapped).subscribe((data) => {
         if (data != null) {
-          this.maxSpecial = data;
-          this.specialCounter -= this.temp - this.maxSpecial;
+          this.updateMaxCounters('handicapped', data);
         }
-        this.temp = 0;
       });
     }
   }
 
-  incGC() {
-    if (this.commonCounter < this.maxCommon) { //100 MAX
-      this.commonCounter += 1;
+  private updateMaxCounters(type: string, value: number) {
+    if (type === 'common') {
+      const nowCommonDiff = this.countersData.nowCommon - (this.countersData.maxCommon - value);
+      this.countersService.putMaxCounters(value, this.countersData.maxHandicapped, nowCommonDiff, this.countersData.nowHandicapped).subscribe(data => {
+        console.log(data);
+      }, error => {
+        console.log(error);
+      });
+    } else if (type === 'handicapped') {
+      const nowHandicappedDiff = this.countersData.nowHandicapped - (this.countersData.maxHandicapped - value);
+      this.countersService.putMaxCounters(this.countersData.maxCommon, value, this.countersData.nowCommon, nowHandicappedDiff).subscribe(data => {
+        console.log(data);
+      }, error => {
+        console.log(error);
+      });
     }
   }
 
-  decGC() {
-    if (this.commonCounter > 0) { //0 MIN
-      this.commonCounter -= 1;
+  inCommonCounter() {
+    if (this.countersData.nowCommon > 0) {
+      this.countersService.putNowCommonCounterByOne('in').subscribe(data => {
+        console.log(data);
+      }, error => {
+        console.log(error);
+      });
     }
   }
 
-  incEC() {
-    if (this.specialCounter < this.maxSpecial) { //100 MAX
-      this.specialCounter += 1;
+  outCommonCounter() {
+    if (this.countersData.nowCommon !== this.countersData.maxCommon) {
+      this.countersService.putNowCommonCounterByOne('out').subscribe(data => {
+        console.log(data);
+      }, error => {
+        console.log(error);
+      });
     }
   }
 
-  decEC() {
-    if (this.specialCounter > 0) { //0 MIN
-      this.specialCounter -= 1;
+  inHandicappedCounter() {
+    if (this.countersData.nowHandicapped > 0) {
+      this.countersService.putNowHandicappedCounterByOne('in').subscribe(data => {
+        console.log(data);
+      }, error => {
+        console.log(error);
+      });
+    }
+  }
+
+  outHandicappedCounter() {
+    if (this.countersData.nowHandicapped !== this.countersData.maxHandicapped) {
+      this.countersService.putNowHandicappedCounterByOne('out').subscribe(data => {
+        console.log(data);
+      }, error => {
+        console.log(error);
+      });
     }
   }
 }

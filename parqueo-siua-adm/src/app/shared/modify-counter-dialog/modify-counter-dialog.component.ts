@@ -6,7 +6,7 @@ import {DialogData} from './dialog-data.interface';
 @Component({
   selector: 'app-modify-counter-dialog',
   templateUrl: './modify-counter-dialog.component.html',
-  styleUrls: ['./modify-counter-dialog.component.css']
+  styleUrls: ['./modify-counter-dialog.component.scss']
 })
 export class ModifyCounterDialogComponent implements OnInit {
 
@@ -14,24 +14,20 @@ export class ModifyCounterDialogComponent implements OnInit {
   counter: number;
   maxCounter: number;
   form: FormGroup = this.formBuilder.group({
-    counter: [this.counter,[Validators.min(0),Validators.max(this.data.maxCounter)]]
+    counter: [this.counter, Validators.compose([Validators.min(0), Validators.max(this.data.maxCounter)])]
   });
 
-  constructor(private formBuilder: FormBuilder,private dialogRef: MatDialogRef<ModifyCounterDialogComponent>,
+  constructor(private formBuilder: FormBuilder, private dialogRef: MatDialogRef<ModifyCounterDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: DialogData) {
+    this.counter = this.data.counter;
+    this.maxCounter = this.data.maxCounter;
   }
 
   ngOnInit() {
-    this.counter = this.data.counter;
-    this.maxCounter = this.data.maxCounter;
-
-    // this.form = this.formBuilder.group({
-    // counter: [this.counter,[Validators.min(0),Validators.max(this.maxCounter)]]
-    // });
   }
 
-  change(){
-    if (this.form.valid){
+  change() {
+    if (this.form.valid) {
       this.dialogRef.close(this.form.value.counter);
     }
   }
@@ -39,9 +35,4 @@ export class ModifyCounterDialogComponent implements OnInit {
   cancel() {
     this.dialogRef.close();
   }
-
-
-
-
-
 }

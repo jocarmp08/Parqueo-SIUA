@@ -39,7 +39,7 @@ export class SharedService {
     return this.dialog.open(DatePickerDialogComponent, dialogConfig).afterClosed();
   }
 
-  showCounterDialog(counter: number, maxCounter: number): Observable<number> {
+  showModifyNowCounterDialog(counter: number, maxCounter: number): Observable<number> {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
@@ -50,7 +50,7 @@ export class SharedService {
     return this.dialog.open(ModifyCounterDialogComponent, dialogConfig).afterClosed();
   }
 
-  changeMax(maxCounter: number): Observable<number> {
+  showModifyMaxCounterDialog(maxCounter: number): Observable<number> {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
