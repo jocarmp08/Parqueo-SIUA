@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {MatDialog, MatDialogConfig} from '@angular/material';
+import {ContactComponent} from '../contact/contact.component';
 
 @Component({
   selector: 'app-navbar',
@@ -7,9 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor() { }
+  constructor(private dialog: MatDialog) {
+  }
 
   ngOnInit() {
+  }
+
+  openContactDialog() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    this.dialog.open(ContactComponent, dialogConfig);
   }
 
 }

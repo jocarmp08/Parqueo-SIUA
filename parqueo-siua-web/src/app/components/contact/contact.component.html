@@ -1,27 +1,26 @@
 <mat-dialog-content>
-  <div>
-    <form id="contactForm" #lForm="ngForm" [formGroup]="contactForm" (ngSubmit)="sendReport()" novalidate>
-      <mat-form-field>
-        <label>Correo electrónico</label>
-        <input matInput type="email" formControlName="email">
-      </mat-form-field>
-      <mat-form-field>
-        <label>Asunto</label>
-        <input matInput type="text" formControlName="subject">
-      </mat-form-field>
-      <mat-radio-group type="radio" formControlName="type">
-        <mat-radio-button value=0>Comentario</mat-radio-button>
-        <mat-radio-button value=1>Reporte de error</mat-radio-button>
-      </mat-radio-group>
-      <mat-form-field>
-        <label>Descripción</label>
-        <textarea matInput type="text" formControlName="description"></textarea>
-      </mat-form-field>
-    </form>
-  </div>
+  <form id="contactForm" [formGroup]="contactForm" (ngSubmit)="sendReport()" novalidate>
+    <mat-form-field>
+      <label>Correo electrónico</label>
+      <input matInput type="email" formControlName="email">
+    </mat-form-field>
+    <mat-form-field>
+      <label>Asunto</label>
+      <input matInput type="text" formControlName="subject">
+    </mat-form-field>
+    <mat-radio-group style="display: flex; flex-direction: column;" type="radio" formControlName="type">
+      <mat-radio-button value=0>Comentario</mat-radio-button>
+      <mat-radio-button value=1>Reporte de error</mat-radio-button>
+    </mat-radio-group>
+    <mat-form-field>
+      <label>Descripción</label>
+      <textarea matInput type="text" maxlength="1000" rows="5" wrap="soft" formControlName="description"></textarea>
+    </mat-form-field>
+  </form>
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <button class="mat-raised-button mat-primary" (click)="sendReport()">ENVIAR</button>
+  <button class="mat-flat-button" color="primary" (click)="sendReport()" [disabled]="contactForm.invalid">ENVIAR
+  </button>
   <button mat-button="" (click)="closeDialog()">CERRAR</button>
 </mat-dialog-actions>

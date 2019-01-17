@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {Observable, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 
 @Injectable({
@@ -29,7 +29,7 @@ export class NewsService {
   }
 
   private handleError(error: HttpErrorResponse) {
-    return Observable.throw(error);
+    return throwError(error);
   }
 
   private extractData(res: Response) {

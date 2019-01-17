@@ -1,8 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {Entrance} from '../stats/rest/entrance.model';
-import {validate} from 'codelyzer/walkerFactory/walkerFn';
-import {DatePipe, formatDate} from '@angular/common';
+import {EntranceModel} from '../../models/entrance.model';
+import {DatePipe} from '@angular/common';
 
 @Component({
   selector: 'app-histogram',
@@ -11,7 +10,7 @@ import {DatePipe, formatDate} from '@angular/common';
 })
 export class HistogramComponent implements OnInit {
 
-  rawData: Array<Entrance>;
+  rawData: Array<EntranceModel>;
   chartType: string = 'bar';
   chartDatasets: Array<any>;
   chartLabels: Array<any>;

@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {MatDialog, MatDialogConfig} from '@angular/material';
-import {ContactComponent} from '../contact/contact.component';
+import {MatDialog} from '@angular/material';
 import {EventsService} from '../../services/events.service';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {CounterModel} from '../../models/counter.model';
@@ -34,7 +33,7 @@ export class MainComponent implements OnInit {
   private countersHttpError: boolean;
   private todayHttpError: boolean;
 
-  constructor(private countersService: CountersService, private eventsService: EventsService, private dialog: MatDialog) {
+  constructor(private countersService: CountersService, private eventsService: EventsService) {
     this.countersData = new CounterModel();
     this.countersData.nowCommon = 0;
     this.countersData.nowHandicapped = 0;
@@ -92,13 +91,6 @@ export class MainComponent implements OnInit {
       // Particularity of Typescript: operator + coerce to number
       return +new Date(event1.startDate) - +new Date(event2.startDate);
     });
-  }
-
-  openContactDialog() {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    this.dialog.open(ContactComponent, dialogConfig);
   }
 
   onDone() {

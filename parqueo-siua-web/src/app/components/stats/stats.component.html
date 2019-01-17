@@ -1,53 +1,65 @@
 <div class="container">
-  <div id="stats-container-title" class="row justify-content-start">
-    <div id="stats-title" class="col-md-1">Estadísticas</div>
+    <span class="header row justify-content-start">
+      <span class="col-md-1">Estadísticas</span>
+    </span>
+
+  <div class="row justify-content-center stats-cards px-4 px-sm-5 py-3">
+
+    <mat-card class="col-11 col-sm-6 col-md-5 col-lg-4 col-xl-3">
+      <mat-card-title>Histograma de entradas</mat-card-title>
+      <mat-card-content>
+        <form novalidate id="histogramForm" [formGroup]="histogramForm" (ngSubmit)="generateHistogram()">
+
+          <mat-form-field>
+            <mat-select type="text" formControlName="selectedTimeFrame" placeholder="Período">
+              <mat-option *ngFor="let timeFrame of histogramTimeFrames" [value]="timeFrame">
+                {{timeFrame}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput [min]="histogramMinDate" [max]="histogramMaxDate" [matDatepicker]="fromDatePicker"
+                   formControlName="fromDate" placeholder="Desde">
+            <mat-datepicker-toggle matSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #fromDatePicker></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput [min]="histogramMinDate" [max]="histogramMaxDate" [matDatepicker]="toDatePicker"
+                   formControlName="toDate" placeholder="Hasta">
+            <mat-datepicker-toggle matSuffix [for]="toDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #toDatePicker></mat-datepicker>
+          </mat-form-field>
+
+        </form>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button mat-button color="primary" type="submit" form="histogramForm" [disabled]="!histogramForm.valid">
+          GENERAR
+        </button>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="col-11 col-sm-6 col-md-5 col-lg-4 col-xl-3">
+      <mat-card-title>Previsión de entradas</mat-card-title>
+      <mat-card-content>
+
+        <mat-form-field>
+          <input matInput [min]="forecastMinDate" [max]="forecastMaxDate" [matDatepicker]="forecastPicker"
+                 placeholder="Fecha a consultar" (dateChange)="makeForecast($event)">
+          <mat-datepicker-toggle matSuffix [for]="forecastPicker"></mat-datepicker-toggle>
+          <mat-datepicker #forecastPicker></mat-datepicker>
+        </mat-form-field>
+
+      </mat-card-content>
+      <div class="forecast-text">
+        <p class="forecast-result">{{forecastResult}}</p>
+        <p>vehículos utilizarán el parqueo</p>
+      </div>
+    </mat-card>
+
   </div>
 
-  <div class="stats-control-section">
-    <div id="controls-section" class="row justify-content-center">
-      <mat-card id="general-section" class="col-md-1">
-        <mat-card-title>Histograma de uso</mat-card-title>
-        <mat-card-content>
-          <form id="histogramForm" #lForm="ngForm" [formGroup]="histogramForm" (ngSubmit)="generateHistogram()"
-                novalidate>
-            <mat-form-field>
-              <mat-select type="text" formControlName="selectedTimeFrame" placeholder="Período">
-                <mat-option *ngFor="let timeFrame of timeFrames" [value]="timeFrame">
-                  {{timeFrame}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-            <mat-form-field>
-              <input matInput [max]="yesterday" [matDatepicker]="fromDatePicker" formControlName="fromDate"
-                     placeholder="Desde">
-              <mat-datepicker-toggle matSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
-              <mat-datepicker #fromDatePicker></mat-datepicker>
-            </mat-form-field>
-            <mat-form-field>
-              <input matInput [max]="yesterday" [matDatepicker]="toDatePicker" formControlName="toDate"
-                     placeholder="Hasta">
-              <mat-datepicker-toggle matSuffix [for]="toDatePicker"></mat-datepicker-toggle>
-              <mat-datepicker #toDatePicker></mat-datepicker>
-            </mat-form-field>
-          </form>
-        </mat-card-content>
-        <mat-card-actions>
-          <button mat-button type="submit" form="histogramForm">GENERAR</button>
-        </mat-card-actions>
-      </mat-card>
-      <mat-card id="forecasting-section" class="col-md-1">
-        <mat-card-title>Previsión de uso</mat-card-title>
-        <mat-card-content>
-          <mat-form-field>
-            <input matInput [min]="tomorrow" [matDatepicker]="forecastPicker" placeholder="Fecha a consultar"
-                   (dateChange)="makeForecast($event)">
-            <mat-datepicker-toggle matSuffix [for]="forecastPicker"></mat-datepicker-toggle>
-            <mat-datepicker #forecastPicker></mat-datepicker>
-          </mat-form-field>
-        </mat-card-content>
-        <p class="counter-number">0</p>
-        <p class="title-counter">vehículos utilizarán el parqueo</p>
-      </mat-card>
-    </div>
-  </div>
 </div>

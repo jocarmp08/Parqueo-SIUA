@@ -1,17 +1,26 @@
 <div class="container">
-  <div id="events-container-title" class="row justify-content-start">
-    <div id="events-title" class="col-md-1">Eventos</div>
+  <span class="header row justify-content-start">
+    <span class="col-md-1">Eventos</span>
+  </span>
+
+  <div data-simplebar style="min-width: 100%; overflow: auto">
+    <div *ngIf="eventsArray && eventsArray?.length > 0; else noEvents" class="scrolling-wrapper">
+
+      <mat-card *ngFor="let event of eventsArray">
+        <div class="card-content">
+          <span class="title">{{event.title | uppercase}}</span>
+          <p class="content" data-simplebar>{{event.description}}</p>
+          <span class="date">
+          {{event.startDate | date: 'dd/MM/yy hh:mm a' | lowercase}} -  {{event.endDate| date: 'dd/MM/yy hh:mm a' | lowercase}}
+        </span>
+        </div>
+      </mat-card>
+
+    </div>
   </div>
 
-  <div id="events-scrolling-wrapper">
-    <mat-card *ngFor="let event of eventsArray">
-      <mat-card-title>{{event.title}}</mat-card-title>
-      <mat-card-subtitle>
-        Del {{event.startDate | date: 'dd/MM/yy hh:mm a'}} al {{event.endDate | date: 'dd/MM/yy hh:mm a'}}
-      </mat-card-subtitle>
-      <mat-card-content>
-        <p>{{event.description}}</p>
-      </mat-card-content>
-    </mat-card>
-  </div>
+  <ng-template #noEvents>
+    <span class="no-content">No hay eventos para mostrar</span>
+  </ng-template>
+
 </div>

@@ -29,9 +29,6 @@ export class NewsComponent implements OnInit {
     const lastWeek: Date = new Date(now.getTime() - (1000 * 60 * 60 * 24) * 7);
     this.newsService.getNewsPublishedFromAndTo(lastWeek, now).subscribe((data: Array<NewsModel>) => {
       this.newsArray = this.sortArrayByDateDesc(data);
-      if (refresher != null) {
-        refresher.target.complete();
-      }
     }, error => {
       this.httpError = error;
     });

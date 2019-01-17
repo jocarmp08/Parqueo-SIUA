@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {catchError, map} from 'rxjs/operators';
-import {Observable} from 'rxjs';
+import {Observable, throwError} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +31,6 @@ export class CountersService {
   }
 
   private handleError(error: HttpErrorResponse) {
-    return Observable.throw(error);
+    return throwError(error);
   }
 }

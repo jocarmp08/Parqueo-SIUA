@@ -12,7 +12,7 @@ import {
   MatInputModule,
   MatNativeDateModule,
   MatRadioModule,
-  MatSelectModule
+  MatSelectModule, MatSnackBarModule
 } from '@angular/material';
 import {NewsComponent} from './components/news/news.component';
 import {EventsComponent} from './components/events/events.component';
@@ -26,6 +26,7 @@ import {MDBBootstrapModule} from 'angular-bootstrap-md';
 import {AppRoutingModule} from './app-routing.module';
 import {NavbarComponent} from './components/navbar/navbar.component';
 import {DummyComponent} from './components/dummy/dummy.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -49,13 +50,15 @@ import {DummyComponent} from './components/dummy/dummy.component';
     MatInputModule,
     MatRadioModule,
     MatDialogModule,
+    MatSnackBarModule,
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
     BrowserModule,
     MDBBootstrapModule.forRoot(),
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgbModule.forRoot()
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'es-ES'},

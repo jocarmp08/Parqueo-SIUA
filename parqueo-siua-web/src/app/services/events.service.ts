@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {Observable, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 
 @Injectable({
@@ -20,9 +20,9 @@ export class EventsService {
     let params = new HttpParams();
     const now: Date = new Date(new Date().getTime());
     // Published filter
-    params.set('filter[where][publicationDate][lte]', now.toISOString());
+    params = params.set('filter[where][publicationDate][lte]', now.toISOString());
     // Unfinished filter
-    params.set('filter[where][endDate][gt]', now.toISOString());
+    params = params.set('filter[where][endDate][gt]', now.toISOString());
     const url: string = this.endpoint + 'events?';
     return this.httpClient.get(url, {params: params}).pipe(
       catchError(this.handleError),
@@ -60,7 +60,7 @@ export class EventsService {
   }
 
   private handleError(error: HttpErrorResponse) {
-    return Observable.throw(error);
+    return throwError(error);
   }
 
   private extractData(res: Response) {
