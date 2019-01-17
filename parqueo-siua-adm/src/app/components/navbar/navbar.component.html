@@ -1,12 +1,14 @@
-<nav id="navigation-bar" class="navbar navbar-expand-md navbar-dark px-sm-5 py-4" style="background-color: #261923;">
+<nav id="navigation-bar" class="navbar navbar-expand-md navbar-dark px-sm-5 py-4" style="background-color: #d10a42;">
   <a id="siua-logo" class="navbar-brand"><img src="assets/img/siua-logo.png"></a>
 
   <div *ngIf="loggedIn()">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapse_target">
+    <button class="navbar-toggler" type="button" (click)="navbarCollapsed = !navbarCollapsed"
+            [attr.aria-expanded]="!navbarCollapsed" data-toggle="collapse" aria-controls="navbarContent"
+            aria-expanded="false">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="collapse_target">
+    <div class="collapse navbar-collapse" [ngbCollapse]="navbarCollapsed" id="navbarContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active mx-3">
           <a class="nav-link" routerLink="/" routerLinkActive="active">INICIO</a>

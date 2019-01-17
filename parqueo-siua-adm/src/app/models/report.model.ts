@@ -1,8 +1,10 @@
-export class Report {
+export class ReportModel {
   email: string;
+  subject: string;
   type: number;
   description: string;
   creationDate: Date;
-  id:number;
+  isRead: boolean;
+  id: number;
 }
 

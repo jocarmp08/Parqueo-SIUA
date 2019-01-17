@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {News} from '../news/rest/news.model';
+import {NewsModel} from '../../models/news.model';
 import {FormBuilder, Validators} from '@angular/forms';
 import {MatSnackBar} from '@angular/material';
 import {ActivatedRoute} from '@angular/router';
-import {SharedService} from '../shared/shared.service';
-import {EventsService} from './rest/events.service';
-import {Event} from './rest/event.model';
+import {EventsService} from '../../services/events.service';
 import {Observable} from 'rxjs';
+import {SharedService} from '../../shared/shared.service';
+import {EventModel} from '../../models/event.model';
 
 @Component({
   selector: 'app-events',
@@ -16,7 +16,7 @@ import {Observable} from 'rxjs';
 export class EventsComponent implements OnInit {
 
   // Events Array
-  private eventsArray: Array<Event>;
+  private eventsArray: Array<EventModel>;
 
   // Event form
   private eventCreateForm = this.formBuilder.group({
@@ -33,7 +33,7 @@ export class EventsComponent implements OnInit {
   // System flags
   private maxDescriptionLength = 280;
   private editionMode = false;
-  private eventInEdition: News;
+  private eventInEdition: NewsModel;
 
   constructor(private formBuilder: FormBuilder, private snackBar: MatSnackBar, private eventsService: EventsService,
               private route: ActivatedRoute, private sharedService: SharedService) {
@@ -62,7 +62,7 @@ export class EventsComponent implements OnInit {
       const event = this.prepareEventModelFromForm();
 
       // Call REST API
-      this.eventsService.postEvent(event).subscribe((data: Event) => {
+      this.eventsService.postEvent(event).subscribe((data: EventModel) => {
         // Show output message
         this.showOutputMessage(data.title + ' se ha publicado correctamente', 'Aceptar');
 
@@ -83,7 +83,7 @@ export class EventsComponent implements OnInit {
     }
   }
 
-  updateEvent(eventToUpdate: Event) {
+  updateEvent(eventToUpdate: EventModel) {
     // Validate dates
     if (!this.validateStartAndEndDates()) {
       return; // Incorrect start and end dates
@@ -98,7 +98,7 @@ export class EventsComponent implements OnInit {
         const event = this.prepareEventModelFromForm();
 
         // Call REST API
-        this.eventsService.putEventWithId(id, event).subscribe((data: Event) => {
+        this.eventsService.putEventWithId(id, event).subscribe((data: EventModel) => {
           // Show output message
           this.showOutputMessage(eventToUpdate.title + ' se ha modificado correctamente', 'Aceptar');
 
@@ -117,7 +117,7 @@ export class EventsComponent implements OnInit {
     });
   }
 
-  deleteEvent(eventToUpdate: Event) {
+  deleteEvent(eventToUpdate: EventModel) {
     // Ask for confirmation
     this.showDialogConfirmation('delete').subscribe(result => {
       // User confirmed deletion
@@ -148,7 +148,7 @@ export class EventsComponent implements OnInit {
     return false;
   }
 
-  setEventEditionModeOn(eventToModify: Event) {
+  setEventEditionModeOn(eventToModify: EventModel) {
     this.editionMode = true;
     this.eventInEdition = eventToModify;
     this.eventCreateForm.controls['title'].setValue(eventToModify.title);

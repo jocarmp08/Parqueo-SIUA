@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, Validators} from '@angular/forms';
-import {NewsService} from './rest/news.service';
-import {News} from './rest/news.model';
+import {NewsService} from '../../services/news.service';
+import {NewsModel} from '../../models/news.model';
 import {MatSnackBar} from '@angular/material';
 import {Observable} from 'rxjs';
-import {SharedService} from '../shared/shared.service';
+import {SharedService} from '../../shared/shared.service';
 import {ActivatedRoute} from '@angular/router';
 
 @Component({
@@ -15,7 +15,7 @@ import {ActivatedRoute} from '@angular/router';
 export class NewsComponent implements OnInit {
 
   // News Array
-  private newsArray: Array<News>;
+  private newsArray: Array<NewsModel>;
   // News form
   private newsCreateForm = this.formBuilder.group({
     title: [null, Validators.required],
@@ -24,7 +24,7 @@ export class NewsComponent implements OnInit {
   // Flags
   private maxDescriptionLength = 280;
   private editionMode = false;
-  private newsInEdition: News;
+  private newsInEdition: NewsModel;
   private publicationDate: Date;
 
   constructor(private formBuilder: FormBuilder, private snackBar: MatSnackBar, private newsService: NewsService,
@@ -36,9 +36,9 @@ export class NewsComponent implements OnInit {
   }
 
   postNews() {
-    if (this.newsCreateForm.valid && this.publicationDateMode) {
+    if (this.newsCreateForm.valid && this.publicationDate) {
       // Date of publication less than the current date
-      if (new Date(new Date().getTime()) > new Date(this.publicationDateMode)) {
+      if (new Date(new Date().getTime()) > new Date(this.publicationDate)) {
         this.showOutputMessage('Fecha de publicación incorrecta', 'Aceptar');
       } // All is correct
       else {
@@ -46,7 +46,7 @@ export class NewsComponent implements OnInit {
         const news = this.prepareNewsModelFromForm();
 
         // Call REST API
-        this.newsService.postNews(news).subscribe((data: News) => {
+        this.newsService.postNews(news).subscribe((data: NewsModel) => {
           // Show output message
           this.showOutputMessage(data.title + ' se ha publicado correctamente', 'Aceptar');
           // Update news array
@@ -61,10 +61,10 @@ export class NewsComponent implements OnInit {
     }
   }
 
-  updateNews(newsToUpdate: News) {
+  updateNews(newsToUpdate: NewsModel) {
     if (this.newsCreateForm.valid) {
       // Date of publication less than the current date
-      if (new Date(new Date().getTime()) > new Date(this.publicationDateMode)) {
+      if (new Date(new Date().getTime()) > new Date(this.publicationDate)) {
         this.showOutputMessage('Fecha de publicación incorrecta', 'Aceptar');
       } // All is correct
       else {
@@ -77,7 +77,7 @@ export class NewsComponent implements OnInit {
             const news = this.prepareNewsModelFromForm();
 
             // Call REST API
-            this.newsService.putNewsWithId(id, news).subscribe((data: News) => {
+            this.newsService.putNewsWithId(id, news).subscribe((data: NewsModel) => {
               // Show output message
               this.showOutputMessage(newsToUpdate.title + ' se ha modificado correctamente', 'Aceptar');
               // Update news array
@@ -93,7 +93,7 @@ export class NewsComponent implements OnInit {
     }
   }
 
-  deleteNews(newsToDelete: News) {
+  deleteNews(newsToDelete: NewsModel) {
     // Ask for confirmation
     this.showDialogConfirmation('delete').subscribe(result => {
       // User confirmed deletion
@@ -113,12 +113,12 @@ export class NewsComponent implements OnInit {
     });
   }
 
-  setNewsEditionModeOn(newsToModify: News) {
+  setNewsEditionModeOn(newsToModify: NewsModel) {
     this.editionMode = true;
     this.newsInEdition = newsToModify;
     this.newsCreateForm.controls['title'].setValue(newsToModify.title);
     this.newsCreateForm.controls['description'].setValue(newsToModify.description);
-    this.publicationDate = newsToModify.publicationDateMode;
+    this.publicationDate = newsToModify.publicationDate;
   }
 
   setNewsEditionModeOff() {
@@ -133,7 +133,7 @@ export class NewsComponent implements OnInit {
       title: values.title,
       description: values.description,
       creationDate: new Date(new Date().getTime()),
-      publicationDateMode: this.publicationDateMode,
+      publicationDateMode: this.publicationDate,
       creator: localStorage.getItem('email'),
     };
   }

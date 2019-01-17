@@ -1,4 +1,4 @@
-export class News {
+export class NewsModel {
   id: string;
   title: string;
   description: string;

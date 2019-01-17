@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, Validators} from '@angular/forms';
-import {AuthService} from '../auth/auth.service';
+import {AuthService} from '../../auth/auth.service';
 import {MatSnackBar} from '@angular/material';
 
 @Component({

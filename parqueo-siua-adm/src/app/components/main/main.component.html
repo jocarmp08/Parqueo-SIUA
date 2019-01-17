@@ -1,0 +1,75 @@
+<div class="container px-4 px-sm-5 py-3">
+  <div class="timestamp">
+    <span>Actualizado</span>
+    <span>{{countersData.lastDataUpdateDate | date: 'dd/MM/yy hh:mm:ss a'}}</span>
+  </div>
+
+  <h4>ESPACIOS DISPONIBLES</h4>
+  <span>En esta sección se puede modificar el número máximo de espacios en el parqueo</span>
+
+  <div class="section row">
+
+    <mat-card class="col-11 col-sm-7 col-md-5 col-lg-4 col-xl-3">
+      <span class="counter-label">COMUNES</span>
+
+      <div class="counter-control">
+        <div class="left-controls">
+          <button mat-icon-button class="iconButton" (click)="incGC()">
+            <mat-icon>add_circle</mat-icon>
+          </button>
+          <button mat-icon-button class="iconButton" (click)="decGC()">
+            <mat-icon>remove_circle</mat-icon>
+          </button>
+          <button mat-button color="white" (click)="showCounterDialog('common')">Modificar</button>
+        </div>
+        <div class="right-controls">
+          <span class="counter-number">{{countersData.nowCommon}}</span>
+          <span>espacios disponibles</span>
+        </div>
+      </div>
+
+    </mat-card>
+
+    <mat-card class="col-11 col-sm-7 col-md-5 col-lg-4 col-xl-3">
+      <span class="counter-label">PREFERENCIALES</span>
+
+      <div class="counter-control">
+        <div class="left-controls">
+          <button mat-icon-button class="iconButton" (click)="incEC()">
+            <mat-icon>add_circle</mat-icon>
+          </button>
+          <button mat-icon-button class="iconButton" (click)="decEC()">
+            <mat-icon>remove_circle</mat-icon>
+          </button>
+          <button mat-button color="white" (click)="showCounterDialog('handicapped')">Modificar</button>
+        </div>
+        <div class="right-controls">
+          <span class="counter-number">{{countersData.nowHandicapped}}</span>
+          <span>espacios disponibles</span>
+        </div>
+      </div>
+
+    </mat-card>
+
+  </div>
+
+  <h4>ESPACIOS TOTALES</h4>
+  <span>En esta sección se puede modificar el número máximo de espacios en el parqueo</span>
+
+  <div class="section row">
+
+    <div class="edition-control col-11 col-sm-7 col-md-5 col-lg-4 col-xl-3">
+      <span class="control-label">Total de espacios comunes</span>
+      <span class="control-number">{{countersData.maxCommon}}</span>
+      <button mat-flat-button color="white" (click)="changeMaxAvailable('common')">Modificar</button>
+    </div>
+
+    <div class="edition-control col-11 col-sm-7 col-md-5 col-lg-4 col-xl-3">
+      <span class="control-label">Total de espacios preferenciales</span>
+      <span class="control-number">{{countersData.maxHandicapped}}</span>
+      <button mat-flat-button color="white" (click)="changeMaxAvailable('common')">Modificar</button>
+    </div>
+
+  </div>
+
+</div>

@@ -3,7 +3,7 @@ import {NgModule} from '@angular/core';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {NavbarComponent} from './navbar/navbar.component';
+import {NavbarComponent} from './components/navbar/navbar.component';
 import {
   MatButtonModule,
   MatCardModule,
@@ -15,16 +15,17 @@ import {
   MatTabsModule
 } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MainComponent} from './main/main.component';
-import {NewsComponent} from './news/news.component';
-import {EventsComponent} from './events/events.component';
-import {ReportsComponent} from './reports/reports.component';
+import {MainComponent} from './components/main/main.component';
+import {NewsComponent} from './components/news/news.component';
+import {EventsComponent} from './components/events/events.component';
+import {ReportsComponent} from './components/reports/reports.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {SharedModule} from './shared/shared.module';
-import {LoginComponent} from './login/login.component';
-import {UsersComponent} from './users/users.component';
+import {LoginComponent} from './components/login/login.component';
+import {UsersComponent} from './components/users/users.component';
 import {EditorModule} from '@tinymce/tinymce-angular';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import {EditorModule} from '@tinymce/tinymce-angular';
     HttpClientModule,
     AppRoutingModule,
     MatTabsModule,
-    EditorModule
+    EditorModule,
+    NgbModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
