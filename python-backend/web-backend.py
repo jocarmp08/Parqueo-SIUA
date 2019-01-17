@@ -48,6 +48,8 @@ def modify_max_flags():
 	# Update flags
 	redis_conn.hset('counters', 'maxCommon', request_data['maxCommon'])
 	redis_conn.hset('counters', 'maxHandicapped', request_data['maxHandicapped'])
+	redis_conn.hset('counters', 'nowCommon', request_data['nowCommon'])
+	redis_conn.hset('counters', 'nowHandicapped', request_data['nowHandicapped'])
 
 		# Backup and distribute changes
 	backup()
