@@ -7,10 +7,14 @@ import {NavbarComponent} from './components/navbar/navbar.component';
 import {
   MatButtonModule,
   MatCardModule,
+  MatDatepickerModule,
   MatDividerModule,
   MatIconModule,
   MatInputModule,
-  MatListModule, MatRadioModule,
+  MatListModule,
+  MatNativeDateModule,
+  MatRadioModule,
+  MatSlideToggleModule,
   MatSnackBarModule,
   MatTabsModule
 } from '@angular/material';
@@ -50,6 +54,9 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     MatIconModule,
     MatRadioModule,
     MatSnackBarModule,
+    MatSlideToggleModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,

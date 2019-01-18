@@ -1,9 +1,10 @@
-<div class="container px-4 px-sm-5 py-3">
-  <div id="news-adm-card">
-    <mat-card class="row justify-content-lg-start">
+<div class="container">
+  <mat-card class="mx-auto">
 
+    <div class="row">
       <!-- News creation section -->
-      <div id="news-adm-card-create-area" class="col-md-4">
+      <div class="col-sm-12 col-md">
+
         <!-- If edit mode off, show this title -->
         <mat-card-title *ngIf="!editionMode; else editTitle">
           Nueva noticia
@@ -12,13 +13,16 @@
         <ng-template #editTitle>
           <mat-card-title>Editar noticia</mat-card-title>
         </ng-template>
+
         <!-- News creation form -->
-        <form id="create-news-form" #lForm="ngForm" [formGroup]="newsCreateForm" novalidate>
+        <form [formGroup]="newsForm" novalidate>
+
           <!-- Title field-->
           <mat-form-field>
             <label>Título</label>
             <input matInput type="text" formControlName="title">
           </mat-form-field>
+
           <!-- Description field -->
           <mat-form-field>
             <label>Descripción</label>
@@ -26,60 +30,71 @@
                       maxlength={{maxDescriptionLength}} #description></textarea>
             <mat-hint align="end">{{description.value.length}} / {{maxDescriptionLength}}</mat-hint>
           </mat-form-field>
-          <mat-list>
-            <!-- Publication date field-->
-            <mat-list-item class="date-picker-area">
-              <!-- Text lines -->
-              <h4 mat-line>Fecha de publicación</h4>
-              <caption mat-line>{{publicationDate | date: 'dd/MM/yy hh:mm a'}}</caption>
-              <!-- Buttons-->
-              <button mat-icon-button (click)="showDatePicker()">
-                <mat-icon aria-label="Seleccionar fecha de publicación">event</mat-icon>
+
+          <mat-slide-toggle *ngIf="!editionMode" formControlName="schedulePublication">
+            Programar publicación
+          </mat-slide-toggle>
+
+          <!-- Publication date field-->
+          <div class="date-field">
+            <span *ngIf="newsForm.get('schedulePublication').value">Fecha y hora de publicación</span>
+            <div>
+              <button mat-icon-button (click)="showDatePicker()"
+                      [disabled]="!newsForm.get('schedulePublication').value">
+                <mat-icon aria-label="Elegir fecha">event</mat-icon>
               </button>
-            </mat-list-item>
-          </mat-list>
+              <span>{{newsForm.get('publicationDate').value | date: 'dd/MM/yy hh:mm a'}}</span>
+            </div>
+          </div>
         </form>
+
         <!-- If edit mode off, show this button -->
         <div *ngIf="!editionMode; else editButtons">
           <!-- Publish button -->
-          <button mat-button="" class="mat-raised-button mat-primary" (click)="postNews()">PUBLICAR</button>
+          <button mat-flat-button color="primary" (click)="postNews()" [disabled]="newsForm.invalid">PUBLICAR</button>
         </div>
+
         <!-- Otherwise, show these buttons-->
         <ng-template #editButtons>
           <div>
             <!-- Modify button -->
-            <button mat-button="" class="mat-raised-button mat-primary" (click)="updateNews(newsInEdition)">
+            <button mat-flat-button color="primary" (click)="updateNews(newsInEdition)" [disabled]="newsForm.invalid">
               MODIFICAR
             </button>
             <!-- Cancel button -->
-            <button mat-button="" (click)="setNewsEditionModeOff()">CANCELAR</button>
+            <button mat-button (click)="setNewsEditionModeOff()">CANCELAR</button>
           </div>
         </ng-template>
+
       </div>
 
       <!-- Vertical card divider (hide on screens smaller than md) -->
-      <mat-divider class="d-none d-md-block" [vertical]="true"></mat-divider>
+      <div class="d-none d-md-flex">
+        <mat-divider [vertical]="true"></mat-divider>
+      </div>
       <!-- Horizontal card divider (hide on screens wider than md) -->
-      <div id="horizontal-divider" class="col d-block d-md-none">
+      <div class="horizontal-divider col d-md-none d-block">
         <mat-divider></mat-divider>
       </div>
 
       <!-- Published news area -->
-      <div id="news-adm-card-list-area" class="col-md">
+      <div class="col-md-7 col-lg-7 col-xl-8">
+
         <!-- News list area-->
         <!-- If there is no news show this div -->
-        <div id="no-news-section" *ngIf="newsArray.length == 0; else listItems">
+        <div *ngIf="newsArray.length == 0; else listItems">
           <p>No se han publicado noticias</p>
         </div>
+
         <!-- Otherwise, show list items -->
         <ng-template #listItems>
-          <mat-list id="news-list-view">
-            <h3 mat-subheader>Noticias publicadas</h3>
+          <mat-list>
+            <h2 mat-subheader>Noticias publicadas</h2>
             <!-- News list item-->
             <mat-list-item *ngFor="let news of newsArray">
               <!-- Text lines -->
               <h4 mat-line>{{news.title}}</h4>
-              <caption mat-line>{{news.creationDate | date: 'dd/MM/yy hh:mm a'}}</caption>
+              <caption mat-line>Publicación: {{news.publicationDate | date: 'dd/MM/yy hh:mm a'}}</caption>
               <caption mat-line>{{news.description}}</caption>
               <!-- Buttons-->
               <button mat-icon-button (click)="setNewsEditionModeOn(news)">
@@ -94,6 +109,7 @@
           </mat-list>
         </ng-template>
       </div>
-    </mat-card>
-  </div>
+
+    </div>
+  </mat-card>
 </div>

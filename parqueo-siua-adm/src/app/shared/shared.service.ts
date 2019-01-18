@@ -71,6 +71,9 @@ export class SharedService {
     if (type === 'event') {
       notificationTitle = 'Nuevo evento';
       notficationTo = '/topics/events';
+    } else if (type === 'news') {
+      notificationTitle = 'Nueva noticia';
+      notficationTo = '/topics/news';
     }
 
     let body = {
