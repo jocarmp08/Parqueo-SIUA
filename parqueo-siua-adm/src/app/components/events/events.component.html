@@ -1,9 +1,9 @@
-<div class="container px-4 px-sm-5 py-3">
-  <div id="events-adm-card">
-    <mat-card class="row justify-content-lg-start">
+<div class="container">
+  <mat-card class="mx-auto">
 
+    <div class="row">
       <!-- Events creation section -->
-      <div id="events-adm-card-create-area" class="col-md-4">
+      <div class="form-section col-sm-12 col-md">
 
         <!-- If edit mode off, show this title -->
         <mat-card-title *ngIf="!editionMode; else editTitle">
@@ -15,12 +15,14 @@
         </ng-template>
 
         <!-- Events creation form -->
-        <form id="create-event-form" [formGroup]="eventCreateForm" novalidate>
+        <form [formGroup]="eventForm" novalidate>
+
           <!-- Title field-->
           <mat-form-field>
             <label>Título</label>
             <input matInput type="text" formControlName="title">
           </mat-form-field>
+
           <!-- Description field -->
           <mat-form-field>
             <label>Descripción</label>
@@ -28,52 +30,62 @@
                       maxlength={{maxDescriptionLength}} #description></textarea>
             <mat-hint align="end">{{description.value.length}} / {{maxDescriptionLength}}</mat-hint>
           </mat-form-field>
-          <mat-list>
-            <!-- Start date field-->
-            <mat-list-item class="date-picker-area">
-              <!-- Text lines -->
-              <h4 mat-line>Fecha de inicio</h4>
-              <caption mat-line>{{startDate | date: 'dd/MM/yy hh:mm a'}}</caption>
-              <!-- Button-->
+
+          <div class="date-field">
+            <span>Fecha de inicio</span>
+            <div>
               <button mat-icon-button (click)="showDatePicker('start')">
-                <mat-icon aria-label="Seleccionar fecha de inicio">event</mat-icon>
+                <mat-icon aria-label="Elegir fecha">event</mat-icon>
               </button>
-            </mat-list-item>
-            <!-- End date field-->
-            <mat-list-item class="date-picker-area">
-              <!-- Text lines -->
-              <h4 mat-line>Fecha de finalización</h4>
-              <caption mat-line>{{endDate | date: 'dd/MM/yy hh:mm a'}}</caption>
-              <!-- Button-->
+              <span>{{eventForm.get('startDate').value | date: 'dd/MM/yy hh:mm a'}}</span>
+            </div>
+          </div>
+
+          <div class="date-field">
+            <span>Fecha de finalización</span>
+            <div>
               <button mat-icon-button (click)="showDatePicker('end')">
-                <mat-icon aria-label="Seleccionar fecha de finalización">event</mat-icon>
+                <mat-icon aria-label="Elegir fecha">event</mat-icon>
               </button>
-            </mat-list-item>
-            <!-- Publication date field-->
-            <label>Fecha de publicación</label>
-            <mat-radio-group formControlName="publicationDateMode">
-              <mat-radio-button value="1">Ahora</mat-radio-button>
-              <mat-radio-button value="2">Programar</mat-radio-button>
-            </mat-radio-group>
-          </mat-list>
+              <span>{{eventForm.get('endDate').value | date: 'dd/MM/yy hh:mm a'}}</span>
+            </div>
+          </div>
+
+          <mat-slide-toggle *ngIf="!editionMode" formControlName="schedulePublication">
+            Programar publicación
+          </mat-slide-toggle>
+
+          <!-- Publication date field-->
+          <div class="date-field">
+            <span *ngIf="eventForm.get('schedulePublication').value">Fecha y hora de publicación</span>
+            <div>
+              <button mat-icon-button (click)="showDatePicker('pub')"
+                      [disabled]="!eventForm.get('schedulePublication').value">
+                <mat-icon aria-label="Elegir fecha">event</mat-icon>
+              </button>
+              <span>{{eventForm.get('publicationDate').value | date: 'dd/MM/yy hh:mm a'}}</span>
+            </div>
+          </div>
         </form>
 
         <!-- If edit mode off, show this button -->
         <div *ngIf="!editionMode; else editButtons">
           <!-- Publish button -->
-          <button mat-button="" class="mat-raised-button mat-primary" (click)="postEvent()">PUBLICAR</button>
+          <button mat-flat-button color="primary" (click)="postEvent()" [disabled]="eventForm.invalid">PUBLICAR</button>
         </div>
+
         <!-- Otherwise, show these buttons-->
         <ng-template #editButtons>
           <div>
             <!-- Modify button -->
-            <button mat-button="" class="mat-raised-button mat-primary" (click)="updateEvent(eventInEdition)">
-              MODIFICAR
+            <button mat-flat-button color="primary" (click)="updateEvent(eventInEdition)"
+                    [disabled]="eventForm.invalid">MODIFICAR
             </button>
             <!-- Cancel button -->
-            <button mat-button="" (click)="setEventEditionModeOff()">CANCELAR</button>
+            <button mat-button (click)="setEventEditionModeOff()">CANCELAR</button>
           </div>
         </ng-template>
+
       </div>
 
       <!-- Vertical card divider (hide on screens smaller than md) -->
@@ -84,23 +96,26 @@
       </div>
 
       <!-- Published events area -->
-      <div id="events-adm-card-list-area" class="col-md">
-        <!-- News list area-->
-        <!-- If there is no news show this div -->
-        <div id="no-events-section" *ngIf="eventsArray.length == 0; else listItems">
+      <div class="col-md-7 col-lg-7 col-xl-8">
+
+        <!-- Event list area-->
+        <!-- If there is no event show this div -->
+        <div class="empty-list" *ngIf="eventsArray.length == 0; else listItems">
           <p>No se han publicado eventos</p>
         </div>
+
         <!-- Otherwise, show list items -->
         <ng-template #listItems>
-          <mat-list id="events-list-view">
-            <h3 mat-subheader>Eventos publicados</h3>
-            <!-- News list item-->
+          <mat-list>
+            <h2 mat-subheader>Eventos publicados</h2>
+            <!-- Events list item-->
             <mat-list-item *ngFor="let event of eventsArray">
               <!-- Text lines -->
               <h4 mat-line>{{event.title}}</h4>
               <caption mat-line>
                 Inicio: {{event.startDate | date: 'dd/MM/yy hh:mm a'}} | Fin: {{event.endDate| date: 'dd/MM/yy hh:mma'}}
               </caption>
+              <caption mat-line>Publicación: {{event.publicationDate | date: 'dd/MM/yy hh:mm a'}}</caption>
               <caption mat-line>{{event.description}}</caption>
               <!-- Buttons-->
               <button mat-icon-button (click)="setEventEditionModeOn(event)">
@@ -115,6 +130,6 @@
           </mat-list>
         </ng-template>
       </div>
-    </mat-card>
-  </div>
+    </div>
+  </mat-card>
 </div>

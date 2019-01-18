@@ -69,11 +69,9 @@
       </div>
 
       <!-- Vertical card divider (hide on screens smaller than md) -->
-      <div class="d-none d-md-flex">
-        <mat-divider [vertical]="true"></mat-divider>
-      </div>
+      <mat-divider class="d-none d-md-block" [vertical]="true"></mat-divider>
       <!-- Horizontal card divider (hide on screens wider than md) -->
-      <div class="horizontal-divider col d-md-none d-block">
+      <div id="horizontal-divider" class="col d-block d-md-none">
         <mat-divider></mat-divider>
       </div>
 
@@ -82,7 +80,7 @@
 
         <!-- News list area-->
         <!-- If there is no news show this div -->
-        <div *ngIf="newsArray.length == 0; else listItems">
+        <div class="empty-list" *ngIf="newsArray.length == 0; else listItems">
           <p>No se han publicado noticias</p>
         </div>
 

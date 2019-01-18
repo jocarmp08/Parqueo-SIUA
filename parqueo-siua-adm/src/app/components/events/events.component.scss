@@ -7,6 +7,11 @@
   overflow-x: hidden;
 }
 
+.form-section {
+  max-height: 470px;
+  overflow-y: auto;
+}
+
 .mat-form-field-appearance-legacy .mat-hint {
   color: #f5f5f5;
 }
