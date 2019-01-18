@@ -13,7 +13,11 @@
     "date": {
       "type": "date",
       "required": true
-    }
+    },
+"day": {
+"type": "number",
+"required": true
+}
   },
   "validations": [],
   "relations": {},

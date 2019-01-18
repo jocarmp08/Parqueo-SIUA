@@ -36,19 +36,23 @@
     "public": false
   },
   "news": {
-    "dataSource": "SIUA",
+    "dataSource": "db",
     "public": true
   },
   "report": {
-    "dataSource": "SIUA",
+    "dataSource": "db",
     "public": true
   },
   "entrance": {
-    "dataSource": "SIUA",
+    "dataSource": "db",
     "public": true
   },
   "event": {
-    "dataSource": "SIUA",
+    "dataSource": "db",
+    "public": true
+  },
+  "user": {
+    "dataSource": "db",
     "public": true
   }
 }

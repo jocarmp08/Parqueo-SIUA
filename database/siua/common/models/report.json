@@ -10,6 +10,10 @@
       "type": "string",
       "required": true
     },
+"subject": {
+"type":"string",
+"required": true
+},
     "type": {
       "type": "number",
       "required": true
@@ -21,7 +25,11 @@
     "creationDate": {
       "type": "date",
       "required": true
-    }
+    },
+"isRead": {
+"type": "boolean",
+"required": true
+}
   },
   "validations": [],
   "relations": {},

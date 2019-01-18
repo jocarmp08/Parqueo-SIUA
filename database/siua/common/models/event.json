@@ -26,6 +26,10 @@
       "type": "date",
       "required": true
     },
+    "publicationDate": {
+      "type": "date",
+      "required": true
+    },
     "creator": {
       "type": "string",
       "required": true
