@@ -1,0 +1,9 @@
+{
+  "name": "parqueo-siua",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular",
+  "proxies": [
+  ]
+}

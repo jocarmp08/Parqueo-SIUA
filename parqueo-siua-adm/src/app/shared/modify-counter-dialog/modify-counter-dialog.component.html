@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>{{data.title}}</h1>
+<div mat-dialog-content>
+  <form #lForm="ngForm" [formGroup]="form" novalidate>
+    <mat-form-field>
+      <input matInput type="number" min=0 max={{maxCounter}} placeholder="Cambio" formControlName="counter" value="{{counter}}">
+    </mat-form-field>
+  </form>
+<div mat-dialog-actions>
+  <button mat-button (click)="cancel()">Cancelar</button>
+  <button mat-button (click)="change()">Ok</button>
+</div>
+</div>

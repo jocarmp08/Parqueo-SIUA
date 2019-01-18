@@ -1,0 +1,45 @@
+<ion-header no-border>
+    <ion-toolbar>
+        <ion-title>Noticias</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-refresher (ionRefresh)="loadNews($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+
+    <div *ngIf="!httpError; else errorMessage">
+        <div *ngIf="newsArray && newsArray?.length > 0; else noNews">
+            <ion-list>
+                <ion-item *ngFor="let news of newsArray">
+                    <ion-label text-wrap>
+                        <h2>{{news.title}}</h2>
+                        <ion-text color="medium">
+                            <h6>{{news.publicationDate | date: 'dd/MM/yyyy hh:mm a'}}</h6>
+                        </ion-text>
+                        <ion-text color="dark">
+                            <p>{{news.description}}</p>
+                        </ion-text>
+                    </ion-label>
+                </ion-item>
+            </ion-list>
+        </div>
+        <ng-template #noNews>
+            <div class="error-area">
+                <ion-text>
+                    <h3>No hay noticias para mostrar</h3>
+                </ion-text>
+            </div>
+        </ng-template>
+    </div>
+
+    <ng-template #errorMessage>
+        <div class="error-area">
+            <ion-text>
+                <h3>No es posible conectarse con SIUA</h3>
+            </ion-text>
+            <ion-button fill="clear" (click)="loadNews(null)">Intentarlo de nuevo</ion-button>
+        </div>
+    </ng-template>
+</ion-content>
