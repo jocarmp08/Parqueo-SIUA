@@ -1,9 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-// import {Observable} from 'rxjs';
-// import {MatDialog, MatDialogConfig} from '@angular/material';
 import {SharedService} from '../../shared/shared.service';
 import {CountersService} from '../../services/counters.service';
 import {CounterModel} from '../../models/counter.model';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-main',
@@ -12,23 +11,20 @@ import {CounterModel} from '../../models/counter.model';
 })
 export class MainComponent implements OnInit {
 
+  // Username
+  private username: string;
   // Counters data
   private countersData: CounterModel;
   private countersStream;
   // Http errors
   private countersHttpError: boolean;
 
-  public maxCommon: number = 89;
-  public maxSpecial: number = 75;
-  public commonCounter = this.maxCommon;
-  public specialCounter = this.maxSpecial;
-  private temp: number;
-
   constructor(private countersService: CountersService, private sharedService: SharedService) {
     this.countersData = new CounterModel();
     this.countersData.nowCommon = 0;
     this.countersData.nowHandicapped = 0;
     this.countersStream = this.countersService.getEventTarget();
+    this.username = localStorage.getItem('username');
   }
 
   ngOnInit() {
@@ -168,4 +164,13 @@ export class MainComponent implements OnInit {
       });
     }
   }
+
+  private logout() {
+    this.sharedService.logout();
+  }
+
+  private changePassword() {
+    this.sharedService.changePassword();
+  }
+
 }

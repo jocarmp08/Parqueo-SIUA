@@ -10,9 +10,11 @@ import {ReportService} from '../../services/report.service';
 @Component({
   selector: 'app-reports',
   templateUrl: './reports.component.html',
-  styleUrls: ['./reports.component.css']
+  styleUrls: ['./reports.component.scss']
 })
 export class ReportsComponent implements OnInit {
+  // Username
+  private username: string;
   // Report Array
   public reportArray: Array<ReportModel> = [];
   public errorsArray: Array<ReportModel> = [];
@@ -25,6 +27,7 @@ export class ReportsComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder, private snackBar: MatSnackBar, private reportService: ReportService,
               private sharedService: SharedService) {
+    this.username = localStorage.getItem('username');
   }
 
   ngOnInit() {
@@ -102,4 +105,11 @@ export class ReportsComponent implements OnInit {
     });
   }
 
+  private logout() {
+    this.sharedService.logout();
+  }
+
+  private changePassword() {
+    this.sharedService.changePassword();
+  }
 }

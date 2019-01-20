@@ -12,6 +12,7 @@ import {
   MatIconModule,
   MatInputModule,
   MatListModule,
+  MatMenuModule,
   MatNativeDateModule,
   MatRadioModule,
   MatSlideToggleModule,
@@ -27,9 +28,8 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {SharedModule} from './shared/shared.module';
 import {LoginComponent} from './components/login/login.component';
-import {UsersComponent} from './components/users/users.component';
-import {EditorModule} from '@tinymce/tinymce-angular';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {UsersComponent} from './components/users/users.component';
 
 @NgModule({
   declarations: [
@@ -57,12 +57,12 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     MatSlideToggleModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatMenuModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
     MatTabsModule,
-    EditorModule,
     NgbModule.forRoot()
   ],
   providers: [],

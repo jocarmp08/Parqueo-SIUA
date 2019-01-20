@@ -1,27 +1,38 @@
-<div class="container px-4 px-sm-5 py-3">
-  <div id="user-adm-card">
-    <mat-card class="row justify-content-lg-start">
+<div class="container">
 
-      <!-- News creation section -->
-      <div id="user-adm-card-create-area" class="col-md-4">
-        <!-- If edit mode off, show this title -->
+  <mat-card class="mx-auto">
+
+    <div class="row">
+
+      <div class="col-sm-12 col-md">
+
         <mat-card-title>
           Nuevo usuario
         </mat-card-title>
-        <!-- News creation form -->
-        <form id="login-form" #lForm="ngForm" [formGroup]="loginForm" (ngSubmit)="createUser()" novalidate>
-          <!-- Email field-->
+
+        <form id="userForm" [formGroup]="userForm" (ngSubmit)="createUser()" novalidate>
+
+          <mat-form-field>
+            <label>Nombre de usuario</label>
+            <input matInput type="text" formControlName="name">
+          </mat-form-field>
+
           <mat-form-field>
             <label>Correo eléctronico</label>
             <input matInput type="email" formControlName="email">
           </mat-form-field>
+
           <!-- Password field -->
           <mat-form-field>
             <label>Contraseña</label>
             <input matInput type="password" formControlName="password">
           </mat-form-field>
-          <button mat-raised-button color="primary" type="submit" form="loginForm">Crear usuario</button>
+
+          <button mat-flat-button color="primary" type="submit" form="userForm" [disabled]="userForm.invalid">Crear
+            usuario
+          </button>
         </form>
+
       </div>
 
       <!-- Vertical card divider (hide on screens smaller than md) -->
@@ -32,25 +43,24 @@
       </div>
 
       <!-- Published news area -->
-      <div id="user-adm-card-list-area" class="col-md">
+      <div class="col-md-7 col-lg-7 col-xl-8">
+
         <!-- News list area-->
         <!-- If there is no news show this div -->
-        <div id="no-user-section" *ngIf="usersArray.length == 0; else listItems">
+        <div class="empty-list" *ngIf="usersArray.length == 0; else listItems">
           <p>No hay usuarios registrados</p>
         </div>
+
         <!-- Otherwise, show list items -->
         <ng-template #listItems>
-          <mat-list id="user-list-view">
-            <h3 mat-subheader>Usuarios registrados</h3>
+          <mat-list>
+            <h2 mat-subheader>Usuarios registrados</h2>
             <!-- News list item-->
             <mat-list-item *ngFor="let user of usersArray">
               <!-- Text lines -->
-              <h4 mat-line>{{user.email}}</h4>
-              <!-- Buttons-->
-              <button mat-icon-button>
-                <mat-icon aria-label="Editar contraseña">edit</mat-icon>
-              </button>
-              <button mat-icon-button>
+              <h4 mat-line>{{user.name}}</h4>
+              <caption mat-line>{{user.email}}</caption>
+              <button mat-icon-button (click)="deleteUser(user)">
                 <mat-icon aria-label="Eliminar usuario">delete</mat-icon>
               </button>
               <!-- List item divider -->
@@ -59,6 +69,6 @@
           </mat-list>
         </ng-template>
       </div>
-    </mat-card>
-  </div>
+    </div>
+  </mat-card>
 </div>

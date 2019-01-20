@@ -14,6 +14,8 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class NewsComponent implements OnInit {
 
+  // Username
+  private username: string;
   // News Array
   private newsArray: Array<NewsModel>;
   // News form
@@ -26,6 +28,7 @@ export class NewsComponent implements OnInit {
   constructor(private formBuilder: FormBuilder, private snackBar: MatSnackBar, private newsService: NewsService,
               private route: ActivatedRoute, private sharedService: SharedService) {
     this.buildForm();
+    this.username = localStorage.getItem('username');
   }
 
   ngOnInit() {
@@ -195,4 +198,11 @@ export class NewsComponent implements OnInit {
     });
   }
 
+  private logout() {
+    this.sharedService.logout();
+  }
+
+  private changePassword() {
+    this.sharedService.changePassword();
+  }
 }

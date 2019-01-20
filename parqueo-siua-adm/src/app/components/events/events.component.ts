@@ -14,6 +14,8 @@ import {EventModel} from '../../models/event.model';
 })
 export class EventsComponent implements OnInit {
 
+  // Username
+  private username: string;
   // Events Array
   private eventsArray: Array<EventModel>;
 
@@ -28,6 +30,7 @@ export class EventsComponent implements OnInit {
   constructor(private formBuilder: FormBuilder, private snackBar: MatSnackBar, private eventsService: EventsService,
               private route: ActivatedRoute, private sharedService: SharedService) {
     this.buildForm();
+    this.username = localStorage.getItem('username');
   }
 
   ngOnInit() {
@@ -237,4 +240,11 @@ export class EventsComponent implements OnInit {
     });
   }
 
+  private logout() {
+    this.sharedService.logout();
+  }
+
+  private changePassword() {
+    this.sharedService.changePassword();
+  }
 }

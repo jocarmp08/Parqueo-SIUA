@@ -1,3 +1,13 @@
+.username {
+  display: flex;
+  background: #d10a42;
+  font-size: 0.9em;
+  font-weight: bold;
+  color: white;
+  align-items: center;
+  line-height: 0;
+}
+
 .container {
   min-height: 100vh;
   min-width: 100%;
@@ -17,6 +27,7 @@
   justify-content: center;
   align-items: center;
   margin: 10px;
+  color: white;
 }
 
 .section {

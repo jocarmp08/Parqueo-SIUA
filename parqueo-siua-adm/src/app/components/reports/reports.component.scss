@@ -1,3 +1,13 @@
+.username {
+  display: flex;
+  background: #d10a42;
+  font-size: 0.9em;
+  font-weight: bold;
+  color: white;
+  align-items: center;
+  line-height: 0;
+}
+
 .container {
   background-color: #261923;
   min-width: 100%;
@@ -28,15 +38,16 @@
 #report-adm-card-list-area {
   min-height: 450px;
   max-height: 450px;
-  min-width : 380px;
+  min-width: 380px;
   max-width: 380px;
   overflow: auto;
   overflow-x: hidden;
 }
+
 #report-adm-card-create-area {
   min-height: 450px;
   max-height: 450px;
-  min-width : 450px;
+  min-width: 450px;
   max-width: 450px;
   overflow: auto;
   overflow-x: hidden;
@@ -49,7 +60,6 @@
   align-items: center;
   font-size: 1.3em;
 }
-
 
 #horizontal-divider {
   margin: 30px 0 15px 0;
