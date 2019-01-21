@@ -27,6 +27,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {NavbarComponent} from './components/navbar/navbar.component';
 import {DummyComponent} from './components/dummy/dummy.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AboutComponent } from './components/about/about.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     ContactComponent,
     HistogramComponent,
     NavbarComponent,
-    DummyComponent
+    DummyComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,
