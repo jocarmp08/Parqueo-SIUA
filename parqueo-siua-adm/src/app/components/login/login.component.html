@@ -1,0 +1,24 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <mat-card class="col-10 col-sm-7 col-md-5 col-lg-4 col-xl-3">
+      <!-- Login form section -->
+      <mat-card-title>
+        Iniciar sesión
+      </mat-card-title>
+      <!-- Events creation form -->
+      <form id="loginForm" [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
+        <!-- Email field-->
+        <mat-form-field>
+          <label>Correo eléctronico</label>
+          <input matInput type="email" formControlName="email">
+        </mat-form-field>
+        <!-- Password field -->
+        <mat-form-field>
+          <label>Contraseña</label>
+          <input matInput type="password" formControlName="password">
+        </mat-form-field>
+        <button mat-flat-button color="primary" type="submit" form="loginForm">Iniciar sesión</button>
+      </form>
+    </mat-card>
+  </div>
+</div>

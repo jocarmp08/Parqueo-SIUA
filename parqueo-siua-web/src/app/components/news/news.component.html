@@ -1,0 +1,24 @@
+<div class="container">
+  <span class="header row justify-content-start">
+    <span class="col-md-1">Noticias</span>
+  </span>
+
+  <div data-simplebar style="min-width: 100%; overflow: auto">
+    <div *ngIf="newsArray && newsArray?.length > 0; else noNews" class="scrolling-wrapper">
+
+      <mat-card *ngFor="let news of newsArray">
+        <div class="card-content">
+          <span class="title">{{news.title | uppercase}}</span>
+          <p class="content" data-simplebar>{{news.description}}</p>
+          <span class="date">{{news.publicationDate | date: 'dd/MM/yy hh:mm a' | lowercase}}</span>
+        </div>
+      </mat-card>
+
+    </div>
+  </div>
+
+  <ng-template #noNews>
+    <span class="no-content">No hay noticias para mostrar</span>
+  </ng-template>
+
+</div>

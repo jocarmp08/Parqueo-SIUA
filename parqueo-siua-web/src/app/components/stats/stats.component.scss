@@ -1,0 +1,36 @@
+.container {
+  min-width: 100%;
+  padding: 10px 0;
+  background: #f5f5f5;
+  overflow-x: hidden;;
+
+  .header {
+    padding: 10px;
+    font-size: 1.3em;
+    font-weight: bold;
+    color: #18161a;
+  }
+}
+
+.stats-cards {
+  min-width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+mat-card {
+  min-height: 335px;
+  display: flex;
+  flex-direction: column;
+  margin: 5px;
+
+  .forecast-text {
+    text-align: center;
+  }
+
+  .forecast-result {
+    font-size: 3em;
+    font-weight: bold;
+  }
+}

@@ -1,0 +1,93 @@
+<div class="username px-3 px-sm-4">
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>account_circle</mat-icon>
+  </button>
+  <span>{{username.toUpperCase()}}</span>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="changePassword()">Cambiar contraseña</button>
+    <button mat-menu-item (click)="logout()">Cerrar sesión</button>
+  </mat-menu>
+</div>
+
+<div class="container px-4 px-sm-5 py-3">
+
+  <div class="timestamp">
+    <span>Actualizado</span>
+    <span>{{countersData.lastDataUpdateDate | date: 'dd/MM/yy hh:mm:ss a'}}</span>
+  </div>
+
+  <div class="section-wrapper">
+
+    <h4>ESPACIOS DISPONIBLES</h4>
+    <span>En esta sección se puede modificar el número de espacios disponibles en el parqueo</span>
+
+    <div class="section row">
+
+      <mat-card class="col-11 col-sm-7 col-md-5 col-lg-4 col-xl-3">
+        <span class="counter-label">COMUNES</span>
+
+        <div class="counter-control">
+          <div class="left-controls">
+            <button mat-icon-button class="iconButton" (click)="outCommonCounter()">
+              <mat-icon>add_circle</mat-icon>
+            </button>
+            <button mat-icon-button class="iconButton" (click)="inCommonCounter()">
+              <mat-icon>remove_circle</mat-icon>
+            </button>
+            <button mat-button color="white" (click)="modifyNowCounters('common')">Modificar</button>
+          </div>
+          <div class="right-controls">
+            <span class="counter-number">{{countersData.nowCommon}}</span>
+            <span>espacios disponibles</span>
+          </div>
+        </div>
+
+      </mat-card>
+
+      <mat-card class="col-11 col-sm-7 col-md-5 col-lg-4 col-xl-3">
+        <span class="counter-label">PREFERENCIALES</span>
+
+        <div class="counter-control">
+          <div class="left-controls">
+            <button mat-icon-button class="iconButton" (click)="outHandicappedCounter()">
+              <mat-icon>add_circle</mat-icon>
+            </button>
+            <button mat-icon-button class="iconButton" (click)="inHandicappedCounter()">
+              <mat-icon>remove_circle</mat-icon>
+            </button>
+            <button mat-button color="white" (click)="modifyNowCounters('handicapped')">Modificar</button>
+          </div>
+          <div class="right-controls">
+            <span class="counter-number">{{countersData.nowHandicapped}}</span>
+            <span>espacios disponibles</span>
+          </div>
+        </div>
+
+      </mat-card>
+
+    </div>
+  </div>
+
+  <div class="section-wrapper">
+
+    <h4>ESPACIOS TOTALES</h4>
+    <span>En esta sección se puede modificar el número máximo de espacios en el parqueo</span>
+
+    <div class="section row">
+
+      <div class="edition-control col-11 col-sm-7 col-md-5 col-lg-4 col-xl-3">
+        <span class="control-label">Total de espacios comunes</span>
+        <span class="control-number">{{countersData.maxCommon}}</span>
+        <button mat-flat-button color="white" (click)="modifyMaxCounters('common')">Modificar</button>
+      </div>
+
+      <div class="edition-control col-11 col-sm-7 col-md-5 col-lg-4 col-xl-3">
+        <span class="control-label">Total de espacios preferenciales</span>
+        <span class="control-number">{{countersData.maxHandicapped}}</span>
+        <button mat-flat-button color="white" (click)="modifyMaxCounters('handicapped')">Modificar</button>
+      </div>
+
+    </div>
+  </div>
+
+</div>

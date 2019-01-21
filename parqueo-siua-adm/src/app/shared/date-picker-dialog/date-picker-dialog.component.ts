@@ -10,19 +10,17 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 export class DatePickerDialogComponent implements OnInit {
 
   form: FormGroup;
+  selectedDate: string;
 
   constructor(private formBuilder: FormBuilder, private dialogRef: MatDialogRef<DatePickerDialogComponent>,
               @Inject(MAT_DIALOG_DATA) data) {
   }
 
   ngOnInit() {
-    this.form = this.formBuilder.group({
-      date: [null],
-      time: [null]
-    });
   }
 
   accept() {
+    /*
     if (this.form.value.time && this.form.value.date) {
       // Separate time (hours : minutes)
       const formattedTime = this.form.value.time.split(':');
@@ -39,6 +37,8 @@ export class DatePickerDialogComponent implements OnInit {
     } else {
       this.cancel();
     }
+    */
+    this.dialogRef.close(this.selectedDate);
   }
 
   cancel() {

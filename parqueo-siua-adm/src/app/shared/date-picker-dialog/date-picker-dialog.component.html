@@ -1,18 +1,14 @@
 <h1 mat-dialog-title>Fecha y hora</h1>
 <div mat-dialog-content>
-  <form #lForm="ngForm" [formGroup]="form" novalidate>
-    <mat-form-field>
-      <input matInput [matDatepicker]="datePicker" formControlName="date" placeholder="Fecha">
-      <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
-      <mat-datepicker #datePicker></mat-datepicker>
-    </mat-form-field>
-    <div></div>
-    <mat-form-field>
-      <input matInput type="time" formControlName="time" placeholder="Hora">
-    </mat-form-field>
-  </form>
+  <dl-date-time-picker
+    startView="day"
+    maxView="year"
+    minView="minute"
+    minuteStep="30"
+    [(ngModel)]="selectedDate">
+  </dl-date-time-picker>
 </div>
 <div mat-dialog-actions>
+  <button mat-flat-button color="primary" (click)="accept()" [disabled]="selectedDate == null">ACEPTAR</button>
   <button mat-button (click)="cancel()">CANCELAR</button>
-  <button mat-button (click)="accept()" cdkFocusInitial>ACEPTAR</button>
 </div>

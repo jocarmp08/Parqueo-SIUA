@@ -2,7 +2,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
-import {MainComponent} from './main/main.component';
+import {MainComponent} from './components/main/main.component';
 import {
   MAT_DATE_LOCALE,
   MatButtonModule,
@@ -12,19 +12,21 @@ import {
   MatInputModule,
   MatNativeDateModule,
   MatRadioModule,
-  MatSelectModule
+  MatSelectModule, MatSnackBarModule
 } from '@angular/material';
-import {NewsComponent} from './news/news.component';
-import {EventsComponent} from './events/events.component';
-import {StatsComponent} from './stats/stats.component';
+import {NewsComponent} from './components/news/news.component';
+import {EventsComponent} from './components/events/events.component';
+import {StatsComponent} from './components/stats/stats.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {ContactComponent} from './contact/contact.component';
-import {HistogramComponent} from './histogram/histogram.component';
+import {ContactComponent} from './components/contact/contact.component';
+import {HistogramComponent} from './components/histogram/histogram.component';
 import {MDBBootstrapModule} from 'angular-bootstrap-md';
 import {AppRoutingModule} from './app-routing.module';
-import {PageComponent} from './page/page.component';
+import {NavbarComponent} from './components/navbar/navbar.component';
+import {DummyComponent} from './components/dummy/dummy.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,8 @@ import {PageComponent} from './page/page.component';
     StatsComponent,
     ContactComponent,
     HistogramComponent,
-    PageComponent
+    NavbarComponent,
+    DummyComponent
   ],
   imports: [
     BrowserModule,
@@ -47,13 +50,15 @@ import {PageComponent} from './page/page.component';
     MatInputModule,
     MatRadioModule,
     MatDialogModule,
+    MatSnackBarModule,
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
     BrowserModule,
     MDBBootstrapModule.forRoot(),
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgbModule.forRoot()
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'es-ES'},

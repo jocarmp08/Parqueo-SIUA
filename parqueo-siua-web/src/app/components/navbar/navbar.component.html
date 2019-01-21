@@ -1,0 +1,26 @@
+<nav id="navigation-bar" class="navbar navbar-expand-md navbar-dark px-sm-5 py-4" style="background-color: #d10a42">
+  <a id="siua-logo" class="navbar-brand"><img src="assets/img/siua-logo.png"></a>
+
+  <button class="navbar-toggler" type="button" (click)="navbarCollapsed = !navbarCollapsed"
+          [attr.aria-expanded]="!navbarCollapsed" data-toggle="collapse" aria-controls="navbarContent"
+          aria-expanded="false">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" [ngbCollapse]="navbarCollapsed" id="navbarContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active mx-3">
+        <a class="nav-link" routerLink="/" fragment="noticias" routerLinkActive="active">NOTICIAS</a>
+      </li>
+      <li class="nav-item active mx-3">
+        <a class="nav-link" routerLink="/" fragment="eventos" routerLinkActive="active">EVENTOS</a>
+      </li>
+      <li class="nav-item active mx-3">
+        <a class="nav-link" routerLink="/" fragment="estadisticas" routerLinkActive="active">ESTADÍSTICAS</a>
+      </li>
+      <li class="nav-item active mx-3">
+        <a class="nav-link" (click)="openContactDialog()" routerLink="active">CONTACTO</a>
+      </li>
+    </ul>
+  </div>
+</nav>

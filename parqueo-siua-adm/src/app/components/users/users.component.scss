@@ -1,0 +1,48 @@
+.container {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  min-height: 100%;
+  min-width: 100%;
+  background: #d10a42;
+  overflow-x: hidden;
+}
+
+.mat-form-field-appearance-legacy .mat-hint {
+  color: #f5f5f5;
+}
+
+.date-field {
+  margin: 5px 0;
+}
+
+.empty-list {
+  min-height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+mat-card {
+  width: 95%;
+  background: rgba(24, 22, 26, 0.85);
+  color: white;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+mat-list {
+  max-height: 470px;
+  overflow-y: auto;
+  color: white;
+
+  h2, h4 {
+    color: white;
+  }
+
+  mat-list-item {
+    color: white;
+  }
+}

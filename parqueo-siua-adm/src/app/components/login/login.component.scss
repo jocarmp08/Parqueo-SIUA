@@ -1,0 +1,12 @@
+.container {
+  background-color: #d10a42;
+  min-width: 100%;
+  min-height: 100%;
+  padding: 50px 0;
+  overflow-x: hidden;
+}
+
+mat-form-field {
+  display: flex;
+  flex-direction: column;
+}
