@@ -1,4 +1,4 @@
-export class CounterModel {
+export interface CounterModel {
   nowCommon: number;
   nowHandicapped: number;
   maxCommon: number;

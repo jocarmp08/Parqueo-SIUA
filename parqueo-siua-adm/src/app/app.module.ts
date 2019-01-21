@@ -16,7 +16,7 @@ import {
   MatNativeDateModule,
   MatRadioModule,
   MatSlideToggleModule,
-  MatSnackBarModule,
+  MatSnackBarModule, MatTableModule,
   MatTabsModule
 } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -63,6 +63,7 @@ import {UsersComponent} from './components/users/users.component';
     HttpClientModule,
     AppRoutingModule,
     MatTabsModule,
+    MatTableModule,
     NgbModule.forRoot()
   ],
   providers: [],

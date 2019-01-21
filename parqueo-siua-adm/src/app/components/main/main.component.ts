@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {SharedService} from '../../shared/shared.service';
 import {CountersService} from '../../services/counters.service';
 import {CounterModel} from '../../models/counter.model';
-import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-main',
@@ -20,9 +19,13 @@ export class MainComponent implements OnInit {
   private countersHttpError: boolean;
 
   constructor(private countersService: CountersService, private sharedService: SharedService) {
-    this.countersData = new CounterModel();
-    this.countersData.nowCommon = 0;
-    this.countersData.nowHandicapped = 0;
+    this.countersData = {
+      nowCommon: 0,
+      nowHandicapped: 0,
+      maxCommon: 0,
+      maxHandicapped: 0,
+      lastDataUpdateDate: null
+    };
     this.countersStream = this.countersService.getEventTarget();
     this.username = localStorage.getItem('username');
   }

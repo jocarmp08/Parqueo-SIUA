@@ -1,4 +1,4 @@
-export class ReportModel {
+export interface ReportModel {
   email: string;
   subject: string;
   type: number;

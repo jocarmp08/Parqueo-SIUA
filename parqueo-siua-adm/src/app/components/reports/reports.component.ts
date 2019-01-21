@@ -1,103 +1,63 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder} from '@angular/forms';
-import {MatSnackBar} from '@angular/material';
+import {MatSnackBar, MatSort} from '@angular/material';
 import {SharedService} from '../../shared/shared.service';
-import {Observable} from 'rxjs';
 import {ReportModel} from '../../models/report.model';
 import {ReportService} from '../../services/report.service';
+import {animate, state, style, transition, trigger} from '@angular/animations';
+import {CommentsDataSource} from './comments.data.source';
+import {ErrorsDataSource} from './errors.data.source';
 
 
 @Component({
   selector: 'app-reports',
   templateUrl: './reports.component.html',
-  styleUrls: ['./reports.component.scss']
+  styleUrls: ['./reports.component.scss'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed, void', style({height: '0px', minHeight: '0', display: 'none'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+      transition('expanded <=> void', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)'))
+    ]),
+  ],
 })
 export class ReportsComponent implements OnInit {
   // Username
   private username: string;
-  // Report Array
-  public reportArray: Array<ReportModel> = [];
-  public errorsArray: Array<ReportModel> = [];
-  public commentsArray: Array<ReportModel> = [];
-
-  public currentEmail: string = 'Ningún reporte seleccionado';
-  public currentDescription: string = 'Ningún reporte seleccionado';
-  public maxDescriptionLength = 280;
-
+  // Reports
+  private commentsDataSource;
+  private errorsDataSource;
+  displayedColumns = ['email', 'subject', 'creationDate', 'read'];
+  expandedReport: ReportModel | null;
 
   constructor(private formBuilder: FormBuilder, private snackBar: MatSnackBar, private reportService: ReportService,
               private sharedService: SharedService) {
     this.username = localStorage.getItem('username');
+    this.commentsDataSource = new CommentsDataSource(this.reportService);
+    this.errorsDataSource = new ErrorsDataSource(this.reportService);
   }
 
   ngOnInit() {
-
-    this.reportService.getReports().subscribe((data: Array<ReportModel>) => {
-
-      this.reportArray = data;
-      for (let report of this.reportArray) {
-        if (report.type === 0) {
-          console.log('comment: ' + report.email);
-          this.commentsArray.push(report);
-        }
-        else {
-          console.log('error: ' + report.email);
-          this.errorsArray.push(report);
-        }
-
-      }
-    });
-
   }
 
-
-  deleteReport(reportToDelete: ReportModel) {
-    // Ask for confirmation
-    this.showDialogConfirmation('delete').subscribe(result => {
-      // User confirmed deletion
-      if (result) {
-        // Get ID
-        const id = reportToDelete.id;
-        // Call REST API
-        this.reportService.deleteReports(id).subscribe((data) => {
-          // Show output message
-          this.showOutputMessage(reportToDelete.id + ' se ha eliminado correctamente', 'Aceptar');
-          // Update news array
-          this.reportArray.splice(this.reportArray.indexOf(reportToDelete), 1);
-          if (reportToDelete.type === 1) {
-            this.commentsArray.splice(this.commentsArray.indexOf(reportToDelete), 1);
-          }
-          else {
-            this.errorsArray.splice(this.errorsArray.indexOf(reportToDelete), 1);
-          }
-        }, (error) => {
-          console.log(error);
-        });
-      }
+  private setAsRead(report: ReportModel) {
+    report.isRead = true;
+    this.reportService.putReport(report).subscribe(data => {
+      this.showOutputMessage('El reporte se ha actualizado con éxito', 'Aceptar');
+    }, error => {
+      this.showOutputMessage('Ocurrió un error al actualizar el reporte, intente de nuevo', 'Aceptar');
     });
   }
 
-  setReportViewModeOn(eventToView: ReportModel) {
-    this.currentEmail = eventToView.email;
-    this.currentDescription = eventToView.description;
+  private setAsNotRead(report: ReportModel) {
+    report.isRead = false;
+    this.reportService.putReport(report).subscribe(data => {
+      this.showOutputMessage('El reporte se ha actualizado con éxito', 'Aceptar');
+    }, error => {
+      this.showOutputMessage('Ocurrió un error al actualizar el reporte, intente de nuevo', 'Aceptar');
+    });
   }
-
-
-  private showDialogConfirmation(report: string): Observable<boolean> {
-    // Prepare messages
-    let title: string;
-    let message: string;
-    if (report === 'update') {
-      title = 'Confirmar modificación';
-      message = '¿Modificar este evento?';
-    } else if (report === 'delete') {
-      title = 'Confirmar eliminación';
-      message = '¿Eliminar este evento?';
-    }
-
-    return this.sharedService.showConfirmationDialog(title, message);
-  }
-
 
   private showOutputMessage(message: string, action: string) {
     this.snackBar.open(message, action, {

@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
+import {ReportModel} from '../models/report.model';
 
 @Injectable({
   providedIn: 'root'
@@ -9,20 +10,29 @@ import {map} from 'rxjs/operators';
 export class ReportService {
 
   endpoint = 'http://167.99.240.71:3000/api/';
+
   // endpoint = 'http://localhost:3000/api/';
 
   constructor(private httpClient: HttpClient) {
   }
 
-  getReports(): Observable<any> {
+  getComments(): Observable<any> {
+    let params = new HttpParams();
+    params = params.set('filter[where][type]', '0');
     const url = this.endpoint + 'reports/';
-    return this.httpClient.get(url).pipe(map(this.extractData));
+    return this.httpClient.get(url, {params: params}).pipe(map(this.extractData));
   }
 
+  getErrors(): Observable<any> {
+    let params = new HttpParams();
+    params = params.set('filter[where][type]', '1');
+    const url = this.endpoint + 'reports/';
+    return this.httpClient.get(url, {params: params}).pipe(map(this.extractData));
+  }
 
-  deleteReports(id): Observable<any> {
-    const url = this.endpoint + 'reports/' + id;
-    return this.httpClient.delete(url).pipe(map(this.extractData));
+  putReport(report: ReportModel): Observable<any> {
+    const url = this.endpoint + 'reports/';
+    return this.httpClient.put(url, report).pipe(map(this.extractData));
   }
 
   private extractData(res: Response) {
