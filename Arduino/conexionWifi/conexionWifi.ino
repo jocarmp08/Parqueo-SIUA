@@ -1,25 +1,34 @@
-/*
-    This sketch establishes a TCP connection to a "quote of the day" service.
-    It sends a "hello" message, and then prints received data.
-*/
-
+//#include <hcsr04.h>
+//#include <NewPing.h>
 #include <ESP8266WiFi.h>
-
+#include <OneWire.h>
+#include <PubSubClient.h>
 #ifndef STASSID
-#define STASSID "wifi-name"
-#define STAPSK  "wifi-password"
+#define STASSID "AlfaroRojas"
+#define STAPSK  "Josalfra1234"
+#define TRIGGER 2
+#define ECHO 3
 #endif
 
 const char* ssid     = STASSID;
 const char* password = STAPSK;
+unsigned long Timeout_Duration = 5000000;
 
-IPAddress server(192,168,1,2);      //ip address
-//const char* host = "192.168.1.2";
-const uint16_t port = 3000;
+//192.168.1.6 192.168.250.1
+IPAddress server(192,168,1,6);      //ip address
+//const char* host = "192.168.1.6";
+const uint16_t port = 4000;
+unsigned long duration;
+unsigned long LastPulseTime;
 
 void setup() {
-  Serial.begin(115200);
-
+  Serial.begin(115200); //115200
+  pinMode(TRIGGER,OUTPUT);
+  pinMode(ECHO,INPUT);
+  
+  
+  
+  //Serial.println("PinMode Trigger OUT and ECHO IN");
   // We start by connecting to a WiFi network
 
   Serial.println();
@@ -42,9 +51,25 @@ void setup() {
   Serial.println("WiFi connected");
   Serial.println("IP address: ");
   Serial.println(server);
+
+  digitalWrite(TRIGGER, LOW);
+  delayMicroseconds(2);
+  digitalWrite(TRIGGER, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(TRIGGER, LOW);
+
+ // while ((duration = pulseIn(ECHO, HIGH,Timeout_Duration)) == 0) {
+ //   Serial.println("waiting.......");
+ // }
+//  attachInterrupt(0, EchoPinISR, CHANGE);
+
+  Serial.print("prueba: ");
+  Serial.println(duration);
+  
 }
 
 void loop() {
+  
   Serial.print("connecting to ");
   Serial.print(server);
   Serial.print(':');
@@ -90,3 +115,15 @@ void loop() {
 
   delay(300000); // execute once every 5 minutes, don't flood remote service
 }
+
+
+//void EchoPinISR() {
+//  static unsigned long startTime;
+//
+//  if (digitalRead(3)){ // Gone HIGH
+//    startTime = micros();
+//  }
+//  else{  // Gone LOW
+//  LastPulseTime = micros() - startTime;
+//  }
+//}
